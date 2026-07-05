@@ -1,0 +1,14 @@
+{
+  "name": "acf/cytat",
+  "title": "Cytat PSOD",
+  "description": "Cytat PSOD",
+  "style": ["file:./cytat.css"],
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["cytat", "psod"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "cytat.php"
+  },
+  "align": "full"
+}
