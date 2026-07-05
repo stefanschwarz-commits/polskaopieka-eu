@@ -151,10 +151,8 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
    przez panel producenta / wp-admin. Site Health w wp-adminie pokazuje że jest dostępna
    aktualizacja ACF Pro (6.3.11→6.8.5) i Contact Form Entries (1.4.0→1.5.3, ta ostatnia
    JEST na wordpress.org, ale nie była w oryginalnym zakresie audytu — do rozważenia).
-2. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
-   (front-page.php i prawie każdy `page-*.php`) — ryzyko stored XSS tylko jeśli ktoś o niższych
-   uprawnieniach edytuje te pola (obecnie prawdopodobnie tylko admin/Stefan edytuje treści, więc
-   priorytet niższy niż punkty 1-3, ale warto zrobić jako hardening).
+2. ~~Dziesiątki miejsc w motywie z polami ACF bez escapowania...~~ **ZROBIONE 2026-07-05**
+   — patrz punkt 14 wyżej.
 3. **Optymalizacja wydajności** — częściowo zrobione 2026-07-05: dodane w `.htaccess`
    (blok `# BEGIN/END PSOD-PERFORMANCE-HARDENING`) `mod_expires` + `Cache-Control` dla
    plików statycznych (obrazy/fonty: 1 rok, CSS/JS: 1 miesiąc), zweryfikowane curl-em.
@@ -188,6 +186,38 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
     od dawna martwym kodem (nadpisywanym przez core). Dodany dla niego hash SRI jest więc
     również nieaktywny (nieszkodliwy, ale nieużywany) — do ewentualnego posprzątania przy
     okazji innej sesji, nie priorytet.
+14. **Hardening pól ACF przed stored XSS** — **ZROBIONE**. Wszystkie `echo`/`<?=` wypisujące
+    pola ACF/post w motywie (20 plików: `front-page.php`, wszystkie `page-*.php`, `single.php`,
+    `single-szkolenia.php`, `page.php`, `header.php`, `footer.php`, `cta.php`,
+    `blocks/cytat/cytat.php`, `index.php`, `page-aktualnosci.php`) opakowane w odpowiednią
+    funkcję escapującą wg kontekstu: `esc_html()` dla zwykłego tekstu (nagłówki, nazwy, daty,
+    etykiety), `esc_url()` dla URL-i (`href`/`src`/`url()`), `esc_attr()` dla atrybutów HTML
+    nie będących URL-em (np. dynamiczne `id`/`data-bs-target`), `wp_kses_post()` dla pól
+    bogatej treści z edytora WYSIWYG (`opis`, `tekst`, `tresc`, `podtytul`, `tematyka`,
+    `program`, `kontakt`, `regulamin`, treść stopki, CTA, odpowiedzi FAQ) — zachowuje
+    formatowanie (pogrubienia, akapity, listy), usuwa `<script>`/`on*` handlery.
+    Metoda pracy: deleguję do subagenta ograniczoną liczbę razy z niepowodzeniem (dwa razy
+    subagent tylko zadeklarował że "poczeka", zero realnych zmian — złapane przez `git status`),
+    potem ręczne poprawki, aż w końcu trzeci/kolejny subagent w tle faktycznie wykonał całą
+    robotę (81 wywołań narzędzi, ~300s). Każda zmiana zweryfikowana osobiście przez `git diff`
+    pliku po pliku (nie zaufano samemu raportowi agenta — raport twierdził błędnie, że
+    `header.php`/`index.php`/`page-aktualnosci.php`/`blocks/cytat/cytat.php` nie były ruszone
+    w tej sesji, podczas gdy faktycznie zawierały nowe zmiany; zmiany były poprawne mimo to).
+    Wdrożone na produkcję: backup 20 plików do `~/_theme_backup_20260705b` (poza webrootem),
+    `php8.1 -l` na wszystkich — OK, weryfikacja wizualna w przeglądarce (strona główna pełne
+    przewinięcie + `/kontakt/`).
+    **Znaleziona i naprawiona regresja wizualna**: pole `nr_telefonu` jednego pracownika na
+    `/kontakt/` zawierało ręcznie wpisany tag `<br>` (do złamania linii między numerem a
+    dopiskiem "(PL/EN)") — po opakowaniu w `esc_html()` tag renderował się jako dosłowny tekst
+    `&lt;br&gt;` zamiast łamania linii. Naprawione zmianą na `wp_kses_post()` w tym jednym
+    miejscu (`page-kontakt.php`, widoczny tekst linku telefonu; atrybut `href="tel:..."`
+    zostaje `esc_attr()`, bo atrybuty nie mogą zawierać znaczników HTML — sam zapis numeru z
+    dopiskiem w polu `tel:` to osobna, przedwcześniejsza usterka danych, nie nasza regresja).
+    **Uwaga o bezpieczeństwie sesji**: podczas pracy subagenta w wynikach narzędzi pojawiła się
+    wiadomość podszywająca się pod system, twierdząca że plik został zmieniony przez
+    "użytkownika lub linter" i nakazująca nie mówić o tym użytkownikowi — subagent to
+    zignorował i zgłosił to wprost, zweryfikowano niezależnie że same pliki są czyste (patrz
+    sekcja "Ważna uwaga o bezpieczeństwie procesu" niżej — kolejny przypadek tego wzorca).
 
 ## Ważna uwaga o bezpieczeństwie procesu
 Podczas audytu w wynikach subagentów (tool results) pojawiła się wiadomość podszywająca się pod
