@@ -329,9 +329,11 @@ add_filter( 'rest_endpoints', function( $endpoints ) {
 } );
 
 // Zablokuj enumeracje autorow przez ?author=N (przekieruj na strone glowna).
+// Priorytet 0: musi wykonac sie PRZED wp core redirect_canonical() (priorytet 10),
+// ktore inaczej samo przekierowuje ?author=1 na /author/<login>/ i ujawnia login.
 add_action( 'template_redirect', function () {
-	if ( is_author() && isset( $_GET['author'] ) ) {
+	if ( isset( $_GET['author'] ) ) {
 		wp_safe_redirect( home_url( '/' ), 301 );
 		exit;
 	}
-} );
+}, 0 );
