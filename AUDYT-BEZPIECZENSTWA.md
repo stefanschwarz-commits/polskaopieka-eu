@@ -114,20 +114,53 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
     wcześniej na `wiktor.smiech@inspirax.pl`) mogą wymagać sprawdzenia w zakładce ustawień
     zaawansowanych UpdraftPlus, czy nadal są aktywne przy Dropbox jako głównym storage.
 
+## Co już NAPRAWIONE i wgrane na produkcję (2026-07-05, cd. 3)
+12. **Aktualizacja WordPress core**: 6.7.1 → **7.0** — **ZROBIONE**. Brak WP-CLI na serwerze,
+    więc metoda ręczna (dokładnie to, co robi automatyczny updater WP): pobrany oficjalny
+    `wordpress-7.0.zip` z `downloads.wordpress.org/release/`, zweryfikowany `$wp_version` w
+    `wp-includes/version.php` PRZED wdrożeniem (lekcja z Yoast RC — zawsze sprawdzać wersję
+    w paczce, nie ufać samej nazwie pliku/URL); pełny backup `wp-admin/`, `wp-includes/` i
+    plików w katalogu głównym (`index.php`, `wp-login.php`, `wp-settings.php`, itd.) do
+    `~/_wp_core_backup_20260705` (POZA `public_html`, nie web-accessible — ważne, bo to
+    shared hosting z wieloma domenami); podmienione `wp-admin/` i `wp-includes/` (rm + cp),
+    podmienione pliki root (bez ruszania `wp-config.php`, `.htaccess`, `wp-content/`);
+    `php8.1 -l` na kluczowych plikach — OK. Upgrade bazy danych uruchomiony przez wizytę w
+    zalogowanym wp-adminie (`/wp-admin/upgrade.php` — WordPress sam wykrył nowszą wersję
+    plików i pokazał ekran "Zaktualizuj bazę danych WordPressa"), zakończony sukcesem.
+    Zweryfikowane po aktualizacji: strona główna/REST/`/kontakt/`/`/sitemap_index.xml`/`/de/`
+    wszystkie 200, brak fatal errorów, blokada enumeracji loginu (REST users 404) nadal
+    działa, Site Health w wp-adminie nie pokazuje nowych błędów krytycznych (jedyny "błąd
+    krytyczny" to zaległe aktualizacje ACF Pro/Contact Form Entries, niezwiązane z core).
+
+    **Przed backupem full-site przez UpdraftPlus/Dropbox** (patrz punkt 11) wykonany świeży
+    ręczny backup jako dodatkowa siatka bezpieczeństwa.
+
+    **Ważne odkrycie przy okazji**: po aktualizacji 6 wtyczek (punkt 10) foldery
+    `<slug>.bak_20260705` zostawione WEWNĄTRZ `wp-content/plugins/` były wykrywane przez
+    WordPress jako osobne (nieaktywne) instalacje wtyczek — powodowało to zdublowane wpisy
+    na liście wtyczek (np. "Contact Form 7 6.0.1" nieaktywne obok aktywnego 6.1.6).
+    Przeniesione poza `wp-content/plugins/` do `~/_plugin_backups_20260705` (poza webrootem)
+    — lista wtyczek w wp-adminie jest teraz czysta (9 wtyczek, wszystkie aktywne, bez
+    duplikatów). **Wniosek na przyszłość: backupy plików wtyczek/core zawsze trzymać poza
+    katalogami skanowanymi przez WordPress (`wp-content/plugins`, `wp-content/themes`), a
+    najlepiej poza całym `public_html`.**
+
 ## Co NIE jest jeszcze zrobione (do kontynuacji)
-1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny (sprawdzić ponownie aktualną wersję,
-   bo czas płynie). Kilka wersji major zaległości. Wtyczki są już aktualne (patrz wyżej).
-2. **ACF Pro i TranslatePress Business** (płatne wtyczki spoza wordpress.org) — nie da się
+1. **ACF Pro i TranslatePress Business** (płatne wtyczki spoza wordpress.org) — nie da się
    sprawdzić/zaktualizować wersji przez publiczne API ani `downloads.wordpress.org`, trzeba
-   przez panel producenta / wp-admin.
-3. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
+   przez panel producenta / wp-admin. Site Health w wp-adminie pokazuje że jest dostępna
+   aktualizacja ACF Pro (6.3.11→6.8.5) i Contact Form Entries (1.4.0→1.5.3, ta ostatnia
+   JEST na wordpress.org, ale nie była w oryginalnym zakresie audytu — do rozważenia).
+2. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
    (front-page.php i prawie każdy `page-*.php`) — ryzyko stored XSS tylko jeśli ktoś o niższych
    uprawnieniach edytuje te pola (obecnie prawdopodobnie tylko admin/Stefan edytuje treści, więc
    priorytet niższy niż punkty 1-3, ale warto zrobić jako hardening).
-4. **Optymalizacja wydajności**: brak wtyczki cache (żadnej z: WP Super Cache/W3TC/LiteSpeed
+3. **Optymalizacja wydajności**: brak wtyczki cache (żadnej z: WP Super Cache/W3TC/LiteSpeed
    Cache/WP Rocket), brak nagłówka `Cache-Control` na stronie. Gzip jest włączony. Warto dodać
-   cache stron + ewentualnie CDN dla assetów.
-5. Rozważyć SRI (Subresource Integrity) dla skryptów ładowanych z publicznych CDN
+   cache stron + ewentualnie CDN dla assetów. Site Health sugeruje też: obrazy w formacie AVIF,
+   usunięcie nieużywanych motywów, aktualizacja PHP (obecnie 8.1.10), trwała pamięć podręczna
+   obiektów (persistent object cache).
+4. Rozważyć SRI (Subresource Integrity) dla skryptów ładowanych z publicznych CDN
    (`functions.php` linie z `wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/...')`).
 
 ## Ważna uwaga o bezpieczeństwie procesu
