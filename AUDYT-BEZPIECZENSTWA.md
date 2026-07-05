@@ -99,19 +99,20 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
     - pliki: **co miesiąc** (`updraft_interval = monthly`), retencja 3 kopii,
     - najbliższe zadania w WP-Cron zaplanowane na 2026-07-05 23:45.
 
-    Miejsce docelowe (`updraft_service`) było puste (brak Dropbox/S3/FTP itd.) — **decyzja
-    Stefana**: zamiast kluczy S3, Stefan sam podepnie Dropbox/Google Drive przez OAuth w
-    wp-adminie (tego nie da się zrobić zdalnie przez SSH/bazę, wymaga logowania w przeglądarce).
-    Do tego czasu backupy trafiają lokalnie do `wp-content/updraft/` na serwerze — sprawdzono
-    wolne miejsce: strona ~1,6 GB, wolne miejsce na serwerze 2,9 TB, więc brak ryzyka
-    zapchania dysku w tym okresie przejściowym. Dodatkowo włączone powiadomienia e-mail
-    (`updraft_service = ['email']`, `updraft_email` = domyślny e-mail admina WP
-    `wiktor.smiech@inspirax.pl`) — Stefan/Wiktor dostaną maila o statusie każdego backupu.
-
-    **Do zrobienia przez Stefana**: zalogować się do wp-admina → UpdraftPlus → Settings →
-    podpiąć Dropbox/Google Drive (OAuth). Po podpięciu warto sprawdzić czy `updraft_service`
-    nadal zawiera `email` czy UI je nadpisało — jeśli nadpisało, można dodać oba na liście
-    zamiast jednego.
+    Miejsce docelowe (`updraft_service`) było puste (brak Dropbox/S3/FTP itd.) — **ZROBIONE
+    2026-07-05**: Dropbox podpięty i autoryzowany. Przebieg: otworzyłem `wp-login.php` i
+    stronę UpdraftPlus > Settings przez browser automation (Claude in Chrome), Stefan sam
+    zalogował się do wp-admina i do Dropboksa (nie wpisywałem za niego żadnych haseł — logowanie
+    do wp-admina i autoryzacja OAuth Dropbox to rzeczy, których zasadniczo nie robię za
+    użytkownika, nawet z podanym hasłem). Ja tylko zaznaczyłem Dropbox jako miejsce docelowe
+    w UI i zapisałem ustawienia, co odsłoniło link autoryzacyjny; Stefan kliknął link i
+    zalogował się do Dropboksa sam. Potwierdzone w UI: "You are already authenticated",
+    konto: Stefan Schwarz (stefan.schwarz@inicjatywa.eu). Zaznaczone do backupu: wtyczki,
+    motywy, pliki wysłane na serwer (uploads).
+    Uwaga: w tym UI wybór miejsca docelowego jest pojedynczy (zaznaczenie Dropbox odznacza
+    Email i odwrotnie) — osobne powiadomienia e-mail (`updraft_email` w bazie, ustawione
+    wcześniej na `wiktor.smiech@inspirax.pl`) mogą wymagać sprawdzenia w zakładce ustawień
+    zaawansowanych UpdraftPlus, czy nadal są aktywne przy Dropbox jako głównym storage.
 
 ## Co NIE jest jeszcze zrobione (do kontynuacji)
 1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny (sprawdzić ponownie aktualną wersję,
