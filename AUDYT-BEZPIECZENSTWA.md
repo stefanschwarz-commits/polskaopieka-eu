@@ -53,14 +53,44 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
    `?author=1` i `?author=99` → 301 na `/`). Backup pliku na serwerze:
    `functions.php.bak_20260705`.
 
+## Co już NAPRAWIONE i wgrane na produkcję (2026-07-05, cd. 2)
+10. **Aktualizacja wtyczek z wordpress.org** — **ZROBIONE**. Metoda: brak WP-CLI na serwerze
+    (`wp` nie istnieje), więc każda wtyczka pobrana z `downloads.wordpress.org` jako zip,
+    stary folder przeniesiony na `<slug>.bak_20260705` (nie usuwany — rollback możliwy przez
+    `mv` z powrotem), nowy zip rozpakowany w `wp-content/plugins/`, po każdej zaktualizowanej
+    wtyczce weryfikacja: brak "Fatal error"/"Parse error" w HTML, kluczowe strony 200
+    (strona główna, `/wp-json/`, `/wp-login.php`, strona z formularzem kontaktowym, strona
+    CPT `szkolenia`, `/de/` dla TranslatePress, `/sitemap_index.xml` dla Yoast).
+    - Custom Post Type UI: 1.17.2 → 1.19.2 — OK.
+    - webp-converter-for-media: 6.1.3 → 6.6.1 — OK.
+    - Contact Form 7: 6.0.1 → 6.1.6 — OK, formularz na `/kontakt/` renderuje się,
+      filtr `wpcf7_form_elements` z motywu nadal działa.
+    - TranslatePress (free): 2.5.3 → 3.2.3 — OK, `/de/` ładuje się bez błędów; DUŻY skok
+      wersji (2.x→3.x) — warto żeby Stefan ręcznie sprawdził w wp-adminie, czy przełącznik
+      języka i wcześniej zapisane tłumaczenia wyglądają OK (nie testowano UI przełącznika,
+      tylko brak fatal errorów). Płatny dodatek `translatepress-business` (1.2.6) NIE był
+      aktualizowany (nie ma go na wordpress.org, wymaga wp-adminu/licencji) — działał poprawnie
+      z nowym core TP.
+    - UpdraftPlus: 1.24.11 → 1.26.5 — OK (nie renderuje frontendu, sprawdzono tylko brak
+      fatal errora; **zalecane: Stefan powinien zweryfikować w wp-adminie, że harmonogram
+      backupów nadal jest poprawnie skonfigurowany po dużej aktualizacji**).
+    - Yoast SEO: 24.0 → 27.9 — OK, ale **UWAGA na przyszłość**: generyczny URL
+      `downloads.wordpress.org/plugin/wordpress-seo.zip` zwrócił nieoczekiwanie **28.0-RC1**
+      (release candidate), mimo że oficjalne API `api.wordpress.org/plugins/info/1.0/` wskazywało
+      stabilną wersję 27.9. Wykryte przed wdrożeniem (sprawdzenie `Version:` w headerze po
+      rozpakowaniu), operacja cofnięta, wgrano zamiast tego dokładnie otagowaną wersję przez
+      `downloads.wordpress.org/plugin/wordpress-seo.27.9.zip`. **Wniosek: zawsze sprawdzać
+      wersję w pobranym zipie przed wdrożeniem na produkcję, nie ufać ślepo generycznemu
+      linkowi `.zip` — może wskazywać na inny tag niż "stable" z API.**
+    Backupy starych wersji zostały na serwerze (`wp-content/plugins/<slug>.bak_20260705`) —
+    do usunięcia po tym, jak Stefan potwierdzi, że wszystko działa (nie usuwać automatycznie).
+
 ## Co NIE jest jeszcze zrobione (do kontynuacji)
-1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny 7.0 (sprawdzić ponownie aktualną wersję,
-   bo czas płynie). Kilka wersji major zaległości.
-2. **Aktualizacja wtyczek** (stan z 2026-07-05, do ponownego sprawdzenia):
-   Yoast SEO 24.0→27.9, UpdraftPlus 1.24.11→1.26.5, Contact Form 7 6.0.1→6.1.6,
-   Custom Post Type UI 1.17.2→1.19.2, TranslatePress 2.5.3→3.2.3,
-   webp-converter-for-media 6.1.3→6.6.1. ACF Pro i TranslatePress Business to płatne wtyczki
-   spoza wordpress.org — nie da się sprawdzić wersji przez publiczne API, trzeba w wp-adminie.
+1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny (sprawdzić ponownie aktualną wersję,
+   bo czas płynie). Kilka wersji major zaległości. Wtyczki są już aktualne (patrz wyżej).
+2. **ACF Pro i TranslatePress Business** (płatne wtyczki spoza wordpress.org) — nie da się
+   sprawdzić/zaktualizować wersji przez publiczne API ani `downloads.wordpress.org`, trzeba
+   przez panel producenta / wp-admin.
 3. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
    (front-page.php i prawie każdy `page-*.php`) — ryzyko stored XSS tylko jeśli ktoś o niższych
    uprawnieniach edytuje te pola (obecnie prawdopodobnie tylko admin/Stefan edytuje treści, więc
