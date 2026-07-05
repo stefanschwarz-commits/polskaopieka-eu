@@ -160,8 +160,28 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
    cache stron + ewentualnie CDN dla assetów. Site Health sugeruje też: obrazy w formacie AVIF,
    usunięcie nieużywanych motywów, aktualizacja PHP (obecnie 8.1.10), trwała pamięć podręczna
    obiektów (persistent object cache).
-4. Rozważyć SRI (Subresource Integrity) dla skryptów ładowanych z publicznych CDN
-   (`functions.php` linie z `wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/...')`).
+4. ~~Rozważyć SRI...~~ **ZROBIONE 2026-07-05** — patrz punkt 13 poniżej.
+
+## Co już NAPRAWIONE i wgrane na produkcję (2026-07-05, cd. 4)
+13. **SRI (Subresource Integrity) dla skryptów/stylów z CDN** — **ZROBIONE**. W `functions.php`
+    dodane filtry `script_loader_tag`/`style_loader_tag` wstrzykujące `integrity`+`crossorigin`
+    dla: `bootstrap-js` (jsdelivr), `swiper-css`/`swiper-js` (jsdelivr), `bootstrap` (jsdelivr,
+    tylko block editor), `jquery` (cdnjs — hash dodany, ale patrz uwaga niżej).
+    Hashe sha384 policzone ręcznie z aktualnie serwowanych plików (`curl | openssl dgst -sha384`),
+    nie wzięte z metadanych CDN. Wersja `swiper@8` (płynąca) przypięta na sztywno do
+    `swiper@8.4.7` (rozwiązanej przez jsdelivr), żeby hash nie przestał pasować przy
+    przyszłej aktualizacji pakietu na CDN — **jeśli kiedyś zmienimy wersję w URL, trzeba
+    przeliczyć hash ponownie, inaczej przeglądarka zablokuje zasób**.
+    Zweryfikowane w przeglądarce (Claude in Chrome): brak błędów w konsoli, wszystkie 3
+    zasoby (bootstrap-js, swiper-css, swiper-js) ładują się 200 z atrybutem `integrity`
+    widocznym w HTML.
+    **Odkryta martwa linia kodu (nieszkodliwa, nie ruszona)**: `wp_enqueue_script('jquery',
+    'https://cdnjs.cloudflare.com/...')` w `functions.php` nigdy faktycznie nie ładuje jQuery
+    z CDN — WordPress core rejestruje handle `jquery` jako alias na własny pakiet w
+    `wp-includes/js/jquery/` (widoczny w HTML jako `jquery-core-js`), więc CDN-owy jQuery jest
+    od dawna martwym kodem (nadpisywanym przez core). Dodany dla niego hash SRI jest więc
+    również nieaktywny (nieszkodliwy, ale nieużywany) — do ewentualnego posprzątania przy
+    okazji innej sesji, nie priorytet.
 
 ## Ważna uwaga o bezpieczeństwie procesu
 Podczas audytu w wynikach subagentów (tool results) pojawiła się wiadomość podszywająca się pod
