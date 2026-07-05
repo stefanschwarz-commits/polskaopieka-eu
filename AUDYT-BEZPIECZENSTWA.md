@@ -155,11 +155,17 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
    (front-page.php i prawie każdy `page-*.php`) — ryzyko stored XSS tylko jeśli ktoś o niższych
    uprawnieniach edytuje te pola (obecnie prawdopodobnie tylko admin/Stefan edytuje treści, więc
    priorytet niższy niż punkty 1-3, ale warto zrobić jako hardening).
-3. **Optymalizacja wydajności**: brak wtyczki cache (żadnej z: WP Super Cache/W3TC/LiteSpeed
-   Cache/WP Rocket), brak nagłówka `Cache-Control` na stronie. Gzip jest włączony. Warto dodać
-   cache stron + ewentualnie CDN dla assetów. Site Health sugeruje też: obrazy w formacie AVIF,
-   usunięcie nieużywanych motywów, aktualizacja PHP (obecnie 8.1.10), trwała pamięć podręczna
-   obiektów (persistent object cache).
+3. **Optymalizacja wydajności** — częściowo zrobione 2026-07-05: dodane w `.htaccess`
+   (blok `# BEGIN/END PSOD-PERFORMANCE-HARDENING`) `mod_expires` + `Cache-Control` dla
+   plików statycznych (obrazy/fonty: 1 rok, CSS/JS: 1 miesiąc), zweryfikowane curl-em.
+   Uwaga: serwer LiteSpeed dokłada własny nagłówek `Cache-Control: private` przed naszym —
+   nasz `public, max-age=...` jest ostatni w kolejności nagłówków (przeglądarki honorują
+   ostatnią wartość), więc efektywnie działa, ale warto mieć to na uwadze przy dalszym
+   debugowaniu cache. Nadal BRAK: wtyczki cache pełnych stron (WP Super Cache/W3TC/LiteSpeed
+   Cache/WP Rocket) — to większa decyzja architektoniczna (wybór wtyczki, konfiguracja),
+   zostawiona do osobnej sesji/decyzji Stefana. Site Health sugeruje też: obrazy w formacie
+   AVIF, usunięcie nieużywanych motywów, aktualizacja PHP (obecnie 8.1.10), trwała pamięć
+   podręczna obiektów (persistent object cache) — też nadal do zrobienia.
 4. ~~Rozważyć SRI...~~ **ZROBIONE 2026-07-05** — patrz punkt 13 poniżej.
 
 ## Co już NAPRAWIONE i wgrane na produkcję (2026-07-05, cd. 4)
