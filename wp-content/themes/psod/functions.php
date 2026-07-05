@@ -151,11 +151,42 @@ function psod_scripts() {
 	wp_enqueue_style( 'psod-style', get_template_directory_uri() . '/scss/custom.css', array(), _S_VERSION);
 	wp_enqueue_script( 'psod-script', get_template_directory_uri() . '/js/psod-script.js', array(), _S_VERSION, true );
 	wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js');
-	wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css' );
-	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js');
+	wp_enqueue_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@8.4.7/swiper-bundle.min.css' );
+	wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@8.4.7/swiper-bundle.min.js');
 
 }
 add_action( 'wp_enqueue_scripts', 'psod_scripts' );
+
+// SRI (Subresource Integrity) dla skryptow/stylow ladowanych z publicznych CDN.
+// Hashe sha384 policzone recznie z aktualnie wgranych plikow (nie z metadanych CDN).
+// Uwaga: jesli w przyszlosci zmieni sie wersja biblioteki w URL powyzej, trzeba przeliczyc
+// hash ponownie, inaczej przegladarka odrzuci zasob (integrity mismatch) i strona przestanie
+// dzialac - dlatego wersje w URL-ach sa przypiete na sztywno (np. swiper@8.4.7, nie @8).
+function psod_cdn_sri_hashes() {
+	return array(
+		'jquery'       => 'sha384-Ft/vb48LwsAEtgltj7o+6vtS2esTU9PCpDqcXs4OCVQFZu5BqprHtUCZ4kjK+bpE',
+		'bootstrap-js' => 'sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe',
+		'swiper-css'   => 'sha384-OVtDJ2WfU22geHR8xWErSSHJMaH21QOP9w33a+A2MzyE4uxDS2/5rhIw9YZkWv5R',
+		'swiper-js'    => 'sha384-kLg4yw7ysk2F34aYhHIrdq/AXIkHzZ808L3af45jUqWQoMPN8VnJneCjOR8+THSG',
+		'bootstrap'    => 'sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65',
+	);
+}
+
+add_filter( 'script_loader_tag', function( $tag, $handle ) {
+	$hashes = psod_cdn_sri_hashes();
+	if ( isset( $hashes[ $handle ] ) && strpos( $tag, 'integrity=' ) === false ) {
+		$tag = str_replace( ' src=', ' integrity="' . esc_attr( $hashes[ $handle ] ) . '" crossorigin="anonymous" src=', $tag );
+	}
+	return $tag;
+}, 10, 2 );
+
+add_filter( 'style_loader_tag', function( $tag, $handle ) {
+	$hashes = psod_cdn_sri_hashes();
+	if ( isset( $hashes[ $handle ] ) && strpos( $tag, 'integrity=' ) === false ) {
+		$tag = str_replace( ' href=', ' integrity="' . esc_attr( $hashes[ $handle ] ) . '" crossorigin="anonymous" href=', $tag );
+	}
+	return $tag;
+}, 10, 2 );
 
 /**
  * Implement the Custom Header feature.
