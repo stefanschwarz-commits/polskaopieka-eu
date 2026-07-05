@@ -46,7 +46,7 @@
                     <?php echo esc_html( $position ); ?>
                     </div>
                     <a class="staff__mail d-block" href="mailto:<?php echo esc_attr( $mail ); ?>"><?php echo esc_html( $mail ); ?></a>
-                    <a class="staff__tel d-block" href="tel:<?php echo esc_attr( $tel ); ?>">tel: <?php echo esc_html( $tel ); ?></a>
+                    <a class="staff__tel d-block" href="tel:<?php echo esc_attr( $tel ); ?>">tel: <?php echo wp_kses_post( $tel ); ?></a>
                </div> 
             </div>
         <?php
