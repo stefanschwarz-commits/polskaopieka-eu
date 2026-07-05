@@ -72,8 +72,7 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
       aktualizowany (nie ma go na wordpress.org, wymaga wp-adminu/licencji) — działał poprawnie
       z nowym core TP.
     - UpdraftPlus: 1.24.11 → 1.26.5 — OK (nie renderuje frontendu, sprawdzono tylko brak
-      fatal errora; **zalecane: Stefan powinien zweryfikować w wp-adminie, że harmonogram
-      backupów nadal jest poprawnie skonfigurowany po dużej aktualizacji**).
+      fatal errora).
     - Yoast SEO: 24.0 → 27.9 — OK, ale **UWAGA na przyszłość**: generyczny URL
       `downloads.wordpress.org/plugin/wordpress-seo.zip` zwrócił nieoczekiwanie **28.0-RC1**
       (release candidate), mimo że oficjalne API `api.wordpress.org/plugins/info/1.0/` wskazywało
@@ -84,6 +83,35 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
       linkowi `.zip` — może wskazywać na inny tag niż "stable" z API.**
     Backupy starych wersji zostały na serwerze (`wp-content/plugins/<slug>.bak_20260705`) —
     do usunięcia po tym, jak Stefan potwierdzi, że wszystko działa (nie usuwać automatycznie).
+11. **Harmonogram automatycznych backupów UpdraftPlus** — sprawdzone i **SKONFIGUROWANE**.
+    Sprawdzenie stanu przed zmianą (przez PHP na serwerze, bez logowania do wp-admina —
+    bezpośredni odczyt opcji z `wp_options`/WP-Cron): harmonogram był **całkowicie pusty**
+    (brak `updraft_interval`, brak zaplanowanych zadań cron `updraft_backup`/
+    `updraft_backup_database`), a w historii backupów był tylko **1 wpis, z 2026-10-22** —
+    wtyczka nigdy wcześniej nie zrobiła automatycznego backupu. To nie regresja z aktualizacji
+    wtyczki (ustawienia harmonogramu są w bazie danych, podmiana plików ich nie rusza) —
+    zastany stan sprzed lat.
+
+    Skonfigurowano (przez `update_option()` + wywołanie natywnych metod
+    `$updraftplus->schedule_backup()` / `schedule_backup_database()` z klasy UpdraftPlus,
+    dokładnie tak jak robi to zapis ustawień w UI):
+    - baza danych: **co tydzień** (`updraft_interval_database = weekly`), retencja 4 kopii,
+    - pliki: **co miesiąc** (`updraft_interval = monthly`), retencja 3 kopii,
+    - najbliższe zadania w WP-Cron zaplanowane na 2026-07-05 23:45.
+
+    Miejsce docelowe (`updraft_service`) było puste (brak Dropbox/S3/FTP itd.) — **decyzja
+    Stefana**: zamiast kluczy S3, Stefan sam podepnie Dropbox/Google Drive przez OAuth w
+    wp-adminie (tego nie da się zrobić zdalnie przez SSH/bazę, wymaga logowania w przeglądarce).
+    Do tego czasu backupy trafiają lokalnie do `wp-content/updraft/` na serwerze — sprawdzono
+    wolne miejsce: strona ~1,6 GB, wolne miejsce na serwerze 2,9 TB, więc brak ryzyka
+    zapchania dysku w tym okresie przejściowym. Dodatkowo włączone powiadomienia e-mail
+    (`updraft_service = ['email']`, `updraft_email` = domyślny e-mail admina WP
+    `wiktor.smiech@inspirax.pl`) — Stefan/Wiktor dostaną maila o statusie każdego backupu.
+
+    **Do zrobienia przez Stefana**: zalogować się do wp-admina → UpdraftPlus → Settings →
+    podpiąć Dropbox/Google Drive (OAuth). Po podpięciu warto sprawdzić czy `updraft_service`
+    nadal zawiera `email` czy UI je nadpisało — jeśli nadpisało, można dodać oba na liście
+    zamiast jednego.
 
 ## Co NIE jest jeszcze zrobione (do kontynuacji)
 1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny (sprawdzić ponownie aktualną wersję,
