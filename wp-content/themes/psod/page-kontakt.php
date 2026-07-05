@@ -30,7 +30,7 @@
             <div class="col-md-6 col-lg-4">
                <div class="staff text-center">
                 <div class="wrapper position-relative d-inline-block">
-                <img class="img-fluid" src="<?php echo $img; ?>" alt="">
+                <img class="img-fluid" src="<?php echo esc_url( $img ); ?>" alt="">
                 <?php
                     if($i == $arrayLength) {
                         ?>
@@ -41,12 +41,12 @@
                 </div>
 
 
-                    <h4 class="staff__name mt-3 mb-2"><?php echo $name; ?></h4>
+                    <h4 class="staff__name mt-3 mb-2"><?php echo esc_html( $name ); ?></h4>
                     <div class="staff__position">
-                    <?php echo $position; ?>
+                    <?php echo esc_html( $position ); ?>
                     </div>
-                    <a class="staff__mail d-block" href="mailto:<?php echo $mail; ?>"><?php echo $mail; ?></a>
-                    <a class="staff__tel d-block" href="tel:<?php echo $tel; ?>">tel: <?php echo $tel; ?></a>
+                    <a class="staff__mail d-block" href="mailto:<?php echo esc_attr( $mail ); ?>"><?php echo esc_html( $mail ); ?></a>
+                    <a class="staff__tel d-block" href="tel:<?php echo esc_attr( $tel ); ?>">tel: <?php echo esc_html( $tel ); ?></a>
                </div> 
             </div>
         <?php
@@ -65,18 +65,18 @@
 
     <div class="row justify-content-lg-end align-items-center gy-4 gy-lg-0 py-md-5 py-xl-0">
     <div class="col-md-6 col-lg-5">
-    <h5 class="mb-3"> <?php echo $dane['nazwa']; ?>
+    <h5 class="mb-3"> <?php echo esc_html( $dane['nazwa'] ); ?>
 </h5>
 
-<?php echo $dane['adres']; ?>
+<?php echo wp_kses_post( $dane['adres'] ); ?>
 
-<?php echo $dane['rejestr']; ?>
+<?php echo wp_kses_post( $dane['rejestr'] ); ?>
 
-<?php echo $dane['bank']; ?>
+<?php echo wp_kses_post( $dane['bank'] ); ?>
 
 </div>
 <div class="col-md-6 col-lg-6">
-<img class="img-fluid" src="<?php echo $dane['zdjecie']; ?>" alt="">
+<img class="img-fluid" src="<?php echo esc_url( $dane['zdjecie'] ); ?>" alt="">
 </div>
     </div>
 </div>
@@ -89,7 +89,7 @@
     <div class="col-md-8">
     <?php echo do_shortcode('[contact-form-7 id="71" title="Napisz do nas"]'); ?>
     <span class="administrator">
-<?php echo get_field('akceptacja'); ?>
+<?php echo wp_kses_post( get_field('akceptacja') ); ?>
 </span>
     </div>
 </div>   

@@ -17,10 +17,10 @@
             // Do something...
         ?>
         <div class="swiper-slide" style="position: relative;">
-        <div class="background" style="z-index: -1; filter: saturate(0); position: absolute; width: 100%; height: 100%; background-image: url('<?php echo $img; ?>'); background-size: cover; background-position: center;"></div>
+        <div class="background" style="z-index: -1; filter: saturate(0); position: absolute; width: 100%; height: 100%; background-image: url('<?php echo esc_url( $img ); ?>'); background-size: cover; background-position: center;"></div>
         <div class="container text-center">
-        <h4 class="fw-bold"><?php echo $heading; ?></h4>
-        <p class="pt-2"><?php echo $text ?>​</p>
+        <h4 class="fw-bold"><?php echo esc_html( $heading ); ?></h4>
+        <p class="pt-2"><?php echo wp_kses_post( $text ); ?>​</p>
         </div>
         </div>
         <?php
@@ -56,17 +56,17 @@
 
         ?>
         <div class="col-md-4">
-        <a class="post" href="<?php echo get_permalink(); ?>" style="text-decoration: none;">
+        <a class="post" href="<?php echo esc_url( get_permalink() ); ?>" style="text-decoration: none;">
         <div class="post__img-wrapper">
-        <img class="post__img h-100 w-100" src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" alt="">
+        <img class="post__img h-100 w-100" src="<?php echo esc_url( wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ); ?>" alt="">
         </div>
 
         <div class="wrapper mt-3 d-flex align-items-center">
-        <span class="post__date me-3"><?php echo get_the_date(); ?></span>
-        <div class="post__flag post__flag--<?php echo strtolower($flaga); ?> d-inline-block"><?php echo $flaga; ?></div>
+        <span class="post__date me-3"><?php echo esc_html( get_the_date() ); ?></span>
+        <div class="post__flag post__flag--<?php echo esc_attr( strtolower($flaga) ); ?> d-inline-block"><?php echo esc_html( $flaga ); ?></div>
 
         </div>
-        <span class="post__title mb-4 d-block"><?php echo $post->post_title; ?></span>
+        <span class="post__title mb-4 d-block"><?php echo esc_html( $post->post_title ); ?></span>
 
         </a>
         </div>
@@ -84,8 +84,8 @@
 </section>
 
 <section id="publikacje-single">
-	<h2 class="section-heading text-center mb-5"><?php echo get_field('stanowisko')['tytul'] ?? "" ;?></h2>
-		<?php 
+	<h2 class="section-heading text-center mb-5"><?php echo esc_html( get_field('stanowisko')['tytul'] ?? "" );?></h2>
+		<?php
 		$publikacja = get_field('stanowisko')['podlinkowana_publikacja'];
 		?>
 	    <div class="container">
@@ -93,20 +93,20 @@
 				<div class="col-md-12">
 					<div class="publication row align-items-center">
 					<div class="col-md-4">
-						<img class="publication__img img-fluid w-100" src="<?php echo get_field('zdjecie', $publikacja->ID) ?? "#" ?>" alt="">
+						<img class="publication__img img-fluid w-100" src="<?php echo esc_url( get_field('zdjecie', $publikacja->ID) ?? "#" ); ?>" alt="">
 					</div>
 					<div class="col-md-8">
 						<div class="publication__date mb-2 mt-3 mt-md-0">
 						    <?php
 							if ( !empty($publikacja->post_date) ) {
 								$timestamp = strtotime($publikacja->post_date);
-								echo date_i18n( 'j F, Y', $timestamp );
+								echo esc_html( date_i18n( 'j F, Y', $timestamp ) );
 							}
 							?>
 						</div>
-						<h3 class="publication__heading mb-3"><?php echo $publikacja->post_title ?? "" ;?></h3>
-						<div class="publication__text mb-4"><?php echo get_field('stanowisko')['opis'] ?? "" ?></div>
-						<a class="btn btn-primary" href="<?php echo get_field('plik', $publikacja->ID) ?? "#" ?>" target="_blank">Zobacz stanowisko</a>
+						<h3 class="publication__heading mb-3"><?php echo esc_html( $publikacja->post_title ?? "" );?></h3>
+						<div class="publication__text mb-4"><?php echo wp_kses_post( get_field('stanowisko')['opis'] ?? "" ); ?></div>
+						<a class="btn btn-primary" href="<?php echo esc_url( get_field('plik', $publikacja->ID) ?? "#" ); ?>" target="_blank">Zobacz stanowisko</a>
 					</div>
 							    <a class="btn btn-arrow mx-auto w-auto mt-5" href="/publikacje">więcej publikacji <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right.svg" alt=""></a>
 
@@ -135,10 +135,10 @@
                 $link = get_sub_field('link');
                 // Do something...
             ?>
-            <a href="<?php echo $link; ?>" class="col-6 col-md-4 col-lg-3 d-block">
+            <a href="<?php echo esc_url( $link ); ?>" class="col-6 col-md-4 col-lg-3 d-block">
             <div class="challenge d-block">
-            <img class="challenge__img w-100 h-100" src="<?php echo $img; ?>" alt="">
-            <span class="challenge__text"><?php echo $text; ?></span>
+            <img class="challenge__img w-100 h-100" src="<?php echo esc_url( $img ); ?>" alt="">
+            <span class="challenge__text"><?php echo esc_html( $text ); ?></span>
             </div>
             </a>
             <?php
@@ -153,16 +153,16 @@
     <div class="container">
         <div class="row flex-column">
         <img src="<?= get_template_directory_uri(); ?>/assets/sygnet.svg" alt="psod" width="32px" height="32px">
-        <h2 class="section-heading text-center mb-3 mt-4"><?php echo get_field('o_nas')['naglowek']; ?></h2>
-        <p class="text-center mx-auto"><?php echo get_field('o_nas')['tekst']; ?></p>
-        <a class="btn btn-arrow mx-auto w-auto" href="<?php echo get_field('o_nas')['link_do_czytaj_dalej']; ?>">czytaj więcej <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right.svg" alt=""></a>
+        <h2 class="section-heading text-center mb-3 mt-4"><?php echo esc_html( get_field('o_nas')['naglowek'] ); ?></h2>
+        <p class="text-center mx-auto"><?php echo wp_kses_post( get_field('o_nas')['tekst'] ); ?></p>
+        <a class="btn btn-arrow mx-auto w-auto" href="<?php echo esc_url( get_field('o_nas')['link_do_czytaj_dalej'] ); ?>">czytaj więcej <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right.svg" alt=""></a>
         </div>
     </div>
 </section>
 <section id="priorities">
     <div class="container">
     <h2 class="section-heading text-center mb-3">Nasze priorytety</h2>
-        <p class="section-paragraph text-center w-75 mx-auto gray"><?php echo get_field('nasze_priorytety')['podtytul']; ?></p>
+        <p class="section-paragraph text-center w-75 mx-auto gray"><?php echo esc_html( get_field('nasze_priorytety')['podtytul'] ); ?></p>
         <div class="row gy-4 gy-lg-0">
         <?php 
         $rows = get_field('nasze_priorytety')['priorytety'];
@@ -175,11 +175,11 @@
                 ?>
                
                 <div class="col-md-6 col-lg-4">
-                <a href="<?php echo $link; ?>" class="priority d-block">
+                <a href="<?php echo esc_url( $link ); ?>" class="priority d-block">
                 <div class="priority__gradient"></div>
-                <div class="priority__img" style="background-image: url('<?php echo $image; ?>');"></div>
+                <div class="priority__img" style="background-image: url('<?php echo esc_url( $image ); ?>');"></div>
                 <span class="priority__heading">
-                <?php echo $text; ?>
+                <?php echo esc_html( $text ); ?>
                     </span>
                 </a>
                 </div>
@@ -196,7 +196,7 @@
 <section id="activity">
     <div class="container">
     <h2 class="section-heading text-center mb-3">Nasza działalność</h2>
-    <p class="section-paragraph text-center w-75 mx-auto gray mb-0"><?php echo get_field('nasza_dzialalnosc')['podtytul']; ?></p>
+    <p class="section-paragraph text-center w-75 mx-auto gray mb-0"><?php echo esc_html( get_field('nasza_dzialalnosc')['podtytul'] ); ?></p>
         <div class="row py-5 gy-4 gy-lg-0">
             <div class="col-md-6 col-lg-4">
                 <a class="single-activity text-center py-4 d-block text-decoration-none" href="/edukacja">
@@ -238,7 +238,7 @@
 <section id="myths">
     <div class="container">
     <h2 class="section-heading text-center mb-3">Mity na temat opieki domowej</h2>
-    <p class="section-paragraph text-center w-75 mx-auto gray mb-0"><?php echo get_field('mity')['podtytul']; ?></p>
+    <p class="section-paragraph text-center w-75 mx-auto gray mb-0"><?php echo esc_html( get_field('mity')['podtytul'] ); ?></p>
     <div class="myth-row row gy-4 gy-lg-0">
     <?php
 
@@ -255,7 +255,7 @@
             <a href="/mity?fake=<?php echo $mythID; ?>" class="myth d-flex w-100 text-decoration-none">
                 <img class="myth__fake" src="<?= get_template_directory_uri(); ?>/assets/fake.svg" alt="fake">
                 <div class="myth__text text-center d-flex align-items-center">
-                <?php echo $nazwa; ?>
+                <?php echo esc_html( $nazwa ); ?>
                 </div>
             </a>
         </div>
@@ -280,7 +280,7 @@
         foreach( $rows as $row ) {
             $heading = $row['naglowek'];
             ?>
-           <button class="nav-link<?php if($i == 0) {echo ' active';} ?>"  data-bs-toggle="pill" data-bs-target="#pills-<?php echo $alphas[$i]; ?>" type="button" role="tab"><?php echo $heading; ?></button>
+           <button class="nav-link<?php if($i == 0) {echo ' active';} ?>"  data-bs-toggle="pill" data-bs-target="#pills-<?php echo esc_attr( $alphas[$i] ); ?>" type="button" role="tab"><?php echo esc_html( $heading ); ?></button>
 
 
             <?php
@@ -299,13 +299,13 @@
             $icon = $row['ikona'];
             $text = $row['tekst'];
             ?>
-               <div class="tab-pane fade<?php if($i == 0) {echo ' show active';} ?>" id="pills-<?php echo $alphas[$i]; ?>" role="tabpanel" aria-selected="<?php if($i == 0) {echo ' true';} else {echo ' false';} ?>">
+               <div class="tab-pane fade<?php if($i == 0) {echo ' show active';} ?>" id="pills-<?php echo esc_attr( $alphas[$i] ); ?>" role="tabpanel" aria-selected="<?php if($i == 0) {echo ' true';} else {echo ' false';} ?>">
         <div class="row align-items-center gy-4 gy-md-0">
             <div class="col-md-5 d-flex justify-content-center d-md-block">
-            <img src="<?php echo $icon; ?>" alt="ikona">
+            <img src="<?php echo esc_url( $icon ); ?>" alt="ikona">
             </div>
             <div class="col-md-7">
-                <?php echo $text; ?>
+                <?php echo wp_kses_post( $text ); ?>
                 </div>
         </div>
     </div>
@@ -338,7 +338,7 @@
                 // Do something...
             ?>
                 <div class="col-6 col-md-3 d-flex justify-content-center align-items-center">
-                    <img class="img-fluid p-4" src="<?php echo $logo ?>" alt="usługodawca">
+                    <img class="img-fluid p-4" src="<?php echo esc_url( $logo ); ?>" alt="usługodawca">
         </div>
             <?php
             // End loop.
@@ -351,8 +351,8 @@
     </div>
 </section>
 <section id="publications">
-	<h2 class="section-heading text-center mb-5"><?php echo get_field('publikacja')['tytul'] ?? "" ;?></h2>
-		<?php 
+	<h2 class="section-heading text-center mb-5"><?php echo esc_html( get_field('publikacja')['tytul'] ?? "" );?></h2>
+		<?php
 		$publikacja = get_field('publikacja')['podlinkowana_publikacja'];
 		?>
 	    <div class="container">
@@ -360,20 +360,20 @@
 				<div class="col-md-12">
 					<div class="publication row align-items-center">
 					<div class="col-md-4">
-						<img class="publication__img img-fluid w-100" src="<?php echo get_field('zdjecie', $publikacja->ID) ?? "#" ?>" alt="">
+						<img class="publication__img img-fluid w-100" src="<?php echo esc_url( get_field('zdjecie', $publikacja->ID) ?? "#" ); ?>" alt="">
 					</div>
 					<div class="col-md-8">
 						<div class="publication__date mb-2 mt-3 mt-md-0">
 						    <?php
 							if ( !empty($publikacja->post_date) ) {
 								$timestamp = strtotime($publikacja->post_date);
-								echo date_i18n( 'j F, Y', $timestamp );
+								echo esc_html( date_i18n( 'j F, Y', $timestamp ) );
 							}
 							?>
 						</div>
-						<h3 class="publication__heading mb-3"><?php echo $publikacja->post_title ?? "" ;?></h3>
-						<div class="publication__text mb-4"><?php echo get_field('publikacja')['opis'] ?? "" ?></div>
-						<a class="btn btn-primary" href="<?php echo get_field('plik', $publikacja->ID) ?? "#" ?>" target="_blank">Zobacz raport</a>
+						<h3 class="publication__heading mb-3"><?php echo esc_html( $publikacja->post_title ?? "" );?></h3>
+						<div class="publication__text mb-4"><?php echo wp_kses_post( get_field('publikacja')['opis'] ?? "" ); ?></div>
+						<a class="btn btn-primary" href="<?php echo esc_url( get_field('plik', $publikacja->ID) ?? "#" ); ?>" target="_blank">Zobacz raport</a>
 					</div>
 							    <a class="btn btn-arrow mx-auto w-auto mt-5" href="/publikacje">więcej publikacji <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right.svg" alt=""></a>
 
@@ -386,7 +386,7 @@
 <section id="courses">
     <div class="container">
     <h2 class="section-heading text-center mb-3">Oferta szkoleniowa</h2>
-    <p class="section-paragraph text-center w-75 mx-auto gray mb-0 mb-5"><?php echo get_field('oferta_szkoleniowa')['podtytul']; ?></p>
+    <p class="section-paragraph text-center w-75 mx-auto gray mb-0 mb-5"><?php echo esc_html( get_field('oferta_szkoleniowa')['podtytul'] ); ?></p>
         <div class="row gy-4 gy-md-0">
         <?php
         $args = array(
@@ -404,9 +404,9 @@
                 // poniżej wyświetlamy tytuł szkolenia, datę publikacji, treść oraz link do strony szkolenia
                 ?>
                 <div class="col-6 col-md-4 col-xl-3">
-                <a class="course d-block" href="<?php echo get_permalink(); ?>">
+                <a class="course d-block" href="<?php echo esc_url( get_permalink() ); ?>">
                <div class="course__img-wrapper">
-               <img class="course__img img-fluid w-100" style="object-fit: cover;" src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" alt="">
+               <img class="course__img img-fluid w-100" style="object-fit: cover;" src="<?php echo esc_url( wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ); ?>" alt="">
                </div>
                 <div class="course__text mt-4 mb-2">szkolenie</div>
                 <h6 class="course__title"><?php the_title(); ?></h6>
@@ -459,15 +459,15 @@
                 // Do something...
                 ?>
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading-pytanie-<?php echo $alphas[$i]; ?>">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pytanie-<?php echo $alphas[$i]; ?>" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <?php echo $question ?>
+                    <h2 class="accordion-header" id="heading-pytanie-<?php echo esc_attr( $alphas[$i] ); ?>">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pytanie-<?php echo esc_attr( $alphas[$i] ); ?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <?php echo esc_html( $question ); ?>
                     </button>
                     </h2>
-                    <div id="pytanie-<?php echo $alphas[$i]; ?>" class="accordion-collapse collapse" aria-labelledby="heading-pytanie-<?php echo $alphas[$i]; ?>" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body"><?php echo $answ; ?></div>
+                    <div id="pytanie-<?php echo esc_attr( $alphas[$i] ); ?>" class="accordion-collapse collapse" aria-labelledby="heading-pytanie-<?php echo esc_attr( $alphas[$i] ); ?>" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body"><?php echo wp_kses_post( $answ ); ?></div>
                     </div>
-                </div>                
+                </div>
         <?php 
         $i++;
         endwhile;

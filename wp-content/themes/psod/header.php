@@ -43,8 +43,8 @@
     <?php foreach ($array as $name => $item){ ?>
             <li> 
 
-                <a href="<?php echo $item['current_page_url']?>" class="<?php echo ($item['short_language_name'] == $currentLang ? "active" : ""); ?>"> 
-                    <span><?php echo $item['short_language_name'] ?>
+                <a href="<?php echo esc_url( $item['current_page_url'] )?>" class="<?php echo ($item['short_language_name'] == $currentLang ? "active" : ""); ?>">
+                    <span><?php echo esc_html( $item['short_language_name'] ) ?>
                     </span>
                 </a>
             </li>

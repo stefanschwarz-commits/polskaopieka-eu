@@ -15,10 +15,10 @@ get_header();
 
         ?>
 	<div class="post-banner w-100 d-flex justify-content-end">
-	<img class="post-banner__img w-100 h-100"src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" alt="">
+	<img class="post-banner__img w-100 h-100"src="<?php echo esc_url( wp_get_attachment_url(get_post_thumbnail_id($post->ID)) ); ?>" alt="">
 	<div class="container d-flex align-items-end" style="z-index: 5;">
 	<div class="post-info">
-	<span class="post-info__date"><?php echo get_the_date(); ?></span>
+	<span class="post-info__date"><?php echo esc_html( get_the_date() ); ?></span>
 	<h2 class="post-info__title"><?php the_title(); ?></h2>
 	</div>
 	</div>
@@ -42,39 +42,39 @@ get_header();
             <div class="row gy-4 gy-md-0">
             <div class="col-md-7 szkolenie-info">
             <div class="mb-3">
-            <span class="fw-bold">Termin: </span><?php echo get_field('termin'); ?>
+            <span class="fw-bold">Termin: </span><?php echo esc_html( get_field('termin') ); ?>
             </div>
             <div class="mb-3">
-            <span class="fw-bold">Czas trwania: </span><?php echo get_field('czas_trwania'); ?>
+            <span class="fw-bold">Czas trwania: </span><?php echo esc_html( get_field('czas_trwania') ); ?>
             </div>
             <div class="mb-3">
-            <span class="fw-bold">Miejsce: </span><?php echo get_field('miejsce'); ?>
+            <span class="fw-bold">Miejsce: </span><?php echo esc_html( get_field('miejsce') ); ?>
             </div>
             <div class="mb-3">
-            <span class="fw-bold">Prowadzący: </span><?php echo get_field('prowadzacy'); ?>
+            <span class="fw-bold">Prowadzący: </span><?php echo esc_html( get_field('prowadzacy') ); ?>
             </div>
             <div class="mb-3 szkolenie__koszt">
-            <span class="fw-bold">Koszt: </span><?php echo get_field('koszt_1'); ?>
+            <span class="fw-bold">Koszt: </span><?php echo esc_html( get_field('koszt_1') ); ?>
             </div>
             <a class="btn btn-primary mt-3" style="font-weight: 500;" href="#contact-form">Rejestracja</a>
             </div>
             <div class="col-md-5">
-            <img class="img-fluid h-100 w-100" style="object-fit: cover; filter: saturate(0);" src="<?php echo get_field('zdjecie'); ?>" alt="zdjecie ze szkolenia">
+            <img class="img-fluid h-100 w-100" style="object-fit: cover; filter: saturate(0);" src="<?php echo esc_url( get_field('zdjecie') ); ?>" alt="zdjecie ze szkolenia">
             </div>
             </div>
             <h5 class="mt-5 mb-3">Tematyka:</h5>
-            <?php echo get_field('tematyka'); ?>
+            <?php echo wp_kses_post( get_field('tematyka') ); ?>
             <h5 class="mt-5 mb-3">Dla kogo?</h5>
-            <?php echo get_field('dla_kogo'); ?>
+            <?php echo wp_kses_post( get_field('dla_kogo') ); ?>
             <h5 class="mt-5 mb-3">Program</h5>
-            <?php echo get_field('program'); ?>
+            <?php echo wp_kses_post( get_field('program') ); ?>
             <h5 class="mt-5 mb-3">Zadaj pytanie Prowadzącemu</h5>
-            <?php echo get_field('zadaj_pytanie_prowadzacemu'); ?>
+            <?php echo wp_kses_post( get_field('zadaj_pytanie_prowadzacemu') ); ?>
             <h5 class="mt-5 mb-3">Koszt</h5>
-            <?php echo get_field('koszt'); ?>
+            <?php echo wp_kses_post( get_field('koszt') ); ?>
             <h5 class="mt-5 mb-3">Lokalizacja</h5>
-            <?php echo get_field('lokalizacja')['lokalizacja-opis']; ?>
-            <?php 
+            <?php echo wp_kses_post( get_field('lokalizacja')['lokalizacja-opis'] ); ?>
+            <?php
             $location = get_field('lokalizacja')['lokalizacja-mapa'];
             if( $location ): ?>
                 <div class="acf-map" data-zoom="16">
@@ -82,11 +82,11 @@ get_header();
                 </div>
             <?php endif; ?>
             <h5 class="mt-5 mb-3">Kontakt</h5>
-            <?php echo get_field('kontakt'); ?>
+            <?php echo wp_kses_post( get_field('kontakt') ); ?>
             <h5 class="mt-5 mb-3">Pozostałe informacje</h5>
-            <?php echo get_field('pozostale_informacje'); ?>
+            <?php echo wp_kses_post( get_field('pozostale_informacje') ); ?>
             <h5 class="mt-5 mb-3">Regulamin</h5>
-            <?php echo get_field('regulamin'); ?>
+            <?php echo wp_kses_post( get_field('regulamin') ); ?>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@ get_header();
 <div class="row justify-content-center">
     <div class="col-md-8">
     <?php echo do_shortcode('[contact-form-7 id="77" title="Zapisz się na kurs"]'); ?>
-    <? echo get_field("przetwarzanie_danych_formularz", "option");  ?>
+    <?php echo wp_kses_post( get_field("przetwarzanie_danych_formularz", "option") ); ?>
     </div>
 </div>   
 </div>    

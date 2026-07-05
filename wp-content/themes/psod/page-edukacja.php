@@ -17,11 +17,11 @@
 <div class="container">
 <div class="row justify-content-center">
     <div class="col-md-8">
-    <h1 class="my-0 py-0"> <?php echo the_title(); ?></h1>
+    <h1 class="my-0 py-0"> <?php the_title(); ?></h1>
 
         <div class="col-md-7">
         <p class="mt-1 mb-2">
-        <?php echo get_field('podtytul'); ?>
+        <?php echo wp_kses_post( get_field('podtytul') ); ?>
 </p>
         </div>
     </div>
@@ -31,7 +31,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-        <?php echo the_content(); ?>
+        <?php the_content(); ?>
         </div>
     </div>
 </div>

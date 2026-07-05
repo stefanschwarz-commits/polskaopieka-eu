@@ -17,13 +17,13 @@
 <div class="container">
 <div class="row justify-content-center">
     <div class="col-md-8">
-    <h1 class="my-0 py-0"> <?php echo the_title(); ?></h1>
+    <h1 class="my-0 py-0"> <?php the_title(); ?></h1>
 
         <div class="col-md-7">
         <p class="mt-1 mb-2">
-        <?php echo get_field('podtytul'); ?>
+        <?php echo wp_kses_post( get_field('podtytul') ); ?>
 </p>
-<a class="btn btn-arrow mx-auto w-auto p-0" style="color: white;" href="<?php echo get_field('link_do_zobacz_oferte'); ?>">zobacz ofertę <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right-white.svg" alt="strzałka"></a>
+<a class="btn btn-arrow mx-auto w-auto p-0" style="color: white;" href="<?php echo esc_url( get_field('link_do_zobacz_oferte') ); ?>">zobacz ofertę <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right-white.svg" alt="strzałka"></a>
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-        <?php echo the_content(); ?>
+        <?php the_content(); ?>
         </div>
     </div>
 </div>

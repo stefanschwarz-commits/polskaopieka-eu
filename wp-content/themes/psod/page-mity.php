@@ -24,10 +24,10 @@
             $nazwa = get_sub_field('nazwa');
     ?>
     <div class="col-md-6 col-lg-3 d-flex">
-            <div class="myth d-flex w-100 nav-link" data-bs-toggle="pill" data-bs-target="#pills-<?php echo $alphas[$i]; ?>" type="button" role="tab" aria-controls="pills-<?php echo $alphas[$i]; ?> aria-selected="false">
+            <div class="myth d-flex w-100 nav-link" data-bs-toggle="pill" data-bs-target="#pills-<?php echo esc_attr( $alphas[$i] ); ?>" type="button" role="tab" aria-controls="pills-<?php echo esc_attr( $alphas[$i] ); ?> aria-selected="false">
                 <img class="myth__fake" src="<?= get_template_directory_uri(); ?>/assets/fake.svg" alt="">
                 <div class="myth__text text-center d-flex align-items-center">
-                <?php echo $nazwa; ?>
+                <?php echo esc_html( $nazwa ); ?>
                 </div>
             </div>
         </div>
@@ -60,14 +60,14 @@ if( have_rows("mity", "option") ):
         $images = get_sub_field('zdjecia');
         $txt = get_sub_field('opis');
         ?>
-    <div class="row justify-content-between tab-pane fade" id="pills-<?php echo $alphas[$i]; ?>" role="tabpanel" aria-labelledby="pills-contact-tab">
+    <div class="row justify-content-between tab-pane fade" id="pills-<?php echo esc_attr( $alphas[$i] ); ?>" role="tabpanel" aria-labelledby="pills-contact-tab">
          <div class="col-md-7">
-        <?php echo $txt; ?>
+        <?php echo wp_kses_post( $txt ); ?>
         </div>
         <div class="col-md-4 order-md-first mt-4 mt-md-0">
         <?php foreach( $images as $image ): ?>
-            <img class="w-100" src="<?= $image ?>">
-        <?php endforeach; ?>    
+            <img class="w-100" src="<?= esc_url( $image ) ?>">
+        <?php endforeach; ?>
     
         </div>
     </div>

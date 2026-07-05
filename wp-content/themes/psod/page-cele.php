@@ -17,16 +17,16 @@
                 $text = get_sub_field('tekst');
 
         ?>
-        <div class="row justify-content-between" id="<?php echo  str_replace(' ', '-', strtolower($heading)); ?>">
+        <div class="row justify-content-between" id="<?php echo esc_attr( str_replace(' ', '-', strtolower($heading)) ); ?>">
         <div class="col-md-6">
-        <img class="img-fluid w-100" style="height: 100%; max-height: 306px; object-fit: cover;" src="<?php echo $img_url; ?>" alt="">
+        <img class="img-fluid w-100" style="height: 100%; max-height: 306px; object-fit: cover;" src="<?php echo esc_url( $img_url ); ?>" alt="">
         </div>
         <div class="col-md-6 <?php if($counter % 2 !== 0) {echo 'order-md-first';} ?>">
         <h3 class="cel__heading mb-3 mt-4 mt-md-0 <?php if($counter % 2 == 0) {echo 'ms-lg-5';} ?>">
-        <?php echo $heading; ?>
+        <?php echo esc_html( $heading ); ?>
         </h3>
         <p class="cel__text <?php if($counter % 2 == 0) {echo 'ms-lg-5';} ?>">
-        <?php echo $text; ?>
+        <?php echo wp_kses_post( $text ); ?>
         </p>
         <a class="btn btn-arrow mx-auto w-auto mt-3 p-0 <?php if($counter % 2 == 0) {echo 'ms-lg-5';} ?>" href="/kontakt">Porozmawiajmy <img class="ms-1" src="<?= get_template_directory_uri(); ?>/assets/arrow-right.svg" alt=""></a>
         </div>

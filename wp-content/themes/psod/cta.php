@@ -7,9 +7,9 @@
         <div class="row justify-content-center">
             <div class="col d-flex justify-content-center text-center">
                 <div class="cta">
-                    <div class="cta__heading"><? echo get_field("cta", "option")['cta']['naglowek'];  ?></div>
-                    <div class="cta__text py-4"><? echo get_field("cta", "option")['cta']['tekst'];  ?></div>
-                    <a class="btn cta__btn" href="<? echo get_field("cta", "option")['cta']['czytaj_wiecej'];  ?>">Więcej informacji</a>
+                    <div class="cta__heading"><?php echo esc_html( get_field("cta", "option")['cta']['naglowek'] ); ?></div>
+                    <div class="cta__text py-4"><?php echo wp_kses_post( get_field("cta", "option")['cta']['tekst'] ); ?></div>
+                    <a class="btn cta__btn" href="<?php echo esc_url( get_field("cta", "option")['cta']['czytaj_wiecej'] ); ?>">Więcej informacji</a>
                 </div>
             </div>
         </div>

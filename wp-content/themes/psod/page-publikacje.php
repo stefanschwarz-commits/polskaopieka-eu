@@ -20,13 +20,13 @@
             <div class="col-md-6">
                 <div class="publication row align-items-center">
                 <div class="col-md-6">
-                    <img class="publication__img img-fluid w-100" src="<?php echo get_field('zdjecie', $post->ID) ?>" alt="">
+                    <img class="publication__img img-fluid w-100" src="<?php echo esc_url( get_field('zdjecie', $post->ID) ); ?>" alt="">
                 </div>
                 <div class="col-md-6">
                     <div class="publication__date mb-2 mt-3 mt-md-0"><?php the_time( 'F j, Y' ); ?></div>
                     <div class="publication__heading mb-3"><?php the_title(); ?></div>
-                    <div class="publication__text mb-4"><?php echo get_field('opis', $post->ID); ?></div>
-                    <a class="btn btn-primary" href="<?php echo get_field('plik', $post->ID) ?>" target="_blank">Zobacz raport</a>
+                    <div class="publication__text mb-4"><?php echo wp_kses_post( get_field('opis', $post->ID) ); ?></div>
+                    <a class="btn btn-primary" href="<?php echo esc_url( get_field('plik', $post->ID) ); ?>" target="_blank">Zobacz raport</a>
                 </div>
                 </div>
             </div>
@@ -60,13 +60,13 @@
             <div class="col-md-6">
                 <div class="publication row align-items-center">
                 <div class="col-md-6">
-                    <img class="publication__img img-fluid w-100" src="<?php echo get_field('zdjecie', $post->ID) ?>" alt="">
+                    <img class="publication__img img-fluid w-100" src="<?php echo esc_url( get_field('zdjecie', $post->ID) ); ?>" alt="">
                 </div>
                 <div class="col-md-6">
                     <div class="publication__date mb-2 mt-3 mt-md-0"><?php the_time( 'F j, Y' ); ?></div>
                     <div class="publication__heading mb-3"><?php the_title(); ?></div>
-                    <div class="publication__text mb-4"><?php echo get_field('opis', $post->ID); ?></div>
-                    <a class="btn btn-primary" href="<?php echo get_field('plik', $post->ID) ?>" target="_blank">Zobacz raport</a>
+                    <div class="publication__text mb-4"><?php echo wp_kses_post( get_field('opis', $post->ID) ); ?></div>
+                    <a class="btn btn-primary" href="<?php echo esc_url( get_field('plik', $post->ID) ); ?>" target="_blank">Zobacz raport</a>
                 </div>
                 </div>
             </div>

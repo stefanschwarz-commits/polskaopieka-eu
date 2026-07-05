@@ -24,9 +24,9 @@
             ?>
                 <div class="col-md-6">
                     <div class="provider">
-                    <img class="img-fluid" src="<?php echo $logo; ?>" alt="usługodawca">
-                        <div class="provider__name mt-4"><?php echo $name; ?></div>
-                        <div class="provider__address"><?php echo $address; ?></div>
+                    <img class="img-fluid" src="<?php echo esc_url( $logo ); ?>" alt="usługodawca">
+                        <div class="provider__name mt-4"><?php echo esc_html( $name ); ?></div>
+                        <div class="provider__address"><?php echo wp_kses_post( $address ); ?></div>
                         <a class="provider__link" href="<?php echo esc_url($link['url']); ?>"><?php echo esc_html($link['title']); ?></a>
                     </div>
                     </div>

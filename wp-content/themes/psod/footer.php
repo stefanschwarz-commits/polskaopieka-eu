@@ -37,7 +37,7 @@
 
 				<div class="d-flex flex-row me-3 justify-content-center mb-2 mb-md-0 justify-content-md-between">
 				<div class="me-3 me-md-5">©<?php echo date("Y"); ?>  |   All right reserved</div>
-				<div class="me-3 me-md-5"><a href="<? echo get_field("stopka", "option")['polityka_prywatnosci_link'];  ?>" target="_blank">Polityka prywatności</a></div>
+				<div class="me-3 me-md-5"><a href="<?php echo esc_url( get_field("stopka", "option")['polityka_prywatnosci_link'] ); ?>" target="_blank">Polityka prywatności</a></div>
 				</div>
 				<div>
 				designed by &nbsp;<a class="text-decoration-underline" href="https://www.mocio.co/" target="_blank">mocio.co</a>
