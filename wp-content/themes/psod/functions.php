@@ -315,3 +315,23 @@ add_filter( 'wpcf7_form_elements', function($form) {
 		return '...'; // Zmienia zakończenie excerpt na "..."
 	}
 	add_filter('excerpt_more', 'custom_excerpt_more');
+
+
+// === PSOD-SECURITY-HARDENING: blokada enumeracji loginow uzytkownikow ===
+
+// Ukryj endpoint REST /wp/v2/users (i /wp/v2/users/<id>) przed niezalogowanymi.
+add_filter( 'rest_endpoints', function( $endpoints ) {
+	if ( ! is_user_logged_in() ) {
+		unset( $endpoints['/wp/v2/users'] );
+		unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+	}
+	return $endpoints;
+} );
+
+// Zablokuj enumeracje autorow przez ?author=N (przekieruj na strone glowna).
+add_action( 'template_redirect', function () {
+	if ( is_author() && isset( $_GET['author'] ) ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+} );
