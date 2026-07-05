@@ -41,6 +41,18 @@ ostrożnie: kopie zapasowe plików robione przed edycją (`wp-config.php.bak_*`,
 na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, weryfikacja na żywo
 (curl) po każdej zmianie.
 
+## Co już NAPRAWIONE i wgrane na produkcję (2026-07-05, cd.)
+8. **Login „admin" publicznie widoczny** przez `/wp-json/wp/v2/users` i `?author=1` —
+   **NAPRAWIONE i wgrane**. W `functions.php` motywu psod dodano: filtr `rest_endpoints`
+   usuwający `/wp/v2/users` i `/wp/v2/users/(?P<id>)` dla niezalogowanych, oraz hook
+   `template_redirect` (priorytet 0!) przekierowujący `?author=` na stronę główną.
+   WAŻNE: musi być priorytet 0, bo WP core `redirect_canonical()` wisi na tym samym hooku
+   z priorytetem 10 i zdąży przekierować `?author=1` → `/author/<login>/` zanim odpali się
+   hook na priorytecie 10 — sprawdzone empirycznie (pierwsza wersja z priorytetem domyślnym
+   NIE zadziałała, poprawiona i zweryfikowana curl-em: `/wp-json/wp/v2/users` → 404,
+   `?author=1` i `?author=99` → 301 na `/`). Backup pliku na serwerze:
+   `functions.php.bak_20260705`.
+
 ## Co NIE jest jeszcze zrobione (do kontynuacji)
 1. **Aktualizacja WordPress**: rdzeń 6.7.1 → aktualny 7.0 (sprawdzić ponownie aktualną wersję,
    bo czas płynie). Kilka wersji major zaległości.
@@ -49,17 +61,14 @@ na serwerze), walidacja składni PHP (`php8.1 -l`) po edycji wp-config.php, wery
    Custom Post Type UI 1.17.2→1.19.2, TranslatePress 2.5.3→3.2.3,
    webp-converter-for-media 6.1.3→6.6.1. ACF Pro i TranslatePress Business to płatne wtyczki
    spoza wordpress.org — nie da się sprawdzić wersji przez publiczne API, trzeba w wp-adminie.
-3. **Login „admin" publicznie widoczny** przez `/wp-json/wp/v2/users` i `?author=1` — w połączeniu
-   z botami brute-force to ryzyko. Rozwiązanie: odfiltrować REST endpoint użytkowników dla
-   niezalogowanych i/lub zablokować `?author=` enumerację, docelowo rozważyć zmianę loginu.
-4. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
+3. **Dziesiątki miejsc w motywie z polami ACF wypisywanymi bez `esc_html`/`esc_url`/`wp_kses`**
    (front-page.php i prawie każdy `page-*.php`) — ryzyko stored XSS tylko jeśli ktoś o niższych
    uprawnieniach edytuje te pola (obecnie prawdopodobnie tylko admin/Stefan edytuje treści, więc
    priorytet niższy niż punkty 1-3, ale warto zrobić jako hardening).
-5. **Optymalizacja wydajności**: brak wtyczki cache (żadnej z: WP Super Cache/W3TC/LiteSpeed
+4. **Optymalizacja wydajności**: brak wtyczki cache (żadnej z: WP Super Cache/W3TC/LiteSpeed
    Cache/WP Rocket), brak nagłówka `Cache-Control` na stronie. Gzip jest włączony. Warto dodać
    cache stron + ewentualnie CDN dla assetów.
-6. Rozważyć SRI (Subresource Integrity) dla skryptów ładowanych z publicznych CDN
+5. Rozważyć SRI (Subresource Integrity) dla skryptów ładowanych z publicznych CDN
    (`functions.php` linie z `wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/...')`).
 
 ## Ważna uwaga o bezpieczeństwie procesu
