@@ -128,7 +128,7 @@ get_footer();
    max-width: inherit !important;
 }
 </style>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8LOzylYhgBGZGw4e3DUCG3Dlp8NcIXJs"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr( defined( 'PSOD_GOOGLE_MAPS_API_KEY' ) ? PSOD_GOOGLE_MAPS_API_KEY : '' ); ?>"></script>
 <script type="text/javascript">
 (function( $ ) {
 

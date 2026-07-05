@@ -90,7 +90,7 @@ endif;
 <?php
 
 if(isset($_GET['fake'])) {
-    $id = $_GET['fake'];
+    $id = absint($_GET['fake']);
 } else {
     $id = 1;
 }

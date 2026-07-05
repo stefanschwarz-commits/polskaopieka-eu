@@ -212,15 +212,21 @@ add_filter('nav_menu_css_class', 'add_additional_class_on_li', 1, 3);
 remove_filter( 'the_excerpt', 'wpautop' );
 
 // Method 1: Filter.
+// Klucz Google Maps NIE jest wpisany na sztywno w kodzie - patrz wp-config.php
+// (define('PSOD_GOOGLE_MAPS_API_KEY', '...')) na serwerze produkcyjnym.
 function my_acf_google_map_api( $api ){
-    $api['key'] = 'AIzaSyD8LOzylYhgBGZGw4e3DUCG3Dlp8NcIXJs';
+    if ( defined( 'PSOD_GOOGLE_MAPS_API_KEY' ) ) {
+        $api['key'] = PSOD_GOOGLE_MAPS_API_KEY;
+    }
     return $api;
 }
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 
 
 function my_acf_init() {
-    acf_update_setting('google_api_key', 'xxx');
+    if ( defined( 'PSOD_GOOGLE_MAPS_API_KEY' ) ) {
+        acf_update_setting('google_api_key', PSOD_GOOGLE_MAPS_API_KEY);
+    }
 }
 add_action('acf/init', 'my_acf_init');
 
@@ -290,10 +296,10 @@ function url_to_title( $url ) {
 }
 
 
-add_filter( 'wpcf7_form_elements', function($form) { 
-	$val = url_to_title($_SERVER['REQUEST_URI']);
-	$form = str_replace( 'pageurl', $val, $form ); 
-	return $form; 
+add_filter( 'wpcf7_form_elements', function($form) {
+	$val = esc_attr( url_to_title( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) );
+	$form = str_replace( 'pageurl', $val, $form );
+	return $form;
 	} );
 
 
