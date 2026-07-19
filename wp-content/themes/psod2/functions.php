@@ -1,0 +1,97 @@
+<?php
+/**
+ * PSOD 2026 — functions and definitions
+ *
+ * Nowy motyw strony polskaopieka.eu (redesign). Etap: szkielet + strona główna
+ * (treść na razie statyczna, docelowo edytowalna przez pola ACF).
+ *
+ * @package PSOD2
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Brak bezpośredniego dostępu.
+}
+
+if ( ! defined( 'PSOD2_VERSION' ) ) {
+	define( 'PSOD2_VERSION', '0.1.0' );
+}
+
+/**
+ * Podstawowa konfiguracja motywu.
+ */
+function psod2_setup() {
+	load_theme_textdomain( 'psod2', get_template_directory() . '/languages' );
+
+	add_theme_support( 'automatic-feed-links' );
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'post-thumbnails' );
+	add_theme_support(
+		'html5',
+		array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' )
+	);
+	add_theme_support( 'responsive-embeds' );
+
+	register_nav_menus(
+		array(
+			'primary' => __( 'Menu główne', 'psod2' ),
+			'footer'  => __( 'Menu w stopce', 'psod2' ),
+		)
+	);
+}
+add_action( 'after_setup_theme', 'psod2_setup' );
+
+/**
+ * Wczytanie stylów i skryptów.
+ *
+ * Fonty: Fraunces (serif) + Poppins (sans) z Google Fonts — zgodnie z projektem.
+ * TODO (RODO/wydajność): rozważyć self-hosting fontów zamiast Google Fonts.
+ */
+function psod2_assets() {
+	// Google Fonts.
+	wp_enqueue_style(
+		'psod2-fonts',
+		'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Poppins:wght@400;500;600;700&display=swap',
+		array(),
+		null
+	);
+
+	// Główny arkusz stylów motywu (zawiera tokeny + cały layout).
+	wp_enqueue_style(
+		'psod2-style',
+		get_stylesheet_uri(),
+		array( 'psod2-fonts' ),
+		PSOD2_VERSION
+	);
+
+	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ).
+	wp_enqueue_script(
+		'psod2-script',
+		get_template_directory_uri() . '/js/psod.js',
+		array(),
+		PSOD2_VERSION,
+		true
+	);
+
+	// Ścieżka bazowa do assetów dla JS (ikony filarów ładowane dynamicznie).
+	wp_add_inline_script(
+		'psod2-script',
+		'var PSOD_ASSETS=' . wp_json_encode( get_template_directory_uri() . '/assets' ) . ';',
+		'before'
+	);
+}
+add_action( 'wp_enqueue_scripts', 'psod2_assets' );
+
+/**
+ * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
+ */
+function psod2_resource_hints( $urls, $relation_type ) {
+	if ( 'preconnect' === $relation_type ) {
+		$urls[] = array( 'href' => 'https://fonts.googleapis.com' );
+		$urls[] = array(
+			'href'        => 'https://fonts.gstatic.com',
+			'crossorigin' => 'anonymous',
+		);
+	}
+	return $urls;
+}
+add_filter( 'wp_resource_hints', 'psod2_resource_hints', 10, 2 );
