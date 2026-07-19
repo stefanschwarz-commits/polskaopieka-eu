@@ -46,7 +46,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= WYZWANIA CYWILIZACYJNE ======================= -->
-<section class="challenges">
+<section class="challenges" id="wyzwania">
 	<div class="wrap wrap--wide">
 		<div class="sec-head">
 			<h2>Wyzwania cywilizacyjne</h2>
@@ -62,7 +62,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= APEL DO RZĄDU ======================= -->
-<section class="appeal">
+<section class="appeal" id="apel">
 	<div class="wrap wrap--wide">
 		<div class="grid">
 			<a class="appeal__doc" href="<?php echo esc_url( $stanowisko_pdf ); ?>" target="_blank" rel="noopener" style="display:block">
@@ -84,7 +84,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 // TODO: zastąpić pętlą WP_Query po typie „aktualnosci". Zdjęcia ponizej to prawdziwe
 // zdjęcia tych samych wpisów z produkcji (polskaopieka.eu/aktualnosci), pobrane recznie.
 ?>
-<section class="news">
+<section class="news" id="aktualnosci">
 	<div class="wrap wrap--wide">
 		<div class="news__head"><h2>Aktualności</h2></div>
 		<a class="news__feat" href="#">
@@ -139,7 +139,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= PRIORYTETY ======================= -->
-<section class="priorities">
+<section class="priorities" id="priorytety">
 	<div class="wrap wrap--wide">
 		<div class="sec-head">
 			<h2>Nasze priorytety</h2>
@@ -156,7 +156,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= DZIAŁALNOŚĆ ======================= -->
-<section class="activity">
+<section class="activity" id="dzialalnosc">
 	<div class="wrap">
 		<div class="sec-head">
 			<h2>Nasza działalność</h2>
@@ -190,7 +190,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= PUBLIKACJE ======================= -->
-<section class="pubs">
+<section class="pubs" id="publikacje">
 	<div class="wrap wrap--wide">
 		<div class="grid">
 			<div class="pubs__cover"><img src="<?php echo esc_url( $assets . '/report-cover.jpg' ); ?>" alt="Okładka raportu „Wyzwania branży opieki domowej 2024”"></div>
@@ -207,7 +207,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 </section>
 
 <!-- ======================= Q&A ======================= -->
-<section class="faq">
+<section class="faq" id="qa">
 	<div class="wrap">
 		<div class="faq__head"><h2>Pytania i odpowiedzi</h2></div>
 		<div class="faq__list">

@@ -17,14 +17,14 @@ $psod2_assets = get_template_directory_uri() . '/assets';
 		</div>
 		<div>
 			<h4><?php esc_html_e( 'Na skróty', 'psod2' ); ?></h4>
-			<a href="#"><?php esc_html_e( 'Wyzwania cywilizacyjne', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Nasze priorytety', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Nasza działalność', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Apel do rządu', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Publikacje', 'psod2' ); ?></a>
+			<a href="#wyzwania"><?php esc_html_e( 'Wyzwania cywilizacyjne', 'psod2' ); ?></a>
+			<a href="#priorytety"><?php esc_html_e( 'Nasze priorytety', 'psod2' ); ?></a>
+			<a href="#dzialalnosc"><?php esc_html_e( 'Nasza działalność', 'psod2' ); ?></a>
+			<a href="#apel"><?php esc_html_e( 'Apel do rządu', 'psod2' ); ?></a>
+			<a href="#publikacje"><?php esc_html_e( 'Publikacje', 'psod2' ); ?></a>
 			<a href="#"><?php esc_html_e( 'Szkolenia', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Q&A', 'psod2' ); ?></a>
-			<a href="#"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a>
+			<a href="#qa"><?php esc_html_e( 'Q&A', 'psod2' ); ?></a>
+			<a href="#aktualnosci"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a>
 		</div>
 		<div>
 			<h4><?php esc_html_e( 'Kontakt', 'psod2' ); ?></h4>

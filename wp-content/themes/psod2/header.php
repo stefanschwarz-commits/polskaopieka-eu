@@ -27,9 +27,25 @@
 			// TODO: podpiąć pod TranslatePress (PL/DE/EN). Na razie statyczny wskaźnik.
 			?>
 			<span class="lang"><b>PL</b> | DE | EN</span>
-			<button class="burger" aria-label="<?php esc_attr_e( 'Menu', 'psod2' ); ?>">
+			<button class="burger" id="menuToggle" aria-label="<?php esc_attr_e( 'Menu', 'psod2' ); ?>" aria-controls="mainNav" aria-expanded="false">
 				<i></i><i></i><i></i>
 			</button>
 		</div>
 	</div>
 </header>
+
+<!-- ======================= MENU GŁÓWNE (pełnoekranowa nakładka) ======================= -->
+<nav class="mainnav" id="mainNav" aria-hidden="true" aria-label="<?php esc_attr_e( 'Menu główne', 'psod2' ); ?>">
+	<div class="mainnav__inner">
+		<ul class="mainnav__list">
+			<li><a href="#wyzwania">Wyzwania cywilizacyjne</a></li>
+			<li><a href="#priorytety">Nasze priorytety</a></li>
+			<li><a href="#dzialalnosc">Nasza działalność</a></li>
+			<li><a href="#apel">Apel do rządu</a></li>
+			<li><a href="#publikacje">Publikacje</a></li>
+			<li><a href="#">Szkolenia</a></li>
+			<li><a href="#qa">Q&amp;A</a></li>
+			<li><a href="#aktualnosci">Aktualności</a></li>
+		</ul>
+	</div>
+</nav>

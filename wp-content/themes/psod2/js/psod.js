@@ -3,6 +3,68 @@
    PSOD — interakcje strony głównej (vanilla JS, bez zależności)
    ============================================================ */
 
+/* --- 0. Menu główne: hamburger otwiera/zamyka pełnoekranową nakładkę --- */
+(function(){
+  var btn=document.getElementById('menuToggle');
+  var nav=document.getElementById('mainNav');
+  if(!btn||!nav) return;
+  function close(){
+    nav.classList.remove('is-open');
+    btn.classList.remove('is-active');
+    btn.setAttribute('aria-expanded','false');
+    nav.setAttribute('aria-hidden','true');
+    document.body.classList.remove('nav-open');
+  }
+  function open(){
+    nav.classList.add('is-open');
+    btn.classList.add('is-active');
+    btn.setAttribute('aria-expanded','true');
+    nav.setAttribute('aria-hidden','false');
+    document.body.classList.add('nav-open');
+  }
+  btn.addEventListener('click',function(){
+    nav.classList.contains('is-open') ? close() : open();
+  });
+  [].forEach.call(nav.querySelectorAll('a'),function(a){
+    a.addEventListener('click',close);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') close();
+  });
+})();
+
+/* --- 0b. Kotwice w obrębie strony: jawny scroll (nakładka menu potrafi
+   ubić natywny skok przeglądarki do #id, jeśli oba dzieją się w tym samym
+   kliknięciu) --- */
+(function(){
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id=a.getAttribute('href').slice(1);
+    if(!id) return;
+    var target=document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    window.setTimeout(function(){
+      var before=window.pageYOffset;
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      // Zabezpieczenie: jesli plynny scroll z jakiegos powodu sie nie ruszy
+      // (np. reduced-motion, ograniczenia srodowiska), wymus natychmiastowy.
+      // Uwaga: opcja {behavior:'auto'} sama w sobie nie zawsze nadpisuje CSS
+      // `scroll-behavior:smooth` — trzeba tymczasowo zmienic sama wlasciwosc.
+      window.setTimeout(function(){
+        if(Math.abs(window.pageYOffset - before) < 2){
+          var prevBehavior=document.documentElement.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior='auto';
+          target.scrollIntoView({block:'start'});
+          document.documentElement.style.scrollBehavior=prevBehavior;
+        }
+      }, 350);
+      history.pushState(null,'','#'+id);
+    }, 50);
+  });
+})();
+
 /* --- 1. Demografia: suwak roku + refleksja --- */
 (function(){
   var TERAZ=2026, MIN=1940, MAX=2012;
