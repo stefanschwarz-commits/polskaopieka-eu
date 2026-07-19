@@ -56,19 +56,23 @@ function psod2_assets() {
 	);
 
 	// Główny arkusz stylów motywu (zawiera tokeny + cały layout).
+	// Wersjonowanie po dacie modyfikacji pliku (nie stałej), zeby cache
+	// przegladarki/serwera samo sie uniewazialo przy kazdej zmianie CSS/JS
+	// w trakcie prac nad motywem - bez recznego podbijania numerku.
 	wp_enqueue_style(
 		'psod2-style',
 		get_stylesheet_uri(),
 		array( 'psod2-fonts' ),
-		PSOD2_VERSION
+		file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : PSOD2_VERSION
 	);
 
 	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ).
+	$psod2_js_path = get_template_directory() . '/js/psod.js';
 	wp_enqueue_script(
 		'psod2-script',
 		get_template_directory_uri() . '/js/psod.js',
 		array(),
-		PSOD2_VERSION,
+		file_exists( $psod2_js_path ) ? filemtime( $psod2_js_path ) : PSOD2_VERSION,
 		true
 	);
 

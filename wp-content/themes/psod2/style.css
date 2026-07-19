@@ -181,7 +181,8 @@ body.nav-open{overflow:hidden}
 .news__head h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;color:var(--tekst)}
 .news__feat{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center;text-decoration:none;color:inherit}
 .news__featimg{aspect-ratio:16/10;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-raise);background:var(--mgla)}
-.news__featimg img{width:100%;height:100%;object-fit:cover;display:block}
+.news__featimg img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) brightness(1.02) contrast(.95);transition:filter var(--dur-slow) ease,transform var(--dur-slow) ease}
+.news__feat:hover .news__featimg img{filter:none;transform:scale(1.03)}
 .news__featimg span{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tekst-2)}
 .news__featimg--placeholder{border:1.5px dashed var(--linia);display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}
 .news__feat h3{font-family:var(--font-serif);font-weight:300;font-size:clamp(22px,2.6vw,32px);line-height:1.4;color:var(--tekst);margin-bottom:12px}
@@ -191,7 +192,8 @@ body.nav-open{overflow:hidden}
 .news__grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:64px;padding-top:56px;border-top:1px solid var(--linia)}
 .newscard{display:grid;grid-template-columns:180px 1fr;gap:26px;align-items:start;text-decoration:none;color:inherit}
 .newscard__foto{overflow:hidden;border-radius:var(--r-xl);background:var(--mgla);aspect-ratio:4/3}
-.newscard__foto img{width:100%;height:100%;object-fit:cover;display:block}
+.newscard__foto img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) brightness(1.02) contrast(.95);transition:filter var(--dur-slow) ease,transform var(--dur-slow) ease}
+.newscard:hover .newscard__foto img{filter:none;transform:scale(1.03)}
 .newscard__foto span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tekst-3)}
 .newscard__foto--placeholder{border:1.5px dashed var(--linia);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px}
 .newscard h3{font-family:var(--font-serif);font-weight:340;font-size:18.5px;line-height:1.5;color:var(--tekst);margin-bottom:8px;transition:color var(--dur-fast)}
