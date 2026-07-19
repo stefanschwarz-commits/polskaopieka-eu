@@ -1,0 +1,5 @@
+/* PSOD — Webfonty
+   Fraunces (serif) + Poppins (sans) z Google Fonts.
+   Logotyp używa Aktiv Grotesk Ex XBold — font komercyjny, NIE dołączony;
+   występuje wyłącznie w plikach logo (assets/logo-*.png), nie w treści strony. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Poppins:wght@400;500;600;700&display=swap');

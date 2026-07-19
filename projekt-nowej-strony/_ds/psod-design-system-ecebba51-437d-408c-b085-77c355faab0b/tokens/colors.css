@@ -1,0 +1,54 @@
+/* PSOD — Kolory
+   Reguły twarde (z brief PSOD):
+   1. ZERO czerni (#000). Najciemniejszy dozwolony ton: #4A4B52.
+   2. Fiolet WYŁĄCZNIE #BB16A3 — bez pochodnych. Symbol Alzheimera + litera „Q" (jakość). Używać oszczędnie.
+   3. Paleta bazowa: biel + szarości. Błękit #5E8CA0 = jedyny dodatkowy kolor (opieka).
+   4. Czerwień #CE2029 istnieje wyłącznie jako stempel „MIT". */
+:root{
+  /* — Marka — */
+  --psod-fiolet:#BB16A3;        /* Pantone 247 C · CMYK 40,95,0,0 · kolor wiodący */
+  --psod-fiolet-cisnienie:#9C118A; /* wyłącznie stan :hover/:active na fioletowym CTA */
+
+  /* — Neutralne (biel + szarości; brak czerni) — */
+  --psod-biel:#FFFFFF;
+  --psod-tekst:#4A4B52;         /* tekst podstawowy — najciemniejszy dozwolony ton */
+  --psod-tekst-2:#7B7C84;       /* tekst drugorzędny */
+  --psod-tekst-3:#A8A9B0;       /* etykiety, źródła, wartości pomocnicze */
+  --psod-mgla:#F1F1F3;          /* tła sekcji naprzemiennych */
+  --psod-linia:#E6E6E9;         /* obramowania, separatory */
+
+  /* — Błękit opiekuńczy — */
+  --psod-opieka:#5E8CA0;        /* jedyny kolor uzupełniający */
+  --psod-opieka-tlo:#E7F0F4;    /* tło bloków w błękicie */
+
+  /* — Sygnał (zarezerwowany) — */
+  --psod-fejk:#CE2029;          /* WYŁĄCZNIE stempel „MIT" — nigdzie indziej */
+
+  /* — Stopka (jedyne „ciemne" tło) — */
+  --psod-stopka-tlo:#4A4B52;
+  --psod-stopka-tekst:#C9CBD1;
+  --psod-stopka-tekst-2:#8E9096;
+
+  /* ——— Aliasy semantyczne ——— */
+  --color-brand:var(--psod-fiolet);
+  --color-brand-press:var(--psod-fiolet-cisnienie);
+  --color-care:var(--psod-opieka);
+  --color-danger:var(--psod-fejk);
+
+  --text-primary:var(--psod-tekst);
+  --text-secondary:var(--psod-tekst-2);
+  --text-muted:var(--psod-tekst-3);
+  --text-on-brand:var(--psod-biel);
+
+  --surface:var(--psod-biel);
+  --surface-muted:var(--psod-mgla);
+  --surface-care:var(--psod-opieka-tlo);
+  --surface-dark:var(--psod-stopka-tlo);
+
+  --border:var(--psod-linia);
+  --border-strong:var(--psod-tekst-2);
+
+  /* Zaznaczenie tekstu (::selection) */
+  --selection-bg:var(--psod-fiolet);
+  --selection-fg:var(--psod-biel);
+}

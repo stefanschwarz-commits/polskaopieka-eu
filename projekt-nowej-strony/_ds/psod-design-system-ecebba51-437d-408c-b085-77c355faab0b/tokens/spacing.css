@@ -1,0 +1,44 @@
+/* PSOD — Przestrzeń, promienie, cienie, ruch */
+:root{
+  /* Skala odstępów (px) */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:22px;
+  --space-6:28px;
+  --space-7:34px;
+  --space-8:48px;
+  --space-9:64px;
+  --space-10:88px;     /* rytm pionowy sekcji (padding) */
+  --space-11:104px;
+  --space-12:120px;
+
+  --wrap-max:1140px;   /* maks. szerokość kontenera treści */
+  --wrap-pad:32px;     /* padding boczny kontenera */
+
+  /* Promienie */
+  --radius-xs:3px;     /* stempel „MIT" */
+  --radius-sm:8px;     /* pola formularza */
+  --radius-md:10px;    /* dokumenty, okładki */
+  --radius-lg:14px;    /* karty, kafle */
+  --radius-xl:18px;    /* duże kadry ze zdjęciami */
+  --radius-pill:999px; /* przyciski CTA */
+
+  /* Obramowania */
+  --border-hair:1px solid var(--border);
+  --border-placeholder:1.5px dashed var(--border);  /* jednolity wzór placeholdera */
+
+  /* Cienie — miękkie, chłodne (bazują na tekscie #4A4B52, nie na czerni) */
+  --shadow-card:0 14px 34px -18px rgba(74,75,82,.35);
+  --shadow-raise:0 24px 56px -28px rgba(74,75,82,.4);
+  --shadow-doc:0 30px 64px -28px rgba(74,75,82,.45),0 4px 12px rgba(74,75,82,.12);
+  --shadow-focus:0 0 0 3px #fff,0 0 0 6px var(--psod-fiolet); /* focus-visible */
+
+  /* Ruch — subtelny (dostępność: bez dezorientującego ruchu) */
+  --ease:cubic-bezier(.25,.8,.3,1); /* @kind other */
+  --dur-fast:.2s;    /* @kind other */
+  --dur-med:.25s;    /* @kind other */
+  --dur-slow:.45s;   /* @kind other */
+  --hover-lift:-1px; /* @kind other */
+}

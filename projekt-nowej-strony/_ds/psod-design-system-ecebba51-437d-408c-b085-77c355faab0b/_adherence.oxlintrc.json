@@ -1,0 +1,356 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/cards/**",
+              "components/core/**",
+              "components/forms/**",
+              "design_handoff_psod_website/ui_kit/**",
+              "ui_kits/website/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Fraunces|Poppins))/i]",
+        "message": "Font not provided by the design system. Available: Fraunces, Poppins."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ArrowLink'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|href|color|key|ref|className|style|children)$/]",
+        "message": "<ArrowLink> doesn't accept that prop. Declared props: children, href, color."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ArrowLink'] > JSXAttribute[name.name='color'] > Literal[value!=/^(?:brand|muted)$/]",
+        "message": "<ArrowLink> color must be one of 'brand' | 'muted'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|size|uppercase|href|onClick|disabled|type|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, size, uppercase, href, onClick, disabled, type."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'secondary'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit|reset)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit' | 'reset'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FaqItem'] > JSXAttribute > JSXIdentifier[name!=/^(?:question|children|defaultOpen|key|ref|className|style|children)$/]",
+        "message": "<FaqItem> doesn't accept that prop. Declared props: question, children, defaultOpen."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FilarCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:nr|title|children|empty|emptyLabel|key|ref|className|style|children)$/]",
+        "message": "<FilarCard> doesn't accept that prop. Declared props: nr, title, children, empty, emptyLabel."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Highlight'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
+        "message": "<Highlight> doesn't accept that prop. Declared props: children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MythTile'] > JSXAttribute > JSXIdentifier[name!=/^(?:myth|fact|onReveal|key|ref|className|style|children)$/]",
+        "message": "<MythTile> doesn't accept that prop. Declared props: myth, fact, onReveal."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NewsCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|date|image|href|layout|key|ref|className|style|children)$/]",
+        "message": "<NewsCard> doesn't accept that prop. Declared props: title, date, image, href, layout."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NewsCard'] > JSXAttribute[name.name='layout'] > Literal[value!=/^(?:mini|stacked)$/]",
+        "message": "<NewsCard> layout must be one of 'mini' | 'stacked'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NewsletterForm'] > JSXAttribute > JSXIdentifier[name!=/^(?:heading|description|placeholder|buttonLabel|rodo|onSubmit|key|ref|className|style|children)$/]",
+        "message": "<NewsletterForm> doesn't accept that prop. Declared props: heading, description, placeholder, buttonLabel, rodo, onSubmit."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Overline'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tone|as|key|ref|className|style|children)$/]",
+        "message": "<Overline> doesn't accept that prop. Declared props: children, tone, as."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Overline'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:muted|care)$/]",
+        "message": "<Overline> tone must be one of 'muted' | 'care'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Placeholder'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|radius|style|key|ref|className|style|children)$/]",
+        "message": "<Placeholder> doesn't accept that prop. Declared props: label, radius, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Stamp'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
+        "message": "<Stamp> doesn't accept that prop. Declared props: children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Tag'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
+        "message": "<Tag> doesn't accept that prop. Declared props: children."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "ArrowLink": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "FaqItem": {
+        "replaces": []
+      },
+      "FilarCard": {
+        "replaces": []
+      },
+      "Highlight": {
+        "replaces": []
+      },
+      "MythTile": {
+        "replaces": []
+      },
+      "NewsCard": {
+        "replaces": []
+      },
+      "NewsletterForm": {
+        "replaces": []
+      },
+      "Overline": {
+        "replaces": []
+      },
+      "Placeholder": {
+        "replaces": []
+      },
+      "Stamp": {
+        "replaces": []
+      },
+      "Tag": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--border",
+      "--border-hair",
+      "--border-placeholder",
+      "--border-strong",
+      "--color-brand",
+      "--color-brand-press",
+      "--color-care",
+      "--color-danger",
+      "--dur-fast",
+      "--dur-med",
+      "--dur-slow",
+      "--ease",
+      "--font-body",
+      "--font-display",
+      "--font-sans",
+      "--font-serif",
+      "--fs-body",
+      "--fs-body-sm",
+      "--fs-display-1",
+      "--fs-display-2",
+      "--fs-h2",
+      "--fs-h3",
+      "--fs-label",
+      "--fs-lead",
+      "--fs-nadtytul",
+      "--fs-rodo",
+      "--fs-title",
+      "--fs-ui",
+      "--fw-bold",
+      "--fw-light",
+      "--fw-medium",
+      "--fw-regular",
+      "--fw-semibold",
+      "--hover-lift",
+      "--lh-body",
+      "--lh-heading",
+      "--lh-relaxed",
+      "--lh-snug",
+      "--lh-tight",
+      "--ls-label",
+      "--ls-logo",
+      "--ls-nadtytul",
+      "--psod-biel",
+      "--psod-fejk",
+      "--psod-fiolet",
+      "--psod-fiolet-cisnienie",
+      "--psod-linia",
+      "--psod-mgla",
+      "--psod-opieka",
+      "--psod-opieka-tlo",
+      "--psod-stopka-tekst",
+      "--psod-stopka-tekst-2",
+      "--psod-stopka-tlo",
+      "--psod-tekst",
+      "--psod-tekst-2",
+      "--psod-tekst-3",
+      "--radius-lg",
+      "--radius-md",
+      "--radius-pill",
+      "--radius-sm",
+      "--radius-xl",
+      "--radius-xs",
+      "--selection-bg",
+      "--selection-fg",
+      "--shadow-card",
+      "--shadow-doc",
+      "--shadow-focus",
+      "--shadow-raise",
+      "--space-1",
+      "--space-10",
+      "--space-11",
+      "--space-12",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--space-9",
+      "--surface",
+      "--surface-care",
+      "--surface-dark",
+      "--surface-muted",
+      "--text-muted",
+      "--text-on-brand",
+      "--text-primary",
+      "--text-secondary",
+      "--wrap-max",
+      "--wrap-pad"
+    ],
+    "tokenKinds": {
+      "--psod-fiolet": "color",
+      "--psod-fiolet-cisnienie": "color",
+      "--psod-biel": "color",
+      "--psod-tekst": "color",
+      "--psod-tekst-2": "color",
+      "--psod-tekst-3": "color",
+      "--psod-mgla": "color",
+      "--psod-linia": "color",
+      "--psod-opieka": "color",
+      "--psod-opieka-tlo": "color",
+      "--psod-fejk": "color",
+      "--psod-stopka-tlo": "color",
+      "--psod-stopka-tekst": "color",
+      "--psod-stopka-tekst-2": "color",
+      "--color-brand": "color",
+      "--color-brand-press": "color",
+      "--color-care": "color",
+      "--color-danger": "color",
+      "--text-primary": "font",
+      "--text-secondary": "font",
+      "--text-muted": "font",
+      "--text-on-brand": "font",
+      "--surface": "color",
+      "--surface-muted": "color",
+      "--surface-care": "color",
+      "--surface-dark": "color",
+      "--border": "color",
+      "--border-strong": "color",
+      "--selection-bg": "color",
+      "--selection-fg": "color",
+      "--font-serif": "font",
+      "--font-sans": "font",
+      "--font-body": "font",
+      "--font-display": "font",
+      "--fw-light": "font",
+      "--fw-regular": "font",
+      "--fw-medium": "font",
+      "--fw-semibold": "font",
+      "--fw-bold": "font",
+      "--fs-display-1": "font",
+      "--fs-display-2": "font",
+      "--fs-h2": "font",
+      "--fs-h3": "font",
+      "--fs-title": "font",
+      "--fs-lead": "font",
+      "--fs-body": "font",
+      "--fs-body-sm": "font",
+      "--fs-ui": "font",
+      "--fs-label": "font",
+      "--fs-rodo": "font",
+      "--fs-nadtytul": "font",
+      "--lh-tight": "font",
+      "--lh-heading": "font",
+      "--lh-snug": "font",
+      "--lh-body": "font",
+      "--lh-relaxed": "font",
+      "--ls-nadtytul": "font",
+      "--ls-label": "font",
+      "--ls-logo": "font",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-9": "spacing",
+      "--space-10": "spacing",
+      "--space-11": "spacing",
+      "--space-12": "spacing",
+      "--wrap-max": "spacing",
+      "--wrap-pad": "spacing",
+      "--radius-xs": "radius",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-lg": "radius",
+      "--radius-xl": "radius",
+      "--radius-pill": "radius",
+      "--border-hair": "color",
+      "--border-placeholder": "color",
+      "--shadow-card": "shadow",
+      "--shadow-raise": "shadow",
+      "--shadow-doc": "shadow",
+      "--shadow-focus": "shadow",
+      "--ease": "other",
+      "--dur-fast": "other",
+      "--dur-med": "other",
+      "--dur-slow": "other",
+      "--hover-lift": "other"
+    },
+    "fontFamilies": [
+      "Fraunces",
+      "Poppins"
+    ]
+  }
+}
