@@ -99,8 +99,18 @@ tylko to, co specyficzne dla TEGO projektu.
   kpeu.pl, labourinstitute.eu jako "sklep", inicjatywa.eu). Vetting każdej osoby z dostępem do
   kodu/serwera musi brać pod uwagę, że błąd tutaj (np. w restrykcyjnym SSH shellu, albo w
   operacji na `wp-config.php`) może wpłynąć na cały ten zestaw stron.
-  - Repo lokalne **nie ma jeszcze skonfigurowanego remote'a na GitHubie** (jak `labormobilis`)
-    — do założenia, jeśli ktoś poza Stefanem ma tu pracować przez branch/PR.
+  - Repo lokalne ma remote na GitHubie: **https://github.com/stefanschwarz-commits/polskaopieka-eu**
+    (założone 2026-07, **PUBLICZNE**, gałąź główna `main` — uwaga: lokalnie historia była wcześniej
+    na `master`, przemianowana na `main` przy pierwszym pushu). Powód założenia: pole „Link code
+    from GitHub" w konfiguracji Claude Design + miejsce na ilustracje/assety.
+    - ⚠️ **Repo PUBLICZNE, a w historii commitów (starsze niż `fdd4ce0`) jest widoczny stary,
+      zaszyty klucz Google Maps API `AIzaSyD8...`** — Stefan świadomie zaakceptował push mimo tego,
+      z założeniem że **zrotuje ten klucz w Google Cloud Console** (usunięty z aktualnego kodu, ale
+      git pamięta historię; publiczne repo = klucz publicznie widoczny na zawsze). Jeśli w
+      przyszłej sesji dotykasz Google Maps: zweryfikuj z Stefanem, czy rotacja została zrobiona.
+    - Nowy remote NIE zmienia procedury wdrożeń: produkcja to nadal ręczne SSH/SFTP (Python+
+      paramiko) z procedurą backup→edycja→walidacja→weryfikacja. GitHub to na razie tylko
+      kopia kodu + assety dla Claude Design, NIE źródło deploymentu (brak CI/CD).
   - **UNIWERSALNY FAKT — Stefan nie przegląda diffów kodu** (dotyczy wszystkich projektów, nie
     tylko tego). Nie prosić go o code review przed commitem/wdrożeniem — działać, wdrażać po
     weryfikacji (backup + `php8.1 -l` + curl, jak już opisano wyżej w tym pliku), podsumowywać
