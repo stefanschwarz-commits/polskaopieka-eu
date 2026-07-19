@@ -81,14 +81,14 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 
 <!-- ======================= AKTUALNOŚCI ======================= -->
 <?php
-// TODO: zastąpić pętlą WP_Query po typie „aktualnosci”. Zdjęcia wpisów: placeholdery
-// (do dobrania później — decyzja Stefana).
+// TODO: zastąpić pętlą WP_Query po typie „aktualnosci". Zdjęcia ponizej to prawdziwe
+// zdjęcia tych samych wpisów z produkcji (polskaopieka.eu/aktualnosci), pobrane recznie.
 ?>
 <section class="news">
 	<div class="wrap wrap--wide">
 		<div class="news__head"><h2>Aktualności</h2></div>
 		<a class="news__feat" href="#">
-			<div class="news__featimg"><span>screenshot okładki „Gazety Wyborczej”</span></div>
+			<div class="news__featimg"><img src="<?php echo esc_url( $assets . '/news-1-gazeta-wyborcza.jpg' ); ?>" alt="Okładka „Gazety Wyborczej” z 1 lipca 2026"></div>
 			<div>
 				<h3>Kryzys opieki senioralnej na okładce „Gazety Wyborczej”. Czas na konkretne działania</h3>
 				<div class="date">1 lipca 2026</div>
@@ -97,10 +97,10 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 			</div>
 		</a>
 		<div class="news__grid">
-			<a class="newscard" href="#"><div class="newscard__foto"><span>foto wpisu</span></div><div><h3>Światowy Dzień Praw Osób Starszych. Czy Polska jest gotowa na nadchodzący kryzys opieki?</h3><div class="date">15 czerwca 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><span>foto wpisu</span></div><div><h3>PSOD partnerem webinaru „Efektywna współpraca z Rodziną Podopiecznego w opiece nad Seniorami”</h3><div class="date">2 czerwca 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><span>foto wpisu</span></div><div><h3>Dzień Opiekuna Osób Starszych. Zawód, od którego będzie zależeć bezpieczeństwo milionów seniorów</h3><div class="date">15 maja 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><span>foto wpisu</span></div><div><h3>Bon senioralny to krok w dobrą stronę — ale nie zastąpi systemu opieki</h3><div class="date">24 kwietnia 2026</div></div></a>
+			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-2-dzien-praw.jpg' ); ?>" alt=""></div><div><h3>Światowy Dzień Praw Osób Starszych. Czy Polska jest gotowa na nadchodzący kryzys opieki?</h3><div class="date">15 czerwca 2026</div></div></a>
+			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-3-webinar.jpg' ); ?>" alt=""></div><div><h3>PSOD partnerem webinaru „Efektywna współpraca z Rodziną Podopiecznego w opiece nad Seniorami”</h3><div class="date">2 czerwca 2026</div></div></a>
+			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-4-dzien-opiekuna.jpg' ); ?>" alt=""></div><div><h3>Dzień Opiekuna Osób Starszych. Zawód, od którego będzie zależeć bezpieczeństwo milionów seniorów</h3><div class="date">15 maja 2026</div></div></a>
+			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-5-bon-senioralny.jpg' ); ?>" alt=""></div><div><h3>Bon senioralny to krok w dobrą stronę — ale nie zastąpi systemu opieki</h3><div class="date">24 kwietnia 2026</div></div></a>
 		</div>
 	</div>
 </section>
