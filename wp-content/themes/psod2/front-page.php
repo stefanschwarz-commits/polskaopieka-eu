@@ -53,10 +53,10 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 			<p data-i18n="wyzwania.p">Społeczeństwa się starzeją. Według szacunków WHO do 2030 roku jedna na sześć osób na świecie będzie miała co najmniej 60 lat. W 2021 roku 65 lat lub więcej miało już 21% ludności Europy.</p>
 		</div>
 		<div class="grid">
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></a>
+			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></a>
+			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></a>
+			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></a>
+			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></a>
 		</div>
 	</div>
 </section>
