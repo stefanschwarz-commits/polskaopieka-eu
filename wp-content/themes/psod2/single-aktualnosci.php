@@ -42,7 +42,17 @@ while ( have_posts() ) :
 		<?php if ( has_post_thumbnail() ) : ?>
 			<div class="wrap">
 				<figure class="artykul-hero artykul-hero--img">
-					<?php the_post_thumbnail( 'large', array( 'alt' => esc_attr( get_the_title() ) ) ); ?>
+					<?php
+					// sizes wymuszone na ~720px (szerokosc hero), zeby srcset wczytal
+					// wariant o wlasciwej rozdzielczosci zamiast najmniejszego.
+					the_post_thumbnail(
+						'large',
+						array(
+							'alt'   => esc_attr( get_the_title() ),
+							'sizes' => '(max-width: 760px) 100vw, 720px',
+						)
+					);
+					?>
 				</figure>
 			</div>
 		<?php else : ?>

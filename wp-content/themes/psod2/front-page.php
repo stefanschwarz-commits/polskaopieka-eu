@@ -115,8 +115,8 @@ if ( $psod2_news_feat ) :
 				<div class="date"><?php echo esc_html( psod2_polish_date( $psod2_news_feat ) ); ?></div>
 				<?php
 				$psod2_feat_excerpt = has_excerpt( $psod2_news_feat )
-					? get_the_excerpt( $psod2_news_feat )
-					: wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $psod2_news_feat ) ), 42 );
+					? wp_trim_words( get_the_excerpt( $psod2_news_feat ), 30 )
+					: wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $psod2_news_feat ) ), 30 );
 				?>
 				<p><?php echo esc_html( $psod2_feat_excerpt ); ?></p>
 				<span class="news__more" data-i18n="aktualnosci.feat.more">Czytaj dalej</span>

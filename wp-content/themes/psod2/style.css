@@ -197,9 +197,9 @@ body.nav-open{overflow:hidden}
 .news__feat:hover .news__featimg img{filter:none;transform:scale(1.03)}
 .news__featimg span{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tekst-2)}
 .news__featimg--placeholder{border:1.5px dashed var(--linia);display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}
-.news__feat h3{font-family:var(--font-serif);font-weight:300;font-size:clamp(22px,2.6vw,32px);line-height:1.4;color:var(--tekst);margin-bottom:12px}
+.news__feat h3{font-family:var(--font-serif);font-weight:300;font-size:clamp(22px,2.6vw,32px);line-height:1.4;color:var(--tekst);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .news__feat .date{font-size:12.5px;color:var(--tekst-2);opacity:.85;margin-bottom:20px}
-.news__feat p{font-size:15px;line-height:1.75;color:var(--tekst-2)}
+.news__feat p{font-size:15px;line-height:1.75;color:var(--tekst-2);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .news__more{display:inline-block;margin-top:22px;font-size:13.5px;font-weight:500;color:var(--tekst);border-bottom:1px solid var(--linia);padding-bottom:4px}
 .news__grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:64px;padding-top:56px;border-top:1px solid var(--linia)}
 .newscard{display:grid;grid-template-columns:180px 1fr;gap:26px;align-items:start;text-decoration:none;color:inherit}
@@ -565,7 +565,7 @@ body.nav-open{overflow:hidden}
 .aktual-featured__grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;text-decoration:none}
 .aktual-featured__img{position:relative;aspect-ratio:4/3;border-radius:18px;background:linear-gradient(135deg,#EDEDEF 0%,#DDDEE2 55%,#CFD3D8 100%);overflow:hidden}
 .aktual-featured__label{position:absolute;left:20px;bottom:18px;font-family:var(--font-sans);font-size:12.5px;color:var(--tekst-3)}
-.aktual-featured h2{font-family:var(--font-serif);font-weight:340;font-size:clamp(30px,3.4vw,42px);line-height:1.22;color:var(--tekst);margin:14px 0 12px}
+.aktual-featured h2{font-family:var(--font-serif);font-weight:340;font-size:clamp(30px,3.4vw,42px);line-height:1.22;color:var(--tekst);margin:14px 0 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .aktual-featured__link{margin-top:22px}
 
 .aktual-grid-section{padding:16px 0 88px}
@@ -644,8 +644,10 @@ body.nav-open{overflow:hidden}
 
 .artykul-cta{padding:20px 32px 72px;display:flex;justify-content:center}
 
-/* hero z realnym zdjeciem (import z produkcji) — naturalne proporcje, bez kadrowania */
-.artykul-hero--img{aspect-ratio:auto;background:none;border-radius:0;margin:44px 0 0;overflow:visible}
+/* hero z realnym zdjeciem (import z produkcji) — naturalne proporcje, bez kadrowania.
+   Szerokosc rowna kolumnie czytania (720px): male zrodla (np. zrzuty ekranu ~755px)
+   nie sa mocno skalowane w gore (ostrzej), a duze nie dominuja strony. */
+.artykul-hero--img{aspect-ratio:auto;background:none;border-radius:0;margin:40px auto 0;max-width:720px;overflow:visible}
 .artykul-hero--img img{width:100%;height:auto;display:block;border-radius:18px}
 
 /* generyczna tresc wpisu z the_content() (bloki Gutenberga) */
