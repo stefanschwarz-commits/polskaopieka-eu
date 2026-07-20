@@ -3,10 +3,12 @@
    PSOD — interakcje strony głównej (vanilla JS, bez zależności)
    ============================================================ */
 
-/* --- 0. Menu główne: hamburger otwiera/zamyka pełnoekranową nakładkę --- */
+/* --- 0. Menu główne: hamburger otwiera/zamyka wysuwany panel z prawej (+ scrim) --- */
 (function(){
   var btn=document.getElementById('menuToggle');
   var nav=document.getElementById('mainNav');
+  var scrim=document.getElementById('navScrim');
+  var closeBtn=document.getElementById('menuClose');
   if(!btn||!nav) return;
   function close(){
     nav.classList.remove('is-open');
@@ -14,6 +16,7 @@
     btn.setAttribute('aria-expanded','false');
     nav.setAttribute('aria-hidden','true');
     document.body.classList.remove('nav-open');
+    if(scrim){ scrim.classList.remove('is-open'); scrim.hidden=true; }
   }
   function open(){
     nav.classList.add('is-open');
@@ -21,10 +24,13 @@
     btn.setAttribute('aria-expanded','true');
     nav.setAttribute('aria-hidden','false');
     document.body.classList.add('nav-open');
+    if(scrim){ scrim.hidden=false; requestAnimationFrame(function(){ scrim.classList.add('is-open'); }); }
   }
   btn.addEventListener('click',function(){
     nav.classList.contains('is-open') ? close() : open();
   });
+  if(closeBtn) closeBtn.addEventListener('click',close);
+  if(scrim) scrim.addEventListener('click',close);
   [].forEach.call(nav.querySelectorAll('a'),function(a){
     a.addEventListener('click',close);
   });
@@ -90,29 +96,29 @@
 /* --- 2. Filary: zakładki (tablist) --- */
 (function(){
   var FILARY=[
-    {name:'Wybór',icon:PSOD_ASSETS+'/filar-wybor.svg',intro:'Oznacza zapewnienie podopiecznym prawa do dokonania wyboru sposobu, w jaki żyją i otrzymują opiekę. W szczególności:',bullets:[
+    {key:'wybor',name:'Wybór',icon:PSOD_ASSETS+'/filar-wybor.svg',intro:'Oznacza zapewnienie podopiecznym prawa do dokonania wyboru sposobu, w jaki żyją i otrzymują opiekę. W szczególności:',bullets:[
       'wspieranie podopiecznych w zarządzaniu własnym zdrowiem i samopoczuciem,',
       'zapewnienie podopiecznym i ich opiekunom wiedzy o prawie do uczestniczenia w opiece i dokonywania wyborów w tym zakresie,',
       'zaangażowanie do podejmowania decyzji dotyczących opieki oraz możliwości wyboru i kontroli nad usługami, z których korzystają,',
       'zlecanie usług, które zapewniają podopiecznym informacje i wsparcie w celu określenia i osiągnięcia wyników, które są dla nich ważne,',
       'uwzględnienie świadomych preferencji podopiecznych']},
-    {name:'Bezpieczeństwo',icon:PSOD_ASSETS+'/filar-bezpieczenstwo.svg',intro:'Opieka domowa musi być realizowane w sposób bezpieczny, obejmujący m.in.:',bullets:[
+    {key:'bezpieczenstwo',name:'Bezpieczeństwo',icon:PSOD_ASSETS+'/filar-bezpieczenstwo.svg',intro:'Opieka domowa musi być realizowane w sposób bezpieczny, obejmujący m.in.:',bullets:[
       'ocenę ryzyka poszczególnych czynności opiekuńczych dla zdrowia i bezpieczeństwa podopiecznego oraz podejmowanie wszelkich możliwych działań w celu zmniejszenia takiego ryzyka,',
       'zapewnienie personelu opiekuńczego o odpowiednich kwalifikacjach, kompetencjach i doświadczeniu zapewniających bezpieczeństwo opieki,',
       'zapewnienie bezpieczeństwa i zgodności z przeznaczeniem pomieszczeń i sprzętu używanego do opieki',
       'zaspokojenie potrzeb podopiecznego w obszarze żywieniowym, nawodnienia i właściwe zarządzanie lekami,',
       'ocena ryzyka, zapobiegania, wykrywania i kontroli nad rozprzestrzenianiem się zakażeń,',
       'w przypadku, gdy odpowiedzialność za opiekę domową jest dzielona, zapewnienie współpracy na każdym etapie planowania i realizacji opieki.']},
-    {name:'Szacunek',icon:PSOD_ASSETS+'/filar-szacunek.svg',intro:'Zarówno osoby korzystające z usług opieki, jak i opiekunowie muszą być chronieni przed nadużyciami i traktowani z godnością oraz szacunkiem. Usługi opieki domowej nie mogą być świadczone w sposób, który:',bullets:[
+    {key:'szacunek',name:'Szacunek',icon:PSOD_ASSETS+'/filar-szacunek.svg',intro:'Zarówno osoby korzystające z usług opieki, jak i opiekunowie muszą być chronieni przed nadużyciami i traktowani z godnością oraz szacunkiem. Usługi opieki domowej nie mogą być świadczone w sposób, który:',bullets:[
       'dopuszcza dyskryminację, jest lekceważący lub poniżający,',
       'obejmuje działania ograniczające autonomię i niezależność podopiecznych, które nie są niezbędne lub są nieproporcjonalną reakcją w stosunku do ryzyka powstania szkody dla podopiecznego, personelu lub innych osób',
       'nie respektuje osobistej przestrzeni podopiecznego i opiekuna oraz prywatności i poufności dotyczącej osobistych informacji,',
       'ograniczaja wolność w celu uzyskania opieki lub leczenia – opieka i leczenie muszą być zapewnione za zgodą podopiecznych lub ich prawnych opiekunów.']},
-    {name:'Ciągłość',icon:PSOD_ASSETS+'/filar-ciaglosc.svg',intro:'Opieka domowa wymaga:',bullets:[
+    {key:'ciaglosc',name:'Ciągłość',icon:PSOD_ASSETS+'/filar-ciaglosc.svg',intro:'Opieka domowa wymaga:',bullets:[
       'zapewnienia podopiecznym prawa do zachowania ciągłości opieki, tj. nieprzerwanego świadczenia bez narażania ich na ryzyko przerwy w dostępie do opieki,',
       'zachowania dokładnej, pełnej i aktualnej informacji (poprzez odpowiednią dokumentację) dotyczącej każdego podopiecznego oraz decyzji podjętych w odniesieniu do zapewnionej opieki,',
       'zapewnienia możliwości spersonalizowanego długotrwałego planowania opieki']},
-    {name:'Indywidualne podejście',icon:PSOD_ASSETS+'/filar-indywidualne.svg',intro:'Opieka domowa wymaga zatrudnienia odpowiedniej liczby wykwalifikowanego i otwartego na potrzeby podopiecznych personelu, w celu:',bullets:[
+    {key:'indywidualne',name:'Indywidualne podejście',icon:PSOD_ASSETS+'/filar-indywidualne.svg',intro:'Opieka domowa wymaga zatrudnienia odpowiedniej liczby wykwalifikowanego i otwartego na potrzeby podopiecznych personelu, w celu:',bullets:[
       'zapewnienia zakresu opieki dostosowanego do potrzeb i preferencji podopiecznych,',
       'możliwości skupienia się na tym, co jest ważne dla podopiecznych w kontekście jakości ich życia, a nie tylko liście schorzeń lub objawów, które należy leczyć,',
       'dbania o transparentność w relacjach oraz zakresie leczenia i świadczonej opieki,',
@@ -120,38 +126,57 @@
   ];
   var tabs=document.getElementById('pillarTabs');
   var panel=document.getElementById('pillarPanel');
+  var curIdx=0;
   function pad(n){return String(n).padStart(2,'0');}
   function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-  FILARY.forEach(function(f,i){
-    var b=document.createElement('button');
-    b.className='ptab';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===0?'true':'false');
-    b.innerHTML='<span class="ptab__ghost" aria-hidden="true">'+pad(i+1)+'</span>'+
-      '<span class="ptab__eyebrow"><span class="ln"></span><span class="lbl">Filar '+pad(i+1)+'</span></span>'+
-      '<span class="ptab__name">'+f.name+'</span>';
-    b.addEventListener('click',function(){select(i);});
-    tabs.appendChild(b);
-  });
+  function tt(f,field,fallback){return (window.psodT?psodT('filary.'+f.key+'.'+field,fallback):fallback);}
+  function buildTabs(){
+    tabs.innerHTML='';
+    FILARY.forEach(function(f,i){
+      var b=document.createElement('button');
+      b.className='ptab';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===curIdx?'true':'false');
+      b.innerHTML='<span class="ptab__ghost" aria-hidden="true">'+pad(i+1)+'</span>'+
+        '<span class="ptab__eyebrow"><span class="ln"></span><span class="lbl">Filar '+pad(i+1)+'</span></span>'+
+        '<span class="ptab__name">'+esc(tt(f,'name',f.name))+'</span>';
+      b.addEventListener('click',function(){select(i);});
+      tabs.appendChild(b);
+    });
+  }
   function select(i){
+    curIdx=i;
     var f=FILARY[i];
     [].forEach.call(tabs.children,function(el,k){el.setAttribute('aria-selected',k===i?'true':'false');});
-    var html='<img src="'+f.icon+'" alt=""><h3>'+f.name+'</h3><p class="intro">'+esc(f.intro)+'</p><div>';
-    f.bullets.forEach(function(b){html+='<div class="bullet"><span class="dot">•</span><span>'+esc(b)+'</span></div>';});
+    var intro=tt(f,'intro',f.intro);
+    var html='<img src="'+f.icon+'" alt=""><h3>'+esc(tt(f,'name',f.name))+'</h3><p class="intro">'+esc(intro)+'</p><div>';
+    f.bullets.forEach(function(b,bi){
+      var bt=(window.psodT?psodT('filary.'+f.key+'.bullets.'+bi,b):b);
+      html+='<div class="bullet"><span class="dot">•</span><span>'+esc(bt)+'</span></div>';
+    });
     html+='</div>';
     panel.innerHTML=html;
     panel.classList.remove('psod-fade');void panel.offsetWidth;panel.classList.add('psod-fade');
   }
-  select(0);
+  buildTabs();select(0);
+  document.addEventListener('psod:langchange',function(){buildTabs();select(curIdx);});
 })();
 
 /* --- 3. O nas: czytaj więcej --- */
 (function(){
   var t=document.getElementById('aboutToggle');
   var extra=document.getElementById('aboutExtra');
+  function label(open){
+    var key=open?'about.toggle.less':'about.toggle.more';
+    var pl=open?'zwiń':'czytaj więcej';
+    return (window.psodT?psodT(key,pl):pl)+' <span>→</span>';
+  }
   t.addEventListener('click',function(){
     var open=extra.hasAttribute('hidden');
     if(open){extra.removeAttribute('hidden');}else{extra.setAttribute('hidden','');}
     t.setAttribute('aria-expanded',open?'true':'false');
-    t.innerHTML=(open?'zwiń':'czytaj więcej')+' <span>→</span>';
+    t.innerHTML=label(open);
+  });
+  document.addEventListener('psod:langchange',function(){
+    t.innerHTML=label(t.getAttribute('aria-expanded')==='true');
   });
 })();
 
@@ -187,7 +212,8 @@
   }
   function render(revealed){
     var m=MITY[cur];
-    var html='<p class="myth__statement">„'+m.t+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true"></span>':'')+'</p>';
+    var stmt=(window.psodT?psodT('mity.'+cur+'.t',m.t):m.t);
+    var html='<p class="myth__statement">„'+stmt+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true"></span>':'')+'</p>';
     if(!revealed){
       html+='<div class="myth__guess"><div class="ask">Jak myślisz?</div><div class="myth__buttons">'+
         '<button class="btn btn--secondary" data-g="prawda">To prawda</button>'+
@@ -195,9 +221,10 @@
     }else{
       var g=seen[cur];
       var react=(g==='mit')?'Dobra intuicja — to mit.':'To jednak mit.';
+      var fact=(window.psodT?psodT('mity.'+cur+'.f',m.f):m.f);
       html+='<div class="myth__reveal psod-fade"><div class="myth__react">'+react+'</div>'+
         '<div class="myth__fact"><div class="myth__factlabel"><span class="check">✓</span>Fakt</div>'+
-        '<div class="myth__facttext">'+m.f+'</div></div></div>';
+        '<div class="myth__facttext">'+fact+'</div></div></div>';
     }
     innerEl.innerHTML=html;
     if(!revealed){
@@ -212,4 +239,5 @@
   }
   nextEl.addEventListener('click',function(e){e.preventDefault();cur=(cur+1)%total;render(!!seen[cur]);});
   render(false);updateCount();
+  document.addEventListener('psod:langchange',function(){render(!!seen[cur]);});
 })();

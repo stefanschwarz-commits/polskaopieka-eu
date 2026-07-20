@@ -66,12 +66,23 @@ function psod2_assets() {
 		file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : PSOD2_VERSION
 	);
 
-	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ).
+	// Silnik i18n (PL/DE/EN) — wczytywany przed psod.js, który z niego korzysta
+	// (tłumaczenie treści budowanych w JS: Filary, Prawda czy mit?).
+	$psod2_i18n_path = get_template_directory() . '/js/i18n.js';
+	wp_enqueue_script(
+		'psod2-i18n',
+		get_template_directory_uri() . '/js/i18n.js',
+		array(),
+		file_exists( $psod2_i18n_path ) ? filemtime( $psod2_i18n_path ) : PSOD2_VERSION,
+		true
+	);
+
+	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ, menu, i18n DOM).
 	$psod2_js_path = get_template_directory() . '/js/psod.js';
 	wp_enqueue_script(
 		'psod2-script',
 		get_template_directory_uri() . '/js/psod.js',
-		array(),
+		array( 'psod2-i18n' ),
 		file_exists( $psod2_js_path ) ? filemtime( $psod2_js_path ) : PSOD2_VERSION,
 		true
 	);

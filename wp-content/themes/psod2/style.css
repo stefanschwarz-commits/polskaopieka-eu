@@ -98,11 +98,17 @@ a{color:var(--fiolet)}
 /* ---------- Header ---------- */
 .site-header{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linia);position:sticky;top:0;z-index:100}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px}
-.site-header .logo{display:flex;align-items:center;text-decoration:none}
-.site-header .logo img{height:52px;display:block}
-.header-right{display:flex;align-items:center;gap:28px}
-.lang{font-size:14px;font-weight:500;color:var(--tekst-2)}
-.lang b{color:var(--fiolet);font-weight:600}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand__mark{width:48px;height:48px;border-radius:12px;display:block;flex-shrink:0}
+.brand__name{font-family:var(--font-sans);font-weight:600;font-size:13px;line-height:1.35;letter-spacing:.02em;text-transform:uppercase;color:var(--tekst);max-width:220px}
+.header-right{display:flex;align-items:center;gap:24px}
+.lang-switch{display:flex;align-items:center;gap:8px}
+.lang-switch__btn{background:none;border:none;padding:2px 0;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--tekst-2);transition:color var(--dur-fast)}
+.lang-switch__btn:hover{color:var(--tekst)}
+.lang-switch__btn[aria-current="true"]{color:var(--fiolet);font-weight:600}
+.lang-switch__btn+.lang-switch__btn{border-left:1px solid var(--linia);padding-left:8px}
+.i18n-banner{background:var(--opieka-tlo);color:var(--opieka);text-align:center;font-size:13.5px;font-weight:500;padding:10px 20px;border-bottom:1px solid var(--linia)}
+.i18n-banner[hidden]{display:none}
 .burger{width:30px;display:flex;flex-direction:column;gap:6px;cursor:pointer;padding:4px 0;background:none;border:none;position:relative;z-index:201}
 .burger i{height:2px;background:var(--tekst);border-radius:2px;transition:transform var(--dur-med) var(--ease),opacity var(--dur-fast)}
 .burger i:nth-child(2){width:65%}
@@ -113,16 +119,21 @@ a{color:var(--fiolet)}
 /* Anchory sekcji nie chowaja sie pod sticky headerem */
 section[id]{scroll-margin-top:96px}
 
-/* ---------- Menu glowne (pelnoekranowa nakladka) ---------- */
-.mainnav{position:fixed;inset:0;background:var(--biel);z-index:199;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity var(--dur-slow) var(--ease),visibility 0s var(--dur-slow)}
-.mainnav.is-open{opacity:1;visibility:visible;transition:opacity var(--dur-slow) var(--ease),visibility 0s}
-.mainnav__inner{text-align:center;padding:32px}
-.mainnav__list{list-style:none;display:flex;flex-direction:column;gap:14px}
-.mainnav__list a{font-family:var(--font-serif);font-weight:300;font-size:clamp(24px,4.4vw,40px);color:var(--tekst);text-decoration:none;transition:color var(--dur-fast)}
+/* ---------- Menu glowne (wysuwany panel z prawej + scrim) ---------- */
+.scrim{position:fixed;inset:0;background:rgba(74,75,82,.5);z-index:198;opacity:0;visibility:hidden;transition:opacity var(--dur-slow) var(--ease),visibility 0s var(--dur-slow)}
+.scrim.is-open{opacity:1;visibility:visible;transition:opacity var(--dur-slow) var(--ease),visibility 0s}
+.mainnav{position:fixed;top:0;right:0;bottom:0;width:min(400px,86vw);background:var(--biel);z-index:199;box-shadow:var(--shadow-raise);transform:translateX(100%);transition:transform var(--dur-slow) var(--ease);overflow-y:auto}
+.mainnav.is-open{transform:translateX(0)}
+.mainnav__close{position:absolute;top:22px;right:24px;width:38px;height:38px;border:none;background:none;font-size:30px;line-height:1;color:var(--tekst-2);cursor:pointer;transition:color var(--dur-fast)}
+.mainnav__close:hover{color:var(--fiolet)}
+.mainnav__inner{padding:104px 40px 40px}
+.mainnav__list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.mainnav__list a{display:block;padding:10px 0;font-family:var(--font-serif);font-weight:400;font-size:clamp(19px,2.4vw,23px);color:var(--tekst);text-decoration:none;border-bottom:1px solid var(--linia);transition:color var(--dur-fast)}
+.mainnav__list li:last-child a{border-bottom:none}
 .mainnav__list a:hover{color:var(--fiolet)}
 body.nav-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
-  .mainnav{transition:none}
+  .mainnav,.scrim{transition:none}
 }
 
 /* ---------- Hero ---------- */
@@ -168,8 +179,8 @@ body.nav-open{overflow:hidden}
 /* ---------- Apel do rządu ---------- */
 .appeal{background:var(--opieka-tlo);padding:104px 0}
 .appeal .grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:64px;align-items:center}
-.appeal__doc{display:block}
-.appeal__doc img{width:100%;display:block;border-radius:var(--r-md);box-shadow:var(--shadow-doc)}
+.appeal__doc{display:block;padding:0;overflow:hidden;border-radius:var(--r-md);box-shadow:var(--shadow-doc)}
+.appeal__doc img{width:100%;display:block}
 .appeal h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(30px,4vw,50px);line-height:1.15;color:var(--tekst);margin-bottom:16px}
 .appeal__date{font-size:13px;color:var(--tekst-2);margin-bottom:8px}
 .appeal h3{font-family:var(--font-serif);font-weight:400;font-size:clamp(19px,2.2vw,25px);line-height:1.35;color:var(--tekst);margin-bottom:18px}
@@ -292,7 +303,8 @@ body.nav-open{overflow:hidden}
 .pubs{background:var(--mgla);padding:100px 0}
 .pubs .grid{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start}
 .pubs__cover{position:sticky;top:100px}
-.pubs__cover img{width:100%;display:block;border-radius:var(--r-md);box-shadow:var(--shadow-doc)}
+.pubs__cover img{width:100%;display:block;border-radius:var(--r-md);box-shadow:var(--shadow-doc);filter:grayscale(1) brightness(1.03) contrast(.95);transition:filter var(--dur-slow) ease}
+.pubs__cover img:hover{filter:none}
 .pubs__meta{font-size:12.5px;font-weight:500;color:var(--tekst-2);opacity:.85;margin-bottom:12px}
 .pubs h3{font-family:var(--font-serif);font-weight:400;font-size:clamp(21px,2.4vw,29px);line-height:1.35;color:var(--tekst);margin-bottom:22px}
 .pubs p{font-size:15.5px;line-height:1.85;color:var(--tekst-2);margin-bottom:16px}
