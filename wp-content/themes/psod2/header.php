@@ -22,7 +22,7 @@
 	<div class="wrap">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="brand" aria-label="<?php esc_attr_e( 'Polskie Stowarzyszenie Opieki Domowej — strona główna', 'psod2' ); ?>">
 			<img class="brand__mark" src="<?php echo esc_url( get_template_directory_uri() . '/assets/psod-mark.jpg' ); ?>" alt="" width="48" height="48">
-			<span class="brand__name" data-i18n="brand.name"><?php esc_html_e( 'Polskie Stowarzyszenie Opieki Domowej', 'psod2' ); ?></span>
+			<span class="brand__name" data-i18n-html="brand.name"><?php echo esc_html__( 'Polskie', 'psod2' ) . '<br>' . esc_html__( 'Stowarzyszenie', 'psod2' ) . '<br>' . esc_html__( 'Opieki Domowej', 'psod2' ); ?></span>
 		</a>
 		<div class="header-right">
 			<?php

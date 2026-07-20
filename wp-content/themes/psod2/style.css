@@ -98,9 +98,9 @@ a{color:var(--fiolet)}
 /* ---------- Header ---------- */
 .site-header{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linia);position:sticky;top:0;z-index:100}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px}
-.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none}
 .brand__mark{width:48px;height:48px;border-radius:12px;display:block;flex-shrink:0}
-.brand__name{font-family:var(--font-sans);font-weight:600;font-size:13px;line-height:1.35;letter-spacing:.02em;text-transform:uppercase;color:var(--tekst);max-width:220px}
+.brand__name{font-family:var(--font-sans);font-weight:600;font-size:12.5px;line-height:1.16;letter-spacing:.04em;text-transform:uppercase;color:var(--tekst)}
 .header-right{display:flex;align-items:center;gap:24px}
 .lang-switch{display:flex;align-items:center;gap:8px}
 .lang-switch__btn{background:none;border:none;padding:2px 0;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--tekst-2);transition:color var(--dur-fast)}
