@@ -253,6 +253,7 @@ body.nav-open{overflow:hidden}
 .about p{font-size:17px;line-height:1.85;color:var(--tekst-2);max-width:680px;margin:0 auto}
 .about p b{color:var(--tekst);font-weight:500}
 .about__extra{margin-top:14px}
+.about__extra p+p{margin-top:16px}
 .about__extra[hidden]{display:none}
 .about__toggle{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-size:14px;font-weight:500;color:var(--fiolet);text-decoration:none;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
 

@@ -136,8 +136,12 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	<div class="wrap">
 		<img class="about__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
 		<h2 data-i18n="about.h2">Polskie Stowarzyszenie Opieki Domowej</h2>
-		<p data-i18n-html="about.p1"><b>jest związkiem pracodawców</b> zrzeszającym polskie firmy oferujące usługi długoterminowej opieki domowej dla osób niesamodzielnych. PSOD wspiera zrzeszonych pracodawców poprzez działania na rzecz przejrzystej legislacji tworzącej warunki sprzyjające uczciwej konkurencji z uwzględnieniem interesów personelu i pacjentów oraz dbanie o dobre imię branży opiekuńczej poprzez upowszechnianie rzetelnej wiedzy na jej temat.</p>
-		<p class="about__extra" id="aboutExtra" hidden data-i18n-html="about.p2"><b>Kim są Członkowie PSOD?</b> Nasi członkowie to przede wszystkim małe rodzinne firmy. Ich działalność jest przykładem sukcesu polskiej przedsiębiorczości i pracowitości. Dlatego w ramach PSOD chcemy wspierać i promować polskich pracodawców świadczących usługi opieki w Polsce i za granicą, a także reprezentować ich interesy wobec instytucji krajowych i zagranicznych, decydentów oraz mediów.</p>
+		<p data-i18n-html="about.p1"><b>jest organizacją pracodawców</b> zrzeszającą polskie firmy świadczące profesjonalne usługi opieki domowej.</p>
+		<div class="about__extra" id="aboutExtra" hidden>
+			<p data-i18n-html="about.p2">Usługi te wspierają osoby, które z powodu wieku, choroby, niepełnosprawności lub ograniczonej samodzielności potrzebują pomocy w codziennym funkcjonowaniu.</p>
+			<p data-i18n-html="about.p3">Opieka domowa jest jedną z form szerszego systemu opieki długoterminowej. Działalność członków PSOD koncentruje się przede wszystkim na profesjonalnym, niemedycznym wsparciu świadczonym w miejscu zamieszkania, w tym na opiece domowej z zamieszkaniem (live-in care).</p>
+			<p data-i18n-html="about.p4">PSOD działa na rzecz przejrzystych regulacji, wysokich standardów usług, uczciwej konkurencji oraz poszanowania interesów osób korzystających z opieki, ich rodzin i personelu opiekuńczego.</p>
+		</div>
 		<button class="about__toggle" id="aboutToggle" aria-expanded="false">czytaj więcej <span>→</span></button>
 	</div>
 </section>
