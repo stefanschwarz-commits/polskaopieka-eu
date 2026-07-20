@@ -140,38 +140,11 @@
 
 /* --- 2. Filary: zakładki (tablist) --- */
 (function(){
-  var FILARY=[
-    {key:'wybor',name:'Wybór',icon:PSOD_ASSETS+'/filar-wybor.svg',intro:'Oznacza zapewnienie podopiecznym prawa do dokonania wyboru sposobu, w jaki żyją i otrzymują opiekę. W szczególności:',bullets:[
-      'wspieranie podopiecznych w zarządzaniu własnym zdrowiem i samopoczuciem,',
-      'zapewnienie podopiecznym i ich opiekunom wiedzy o prawie do uczestniczenia w opiece i dokonywania wyborów w tym zakresie,',
-      'zaangażowanie do podejmowania decyzji dotyczących opieki oraz możliwości wyboru i kontroli nad usługami, z których korzystają,',
-      'zlecanie usług, które zapewniają podopiecznym informacje i wsparcie w celu określenia i osiągnięcia wyników, które są dla nich ważne,',
-      'uwzględnienie świadomych preferencji podopiecznych']},
-    {key:'bezpieczenstwo',name:'Bezpieczeństwo',icon:PSOD_ASSETS+'/filar-bezpieczenstwo.svg',intro:'Opieka domowa musi być realizowane w sposób bezpieczny, obejmujący m.in.:',bullets:[
-      'ocenę ryzyka poszczególnych czynności opiekuńczych dla zdrowia i bezpieczeństwa podopiecznego oraz podejmowanie wszelkich możliwych działań w celu zmniejszenia takiego ryzyka,',
-      'zapewnienie personelu opiekuńczego o odpowiednich kwalifikacjach, kompetencjach i doświadczeniu zapewniających bezpieczeństwo opieki,',
-      'zapewnienie bezpieczeństwa i zgodności z przeznaczeniem pomieszczeń i sprzętu używanego do opieki',
-      'zaspokojenie potrzeb podopiecznego w obszarze żywieniowym, nawodnienia i właściwe zarządzanie lekami,',
-      'ocena ryzyka, zapobiegania, wykrywania i kontroli nad rozprzestrzenianiem się zakażeń,',
-      'w przypadku, gdy odpowiedzialność za opiekę domową jest dzielona, zapewnienie współpracy na każdym etapie planowania i realizacji opieki.']},
-    {key:'szacunek',name:'Szacunek',icon:PSOD_ASSETS+'/filar-szacunek.svg',intro:'Zarówno osoby korzystające z usług opieki, jak i opiekunowie muszą być chronieni przed nadużyciami i traktowani z godnością oraz szacunkiem. Usługi opieki domowej nie mogą być świadczone w sposób, który:',bullets:[
-      'dopuszcza dyskryminację, jest lekceważący lub poniżający,',
-      'obejmuje działania ograniczające autonomię i niezależność podopiecznych, które nie są niezbędne lub są nieproporcjonalną reakcją w stosunku do ryzyka powstania szkody dla podopiecznego, personelu lub innych osób',
-      'nie respektuje osobistej przestrzeni podopiecznego i opiekuna oraz prywatności i poufności dotyczącej osobistych informacji,',
-      'ograniczaja wolność w celu uzyskania opieki lub leczenia – opieka i leczenie muszą być zapewnione za zgodą podopiecznych lub ich prawnych opiekunów.']},
-    {key:'ciaglosc',name:'Ciągłość',icon:PSOD_ASSETS+'/filar-ciaglosc.svg',intro:'Opieka domowa wymaga:',bullets:[
-      'zapewnienia podopiecznym prawa do zachowania ciągłości opieki, tj. nieprzerwanego świadczenia bez narażania ich na ryzyko przerwy w dostępie do opieki,',
-      'zachowania dokładnej, pełnej i aktualnej informacji (poprzez odpowiednią dokumentację) dotyczącej każdego podopiecznego oraz decyzji podjętych w odniesieniu do zapewnionej opieki,',
-      'zapewnienia możliwości spersonalizowanego długotrwałego planowania opieki']},
-    {key:'indywidualne',name:'Indywidualne podejście',icon:PSOD_ASSETS+'/filar-indywidualne.svg',intro:'Opieka domowa wymaga zatrudnienia odpowiedniej liczby wykwalifikowanego i otwartego na potrzeby podopiecznych personelu, w celu:',bullets:[
-      'zapewnienia zakresu opieki dostosowanego do potrzeb i preferencji podopiecznych,',
-      'możliwości skupienia się na tym, co jest ważne dla podopiecznych w kontekście jakości ich życia, a nie tylko liście schorzeń lub objawów, które należy leczyć,',
-      'dbania o transparentność w relacjach oraz zakresie leczenia i świadczonej opieki,',
-      'zapewnienia skuteczności w rejestrowaniu, reagowaniu i rozwiązywaniu problemów zgłaszanych przez pacjentów, ich rodziny i personel.']}
-  ];
+  var FILARY=window.PSOD_FILARY||[];
   var tabs=document.getElementById('pillarTabs');
   var panel=document.getElementById('pillarPanel');
   if(!tabs||!panel) return;
+  if(!FILARY.length) return;
   var curIdx=0;
   function pad(n){return String(n).padStart(2,'0');}
   function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -208,12 +181,7 @@
 
 /* --- 4. Mity: gra „Prawda czy mit?" --- */
 (function(){
-  var MITY=[
-    {t:'Opiekunowie domowi pracują 24h na dobę',f:'Faktem jest, że opiekunowie domowi mają zapewnione zakwaterowanie w domu podopiecznego, więc w zasadzie przebywają w miejscu pracy 24h na dobę. Nie jest jednak prawdą, że przez cały ten czas wykonują pracę. Profesjonalna firma opiekuńcza powinna ustalić z opiekunem zakres czynności i obowiązków, który obejmuje wyłącznie czynności, których bezpośrednim beneficjentem jest osoba podopieczna. Zlecenia nie mogą zakładać pomocy choremu „non stop”.'},
-    {t:'Usługi opieki domowej świadczą Agencje Pracy Tymczasowej',f:'<em>[Do uzupełnienia — oryginalna strona nie zawiera tekstu faktu dla tego mitu. Treść do dostarczenia przez PSOD.]</em>'},
-    {t:'Opiekunowie domowi nie muszą mieć kompetencji',f:'Takie stwierdzenie jest krzywdzące dla opiekunów i może być niebezpieczne dla podopiecznych. Nie każdy może zostać opiekunem domowym — profesjonalne firmy zwracają uwagę na szereg cech, kompetencji i predyspozycji. Kluczowe są umiejętności praktyczne obejmujące codzienną opiekę i pielęgnację, wiedza o procesie starzenia i demencji, a także empatia, cierpliwość, komunikatywność i szacunek do drugiego człowieka.'},
-    {t:'Opieka nad osobą starszą to dobre zajęcie tylko dla kobiet 50+',f:'Prawdą jest, że wśród opiekunów zdecydowaną większość stanowią kobiety, często w grupie wiekowej 50+. Jednak wśród opiekunów coraz więcej jest mężczyzn (ok. 10%) i osób młodych, które przyciąga misyjność tego zawodu. Biorąc pod uwagę tempo starzenia się społeczeństwa, opiekuna osoby starszej można nazwać zawodem przyszłości.'}
-  ];
+  var MITY=window.PSOD_MITY||[];
   var total=MITY.length;
   var cur=0;
   var seen={};
@@ -222,6 +190,7 @@
   var countEl=document.getElementById('mythCount');
   var nextEl=document.getElementById('mythNext');
   if(!dotsEl||!innerEl||!countEl||!nextEl) return;
+  if(!MITY.length) return;
   MITY.forEach(function(m,k){
     var d=document.createElement('button');
     d.className='myths__dot';d.setAttribute('aria-label','Twierdzenie '+(k+1));

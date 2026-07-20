@@ -211,6 +211,158 @@ function psod2_register_faq() {
 add_action( 'init', 'psod2_register_faq' );
 
 /**
+ * CPT „Mity" (klucz: mit) — gra „Prawda czy mit?". Twierdzenie = tytuł,
+ * treść „faktu" = edytor. Dane trafiają do JS (psod.js) — patrz
+ * psod2_frontpage_data(). Kolejność: page-attributes (menu_order).
+ */
+function psod2_register_mit() {
+	register_post_type(
+		'mit',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Mity', 'psod2' ),
+				'singular_name' => __( 'Mit', 'psod2' ),
+				'menu_name'     => __( 'Mity', 'psod2' ),
+				'add_new'       => __( 'Dodaj mit', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy mit', 'psod2' ),
+				'edit_item'     => __( 'Edytuj mit', 'psod2' ),
+				'all_items'     => __( 'Wszystkie mity', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-lightbulb',
+			'menu_position' => 7,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_mit' );
+
+/**
+ * CPT „Filary" (klucz: filar) — filary opieki domowej. Nazwa = tytuł;
+ * ikona, wprowadzenie i lista punktów w meta boxie „Filar". Dane trafiają do
+ * JS (psod.js) — patrz psod2_frontpage_data(). Kolejność: menu_order.
+ */
+function psod2_register_filar() {
+	register_post_type(
+		'filar',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Filary', 'psod2' ),
+				'singular_name' => __( 'Filar', 'psod2' ),
+				'menu_name'     => __( 'Filary', 'psod2' ),
+				'add_new'       => __( 'Dodaj filar', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy filar', 'psod2' ),
+				'edit_item'     => __( 'Edytuj filar', 'psod2' ),
+				'all_items'     => __( 'Wszystkie filary', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'menu_icon'     => 'dashicons-screenoptions',
+			'menu_position' => 8,
+			'supports'      => array( 'title', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_filar' );
+
+/** Lista dostępnych ikon filarów (plik w assets/). */
+function psod2_filar_icons() {
+	return array(
+		'filar-wybor.svg'          => 'Wybór',
+		'filar-bezpieczenstwo.svg' => 'Bezpieczeństwo',
+		'filar-szacunek.svg'       => 'Szacunek',
+		'filar-ciaglosc.svg'       => 'Ciągłość',
+		'filar-indywidualne.svg'   => 'Indywidualne podejście',
+	);
+}
+
+/** Meta box filaru: ikona (select), wprowadzenie (textarea), punkty (textarea, 1/linia). */
+function psod2_filar_metabox() {
+	add_meta_box( 'psod2_filar', __( 'Filar — treść', 'psod2' ), 'psod2_filar_metabox_cb', 'filar', 'normal', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_filar_metabox' );
+
+function psod2_filar_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_filar_save', 'psod2_filar_nonce' );
+	$icon    = get_post_meta( $post->ID, '_psod_filar_icon', true );
+	$intro   = get_post_meta( $post->ID, '_psod_filar_intro', true );
+	$bullets = get_post_meta( $post->ID, '_psod_filar_bullets', true );
+	echo '<p><label><strong>' . esc_html__( 'Ikona', 'psod2' ) . '</strong><br><select name="psod2_filar_icon" style="min-width:280px">';
+	foreach ( psod2_filar_icons() as $file => $label ) {
+		echo '<option value="' . esc_attr( $file ) . '" ' . selected( $icon, $file, false ) . '>' . esc_html( $label ) . ' (' . esc_html( $file ) . ')</option>';
+	}
+	echo '</select></label></p>';
+	echo '<p><label><strong>' . esc_html__( 'Wprowadzenie', 'psod2' ) . '</strong><br><textarea name="psod2_filar_intro" rows="3" style="width:100%">' . esc_textarea( $intro ) . '</textarea></label></p>';
+	echo '<p><label><strong>' . esc_html__( 'Punkty', 'psod2' ) . '</strong> <span class="description">' . esc_html__( '(jeden punkt na linię)', 'psod2' ) . '</span><br><textarea name="psod2_filar_bullets" rows="8" style="width:100%">' . esc_textarea( $bullets ) . '</textarea></label></p>';
+}
+
+function psod2_filar_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_filar_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_filar_nonce'] ) ), 'psod2_filar_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	$icons = psod2_filar_icons();
+	if ( isset( $_POST['psod2_filar_icon'] ) && isset( $icons[ $_POST['psod2_filar_icon'] ] ) ) {
+		update_post_meta( $post_id, '_psod_filar_icon', sanitize_text_field( wp_unslash( $_POST['psod2_filar_icon'] ) ) );
+	}
+	if ( isset( $_POST['psod2_filar_intro'] ) ) {
+		update_post_meta( $post_id, '_psod_filar_intro', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_intro'] ) ) );
+	}
+	if ( isset( $_POST['psod2_filar_bullets'] ) ) {
+		update_post_meta( $post_id, '_psod_filar_bullets', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_bullets'] ) ) );
+	}
+}
+add_action( 'save_post_filar', 'psod2_filar_save' );
+
+/**
+ * Dane sekcji strony głównej budowanych w JS (Mity, Filary) → globalne zmienne
+ * JS (odczyt w psod.js). Tylko na stronie głównej (te sekcje są tylko tam).
+ */
+function psod2_frontpage_data() {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$mity = array();
+	$mq = new WP_Query( array( 'post_type' => 'mit', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
+	foreach ( $mq->posts as $p ) {
+		$mity[] = array(
+			't' => get_the_title( $p ),
+			'f' => trim( apply_filters( 'the_content', $p->post_content ) ),
+		);
+	}
+	$filary = array();
+	$fq = new WP_Query( array( 'post_type' => 'filar', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
+	foreach ( $fq->posts as $p ) {
+		$icon    = get_post_meta( $p->ID, '_psod_filar_icon', true );
+		$bullets = array_values( array_filter( array_map( 'trim', explode( "\n", (string) get_post_meta( $p->ID, '_psod_filar_bullets', true ) ) ) ) );
+		$filary[] = array(
+			'name'    => get_the_title( $p ),
+			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon : '',
+			'intro'   => (string) get_post_meta( $p->ID, '_psod_filar_intro', true ),
+			'bullets' => $bullets,
+		);
+	}
+	wp_reset_postdata();
+	wp_add_inline_script(
+		'psod2-script',
+		'window.PSOD_MITY=' . wp_json_encode( $mity ) . ';window.PSOD_FILARY=' . wp_json_encode( $filary ) . ';',
+		'before'
+	);
+}
+add_action( 'wp_enqueue_scripts', 'psod2_frontpage_data', 20 );
+
+/**
  * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
  *
  * Wyróżnione wpisy (meta _psod_wyrozniony=1) pojawiają się na górze listy
