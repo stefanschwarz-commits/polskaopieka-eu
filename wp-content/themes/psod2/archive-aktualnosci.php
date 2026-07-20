@@ -12,23 +12,24 @@
 
 get_header();
 
-// Wszystkie wpisy aktualnosci, najnowsze pierwsze. Osobne zapytanie zamiast
-// globalnego, zeby miec pelna kontrole (wyrozniony = pierwszy, reszta w siatce).
-$aktual_q = new WP_Query(
+// Wyroznione wpisy (meta _psod_wyrozniony) — do 2. Fallback: najnowszy.
+$featured_ids   = psod2_featured_ids( 2 );
+$featured_count = count( $featured_ids );
+
+// Siatka „Wszystkie wpisy" — wszystkie POZA wyroznionymi, najnowsze pierwsze.
+$grid_q = new WP_Query(
 	array(
 		'post_type'      => 'aktualnosci',
 		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 		'orderby'        => 'date',
 		'order'          => 'DESC',
+		'post__not_in'   => $featured_ids,
 		'no_found_rows'  => true,
 	)
 );
-
-$posts_all   = $aktual_q->posts;
-$featured    = ! empty( $posts_all ) ? array_shift( $posts_all ) : null; // najnowszy
-$grid_posts  = $posts_all; // reszta
-$grid_total  = count( $grid_posts );
+$grid_posts   = $grid_q->posts;
+$grid_total   = count( $grid_posts );
 $grid_initial = 12; // ile kart siatki widocznych od razu
 $grid_step    = 6;  // ile dokladamy na klik „Wczytaj wiecej"
 ?>
@@ -49,8 +50,30 @@ $grid_step    = 6;  // ile dokladamy na klik „Wczytaj wiecej"
 	</div>
 </section>
 
-<?php if ( $featured ) : ?>
-<!-- ======================= WYROZNIONY WPIS (najnowszy) ======================= -->
+<?php if ( $featured_count >= 2 ) : ?>
+<!-- =============== WYROZNIONE WPISY (2 obok siebie) =============== -->
+<section class="aktual-featured">
+	<div class="wrap">
+		<div class="aktual-feat2">
+			<?php foreach ( $featured_ids as $fid ) : ?>
+				<a class="aktual-feat2__card" href="<?php echo esc_url( get_permalink( $fid ) ); ?>">
+					<div class="aktual-feat2__img">
+						<?php if ( has_post_thumbnail( $fid ) ) : ?>
+							<?php echo get_the_post_thumbnail( $fid, 'large', array( 'alt' => esc_attr( get_the_title( $fid ) ) ) ); ?>
+						<?php else : ?>
+							<span class="aktual-card__noimg" data-i18n="aktual.card.noimg">foto wpisu</span>
+						<?php endif; ?>
+					</div>
+					<span class="tag" data-i18n="aktual.featured.tag">Wyróżnione</span>
+					<h3><?php echo esc_html( get_the_title( $fid ) ); ?></h3>
+					<div class="aktual-card__date"><?php echo esc_html( psod2_polish_date( $fid ) ); ?></div>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+<?php elseif ( 1 === $featured_count ) : $featured = $featured_ids[0]; ?>
+<!-- ======================= WYROZNIONY WPIS ======================= -->
 <section class="aktual-featured">
 	<div class="wrap">
 		<a class="aktual-featured__grid" href="<?php echo esc_url( get_permalink( $featured ) ); ?>">

@@ -155,6 +155,82 @@ function psod2_register_aktualnosci() {
 add_action( 'init', 'psod2_register_aktualnosci' );
 
 /**
+ * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
+ *
+ * Wyróżnione wpisy (meta _psod_wyrozniony=1) pojawiają się na górze listy
+ * /aktualnosci/ jako duże bloki (do 2). Redaktor zarządza tym w wp-adminie.
+ */
+function psod2_wyrozniony_metabox() {
+	add_meta_box( 'psod2_wyrozniony', __( 'Wyróżnienie', 'psod2' ), 'psod2_wyrozniony_metabox_cb', 'aktualnosci', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_wyrozniony_metabox' );
+
+function psod2_wyrozniony_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_wyrozniony_save', 'psod2_wyrozniony_nonce' );
+	$val = get_post_meta( $post->ID, '_psod_wyrozniony', true );
+	echo '<label><input type="checkbox" name="psod2_wyrozniony" value="1" ' . checked( $val, '1', false ) . '> '
+		. esc_html__( 'Pokaż jako wyróżniony na liście aktualności', 'psod2' ) . '</label>';
+	echo '<p class="description">' . esc_html__( 'Wyróżnione wpisy pojawiają się na górze /aktualnosci/ (do 2 naraz).', 'psod2' ) . '</p>';
+}
+
+function psod2_wyrozniony_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_wyrozniony_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_wyrozniony_nonce'] ) ), 'psod2_wyrozniony_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_wyrozniony'] ) ) {
+		update_post_meta( $post_id, '_psod_wyrozniony', '1' );
+	} else {
+		delete_post_meta( $post_id, '_psod_wyrozniony' );
+	}
+}
+add_action( 'save_post_aktualnosci', 'psod2_wyrozniony_save' );
+
+/**
+ * ID wyróżnionych wpisów aktualności (meta), najnowsze pierwsze.
+ * Gdy żaden nie jest oznaczony — fallback: najnowszy wpis (jak dotychczas).
+ *
+ * @param int $limit maksymalna liczba wyróżnionych.
+ * @return int[] lista ID.
+ */
+function psod2_featured_ids( $limit = 2 ) {
+	$q = new WP_Query(
+		array(
+			'post_type'      => 'aktualnosci',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_key'       => '_psod_wyrozniony',
+			'meta_value'     => '1',
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	$ids = $q->posts;
+	if ( empty( $ids ) ) {
+		$q2 = new WP_Query(
+			array(
+				'post_type'      => 'aktualnosci',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+		$ids = $q2->posts;
+	}
+	return $ids;
+}
+
+/**
  * Data po polsku w dopełniaczu, np. „16 lipca 2026".
  *
  * WordPress get_the_date('j F Y') przy polskiej lokalizacji potrafi zwrócić
