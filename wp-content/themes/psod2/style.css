@@ -345,7 +345,7 @@ body.nav-open{overflow:hidden}
 .onas-intro p{font-size:16.5px;line-height:1.85;color:var(--tekst-2);margin-bottom:20px}
 .onas-intro p:last-child{margin-bottom:0}
 .onas-intro p b{color:var(--tekst);font-weight:500}
-.onas-intro__lead{font-family:var(--font-serif);font-size:clamp(19px,2.2vw,24px);line-height:1.6;color:var(--tekst)}
+.onas-intro__lead{font-size:clamp(18px,2vw,21px);line-height:1.75;color:var(--tekst)}
 .onas-intro__lead b{font-weight:500}
 
 .onas-list{background:var(--mgla);padding:96px 0}
