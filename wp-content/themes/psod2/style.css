@@ -644,6 +644,32 @@ body.nav-open{overflow:hidden}
 
 .artykul-cta{padding:20px 32px 72px;display:flex;justify-content:center}
 
+.artykul-position__title{margin:0 0 18px!important;font-family:var(--font-serif);font-weight:300;font-size:26px;line-height:1.25;color:var(--tekst);scroll-margin-top:100px}
+
+/* --- Wariant 1B: magazynowy (naglowek do lewej + panel boczny) --- */
+.artykul-head--left{text-align:left}
+.artykul-head--left .wrap{max-width:var(--wrap-max)}
+.artykul-head--left .artykul-meta{justify-content:flex-start}
+.artykul-head--left h1{max-width:920px;margin-left:0;margin-right:0}
+.artykul-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:64px;align-items:start;padding:52px 32px 72px;margin:0 auto}
+.artykul-layout__main{max-width:720px;padding:0}
+.artykul-aside{position:sticky;top:104px;display:flex;flex-direction:column;gap:26px}
+.artykul-aside__label{font-family:var(--font-sans);font-size:11.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--tekst-2);margin-bottom:14px}
+.artykul-aside__sep{height:1px;background:var(--linia)}
+.artykul-toc{display:flex;flex-direction:column}
+.artykul-toc a{padding:8px 0 8px 16px;border-left:2px solid var(--linia);font-family:var(--font-sans);font-weight:500;font-size:14px;line-height:1.5;color:var(--tekst-2);text-decoration:none;transition:color var(--dur-fast),border-color var(--dur-fast)}
+.artykul-toc a:hover{color:var(--fiolet);border-left-color:var(--fiolet)}
+.artykul-share{display:flex;flex-direction:column;gap:11px;align-items:flex-start}
+.artykul-share a,.artykul-share__copy{font-family:var(--font-sans);font-weight:500;font-size:14px;color:var(--tekst);text-decoration:none;background:none;border:none;padding:0;cursor:pointer;transition:color var(--dur-fast)}
+.artykul-share a:hover,.artykul-share__copy:hover{color:var(--fiolet)}
+.artykul-aside__back{align-self:flex-start;margin-top:4px}
+
+@media(max-width:900px){
+  .artykul-layout{grid-template-columns:1fr;gap:36px}
+  .artykul-aside{position:static;flex-direction:row;flex-wrap:wrap;gap:28px}
+  .artykul-aside__sep{display:none}
+}
+
 /* hero z realnym zdjeciem (import z produkcji) — naturalne proporcje, bez kadrowania.
    Szerokosc rowna kolumnie czytania (720px): male zrodla (np. zrzuty ekranu ~755px)
    nie sa mocno skalowane w gore (ostrzej), a duze nie dominuja strony. */

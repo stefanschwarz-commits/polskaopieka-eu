@@ -291,3 +291,23 @@
     update();
   });
 })();
+
+/* --- 6. Artykul (wariant 1B): przycisk „Kopiuj link" --- */
+(function(){
+  var btns=document.querySelectorAll('.js-copy-link');
+  if(!btns.length) return;
+  [].forEach.call(btns,function(btn){
+    var orig=btn.textContent;
+    btn.addEventListener('click',function(){
+      var url=btn.getAttribute('data-url')||window.location.href;
+      var done=function(){ btn.textContent='Skopiowano'; window.setTimeout(function(){ btn.textContent=orig; },1800); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(done,function(){ done(); });
+      }else{
+        var ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();
+        try{document.execCommand('copy');}catch(e){}
+        document.body.removeChild(ta);done();
+      }
+    });
+  });
+})();
