@@ -212,7 +212,7 @@ body.nav-open{overflow:hidden}
 .newscard .date{font-size:12.5px;color:var(--tekst-2);opacity:.85}
 
 /* ---------- Cytat-pieczęć (Seal) ---------- */
-.seal{background:var(--opieka-tlo);padding:128px 0;text-align:center;position:relative;overflow:hidden}
+.seal{background:var(--opieka-tlo);padding:96px 0;text-align:center;position:relative;overflow:hidden}
 .seal__mark{position:absolute;top:-34px;left:50%;transform:translateX(-50%);font-family:var(--font-serif);font-size:340px;line-height:1;color:rgba(94,140,160,.20);pointer-events:none}
 .seal .wrap{max-width:1080px;position:relative}
 .seal__orn{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:30px}
@@ -245,7 +245,7 @@ body.nav-open{overflow:hidden}
 .pillars__panel .bullet span:last-child{font-size:15px;line-height:1.75;color:var(--tekst-2)}
 
 /* ---------- O nas ---------- */
-.about{padding:104px 0;background:#fff;text-align:center}
+.about{padding:80px 0;background:#fff;text-align:center}
 .about .wrap{max-width:820px}
 .about__mark{width:46px;height:46px;display:block;margin:0 auto 30px}
 .about h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.25;color:var(--tekst);margin-bottom:26px}
@@ -274,7 +274,7 @@ body.nav-open{overflow:hidden}
 .acttile span:last-child{font-family:var(--font-sans);font-weight:600;font-size:18px;color:var(--fiolet)}
 
 /* ---------- Mity (gra) ---------- */
-.myths{background:var(--opieka-tlo);padding:104px 0}
+.myths{background:var(--opieka-tlo);padding:84px 0}
 .myths .wrap{max-width:820px;text-align:center}
 .myths h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(28px,3.6vw,44px);line-height:1.2;color:var(--tekst);margin-top:14px}
 .myths__intro{color:var(--tekst-2);font-size:16px;line-height:1.8;max-width:620px;margin:18px auto 0}
@@ -300,7 +300,7 @@ body.nav-open{overflow:hidden}
 .myths__foot .count{font-size:12.5px;color:var(--tekst-3)}
 
 /* ---------- Publikacje ---------- */
-.pubs{background:var(--mgla);padding:100px 0}
+.pubs{background:var(--mgla);padding:84px 0}
 .pubs .grid{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start}
 .pubs__cover{position:sticky;top:100px}
 .pubs__cover img{width:100%;display:block;border-radius:var(--r-md);box-shadow:var(--shadow-doc);filter:grayscale(1) brightness(1.03) contrast(.95);transition:filter var(--dur-slow) ease}
@@ -311,7 +311,7 @@ body.nav-open{overflow:hidden}
 .pubs p:last-of-type{margin-bottom:32px}
 
 /* ---------- Q&A ---------- */
-.faq{padding:110px 0;background:#fff}
+.faq{padding:88px 0;background:#fff}
 .faq__head{text-align:center;margin-bottom:48px}
 .faq__head h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(28px,3.6vw,44px);line-height:1.2;color:var(--tekst)}
 .faq__list{max-width:760px;margin:0 auto}
