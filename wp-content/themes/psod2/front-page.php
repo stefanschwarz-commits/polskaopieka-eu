@@ -67,8 +67,9 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 <section class="appeal" id="apel">
 	<div class="wrap wrap--wide">
 		<div class="grid">
-			<a class="appeal__doc" href="<?php echo esc_url( home_url( '/stanowisko/' ) ); ?>" title="<?php esc_attr_e( 'Zobacz pełną treść stanowiska', 'psod2' ); ?>" style="display:block">
+			<a class="appeal__doc" href="<?php echo esc_url( home_url( '/stanowisko/' ) ); ?>" aria-label="<?php esc_attr_e( 'Otwórz pełną treść stanowiska', 'psod2' ); ?>">
 				<img src="<?php echo esc_url( $assets . '/stanowisko-crisp.png' ); ?>" alt="Wspólne stanowisko PSOD i KIDO z 15 czerwca 2026 roku">
+				<span class="appeal__doc__hint" data-i18n="apel.hint">Otwórz pełną treść →</span>
 			</a>
 			<div>
 				<h2 data-i18n="apel.h2">Apel do rządu</h2>
