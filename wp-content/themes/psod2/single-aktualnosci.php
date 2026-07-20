@@ -23,22 +23,39 @@ while ( have_posts() ) :
 	if ( ! $archive_url ) {
 		$archive_url = home_url( '/aktualnosci/' );
 	}
-	$wariant  = ( isset( $_GET['wariant'] ) && '1b' === strtolower( sanitize_key( $_GET['wariant'] ) ) ) ? '1b' : '1a';
+	// Domyślny układ: 1B „magazynowy" (wybór Stefana). ?wariant=1a przełącza na klasyczny.
+	$wariant  = ( isset( $_GET['wariant'] ) && '1a' === strtolower( sanitize_key( $_GET['wariant'] ) ) ) ? '1a' : '1b';
 	$permalink = get_permalink();
 
-	// Treść + spis treści (H2 z id).
+	// Treść + spis treści. Nagłówkom H2 bez id nadajemy id (slug z tekstu), żeby
+	// spis treści (wariant 1B) działał dla dowolnego wpisu, nie tylko tych z
+	// ręcznie ustawionymi id.
 	ob_start();
 	the_content();
 	$tresc = ob_get_clean();
 	$toc = array();
-	if ( preg_match_all( '/<h2[^>]*\bid="([^"]+)"[^>]*>(.*?)<\/h2>/is', $tresc, $mm, PREG_SET_ORDER ) ) {
-		foreach ( $mm as $x ) {
+	$tresc = preg_replace_callback(
+		'/<h2([^>]*)>(.*?)<\/h2>/is',
+		function ( $m ) use ( &$toc ) {
+			$attrs = $m[1];
+			$inner = $m[2];
+			if ( preg_match( '/\bid="([^"]+)"/', $attrs, $idm ) ) {
+				$id = $idm[1];
+			} else {
+				$id = sanitize_title( wp_strip_all_tags( $inner ) );
+				if ( '' === $id ) {
+					$id = 'sekcja-' . ( count( $toc ) + 1 );
+				}
+				$attrs .= ' id="' . esc_attr( $id ) . '"';
+			}
 			$toc[] = array(
-				'id'   => $x[1],
-				'text' => trim( wp_strip_all_tags( $x[2] ) ),
+				'id'   => $id,
+				'text' => trim( wp_strip_all_tags( $inner ) ),
 			);
-		}
-	}
+			return '<h2' . $attrs . '>' . $inner . '</h2>';
+		},
+		$tresc
+	);
 
 	// Hero (zdjęcie lub placeholder).
 	if ( has_post_thumbnail() ) {
