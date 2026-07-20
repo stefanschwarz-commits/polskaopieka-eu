@@ -180,6 +180,44 @@ function psod2_polish_date( $post = null ) {
 }
 
 /**
+ * Znaczniki Open Graph / Twitter Card dla pojedynczych wpisów aktualności.
+ *
+ * Na stagingu nie ma wtyczki SEO (Yoast/RankMath), a wariant 1B ma przyciski
+ * udostępniania (LinkedIn/Facebook) — bez og:image podglądy byłyby puste.
+ * Jeśli w przyszłości pojawi się Yoast, ta funkcja się wyłącza (guard poniżej),
+ * żeby nie dublować znaczników.
+ */
+function psod2_og_tags() {
+	if ( defined( 'WPSEO_VERSION' ) || ! is_singular( 'aktualnosci' ) ) {
+		return;
+	}
+	$post_id = get_queried_object_id();
+	$title   = get_the_title( $post_id );
+	$excerpt = has_excerpt( $post_id )
+		? get_the_excerpt( $post_id )
+		: wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 40 );
+	$url = get_permalink( $post_id );
+
+	printf( '<meta property="og:type" content="article">' . "\n" );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $excerpt ) );
+	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $url ) );
+	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+
+	if ( has_post_thumbnail( $post_id ) ) {
+		$img = get_the_post_thumbnail_url( $post_id, 'large' );
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $img ) );
+		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $img ) );
+	} else {
+		printf( '<meta name="twitter:card" content="summary">' . "\n" );
+	}
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $excerpt ) );
+}
+add_action( 'wp_head', 'psod2_og_tags', 5 );
+
+/**
  * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
  */
 function psod2_resource_hints( $urls, $relation_type ) {

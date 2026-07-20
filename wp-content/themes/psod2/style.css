@@ -674,7 +674,7 @@ body.nav-open{overflow:hidden}
    Szerokosc rowna kolumnie czytania (720px): male zrodla (np. zrzuty ekranu ~755px)
    nie sa mocno skalowane w gore (ostrzej), a duze nie dominuja strony. */
 .artykul-hero--img{aspect-ratio:auto;background:none;border-radius:0;margin:40px auto 0;max-width:720px;overflow:visible}
-.artykul-hero--img img{width:100%;height:auto;display:block;border-radius:18px}
+.artykul-hero--img img{width:100%;height:auto;display:block;border-radius:var(--r-lg)}
 
 /* generyczna tresc wpisu z the_content() (bloki Gutenberga) */
 .artykul-body h3{margin:32px 0 14px;font-family:var(--font-serif);font-weight:400;font-size:23px;line-height:1.3;color:var(--tekst)}
