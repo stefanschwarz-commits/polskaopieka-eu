@@ -4,8 +4,9 @@
  *
  * Ten sam header/drawer/stopka i tokeny co strona główna (get_header/get_footer).
  * ETAP: treść statyczna (jak front-page.php) — docelowo pola ACF (patrz front-page.php).
- * Sekcje: 1) nagłówek strony  2) trzy akapity wstępne  3) lista „PSOD działa na rzecz"
- * 4) pasek statystyk  5) CTA „Zadbajmy o to razem" (wspólny z front-page.php).
+ * Sekcje: 1) nagłówek strony  2) O PSOD, dwukolumnowo — lead+4 akapity+4 obszary
+ * działania (przeniesione tu ze strony głównej na prośbę Stefana, patrz git log)
+ * 3) pasek statystyk  4) CTA „Zadbajmy o to razem" (wspólny z front-page.php).
  *
  * @package PSOD2
  */
@@ -25,28 +26,39 @@ $assets = get_template_directory_uri() . '/assets';
 	</div>
 </section>
 
-<!-- ======================= TRZY AKAPITY WSTĘPNE ======================= -->
-<section class="onas-intro">
-	<div class="wrap">
-		<p class="onas-intro__lead" data-i18n-html="onas.p1"><b>Polskie Stowarzyszenie Opieki Domowej</b> jest organizacją pracodawców zrzeszającą polskie firmy świadczące profesjonalne usługi opieki domowej.</p>
-		<p data-i18n="onas.p2">Usługi te wspierają osoby, które z powodu wieku, choroby, niepełnosprawności lub ograniczonej samodzielności potrzebują pomocy w codziennym funkcjonowaniu.</p>
-		<p data-i18n="onas.p3">Opieka domowa jest jedną z form szerszego systemu opieki długoterminowej. Działalność członków PSOD koncentruje się przede wszystkim na profesjonalnym, niemedycznym wsparciu świadczonym w miejscu zamieszkania, w tym na opiece domowej z zamieszkaniem (live-in care).</p>
-	</div>
-</section>
-
-<!-- ======================= PSOD DZIAŁA NA RZECZ ======================= -->
-<section class="onas-list">
-	<div class="wrap">
-		<div class="sec-head">
-			<h2 data-i18n="onas.list.h2">PSOD działa na rzecz:</h2>
-		</div>
-		<div class="onas-list__grid">
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.1">przejrzystych regulacji dotyczących opieki domowej</span></div>
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.2">wysokich standardów świadczonych usług</span></div>
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.3">uczciwej konkurencji na rynku opieki</span></div>
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.4">ograniczenia szarej strefy w zatrudnianiu opiekunów</span></div>
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.5">likwidacji barier w opiece transgranicznej</span></div>
-			<div class="onas-list__item"><span class="arw" aria-hidden="true">→</span><span data-i18n="onas.list.6">poszanowania interesów podopiecznych, ich rodzin i personelu opiekuńczego</span></div>
+<!-- ======================= O PSOD (przeniesione ze strony głównej) ======================= -->
+<section class="opsod">
+	<div class="wrap wrap--wide">
+		<div class="opsod__grid">
+			<div class="opsod__col">
+				<h2 data-i18n="onas.opsod.lead">Reprezentujemy polskie firmy świadczące profesjonalne usługi opieki domowej.</h2>
+				<p data-i18n="onas.opsod.p1">Polskie Stowarzyszenie Opieki Domowej jest związkiem pracodawców zrzeszającym polskie przedsiębiorstwa świadczące profesjonalne usługi opieki domowej.</p>
+				<p data-i18n="onas.opsod.p2">Członkowie PSOD wspierają osoby, które z powodu wieku, choroby, niepełnosprawności lub ograniczonej samodzielności potrzebują pomocy w codziennym funkcjonowaniu. Ich działalność koncentruje się przede wszystkim na niemedycznym wsparciu świadczonym w miejscu zamieszkania, w tym na opiece domowej z zamieszkaniem (live-in care).</p>
+				<p data-i18n="onas.opsod.p3">Opieka domowa jest jedną z form szerszego systemu opieki długoterminowej. Nie zastępuje opieki medycznej, pielęgniarskiej ani wsparcia rodziny, lecz powinna być z nimi odpowiednio skoordynowana.</p>
+				<p data-i18n="onas.opsod.p4">PSOD działa na rzecz wysokich standardów usług, przejrzystych regulacji, uczciwej konkurencji oraz poszanowania interesów osób korzystających z opieki, ich rodzin i personelu opiekuńczego.</p>
+			</div>
+			<div class="opsod__areas">
+				<div class="opsod__area">
+					<div class="opsod__area-accent"></div>
+					<h3 data-i18n="onas.opsod.area1.h">Wysokie standardy usług</h3>
+					<p data-i18n="onas.opsod.area1.p">Rozwijamy zasady jakości i odpowiedzialnej organizacji opieki.</p>
+				</div>
+				<div class="opsod__area">
+					<div class="opsod__area-accent"></div>
+					<h3 data-i18n="onas.opsod.area2.h">Bezpieczeństwo opieki</h3>
+					<p data-i18n="onas.opsod.area2.p">Chronimy interesy osób korzystających z opieki, ich rodzin i personelu.</p>
+				</div>
+				<div class="opsod__area">
+					<div class="opsod__area-accent"></div>
+					<h3 data-i18n="onas.opsod.area3.h">Przejrzyste regulacje</h3>
+					<p data-i18n="onas.opsod.area3.p">Działamy na rzecz jasnych, stabilnych i możliwych do stosowania przepisów.</p>
+				</div>
+				<div class="opsod__area">
+					<div class="opsod__area-accent"></div>
+					<h3 data-i18n="onas.opsod.area4.h">Uczciwa konkurencja</h3>
+					<p data-i18n="onas.opsod.area4.p">Wspieramy profesjonalny rynek oparty na równych zasadach.</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
