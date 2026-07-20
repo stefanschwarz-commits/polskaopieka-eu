@@ -32,16 +32,18 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	</div>
 </section>
 
-<!-- ======================= DEMOGRAFIA (gra suwak) ======================= -->
+<!-- ======================= DEMOGRAFIA (suwak roku urodzenia) ======================= -->
+<?php // Dane: assets/dane-demografia-pl.json (Eurostat EUROPOP2025 + EU-SILC). Logika: js/psod.js sekcja 1. ?>
 <section class="demo" id="gra">
 	<div class="wrap">
+		<div class="sec-head">
+			<h2 data-i18n="demo.h2">Zobacz, jak może wyglądać Polska w roku Twoich 80. urodzin</h2>
+		</div>
 		<p class="demo__q" data-i18n="demo.q">W którym roku się urodziłaś, urodziłeś?</p>
 		<div class="demo__year" id="demoYear">1980</div>
 		<input class="demo__range" id="demoRange" type="range" min="1940" max="2012" step="1" value="1980" aria-label="Rok urodzenia">
 		<div class="demo__ends"><span>1940</span><span>2012</span></div>
-		<p class="demo__reflect" id="demoReflect"></p>
-		<p class="demo__commit"><span class="zakr" data-i18n="demo.commit">Polska nie jest gotowa na ten czas.</span></p>
-		<div class="demo__cta"><a class="arrow-link" href="#dolacz"><span data-i18n="demo.cta">Pomóż nam to zmienić</span> <span class="arw">→</span></a></div>
+		<div class="demo__facts" id="demoFacts"></div>
 	</div>
 </section>
 
@@ -66,13 +68,15 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	<div class="wrap wrap--wide">
 		<div class="grid">
 			<a class="appeal__doc" href="<?php echo esc_url( $stanowisko_pdf ); ?>" target="_blank" rel="noopener" style="display:block">
-				<img src="<?php echo esc_url( $assets . '/stanowisko-crisp.png' ); ?>" alt="Stanowisko PSOD i KIDO — 15 czerwca 2026">
+				<img src="<?php echo esc_url( $assets . '/stanowisko-crisp.png' ); ?>" alt="Wspólne stanowisko PSOD i KIDO z 15 czerwca 2026 roku">
 			</a>
 			<div>
 				<h2 data-i18n="apel.h2">Apel do rządu</h2>
 				<div class="appeal__date">15 czerwca 2026</div>
-				<h3 data-i18n="apel.h3">Wspólne stanowisko PSOD oraz KIDO</h3>
-				<p data-i18n="apel.p">PSOD i KIDO wyrażają głębokie zaniepokojenie zawieszeniem prac nad projektem rozporządzenia w sprawie wykazu zawodów deficytowych. Argument o rosnącym bezrobociu jest nieadekwatny wobec bezrobocia strukturalnego w zawodach opiekuńczych — a raport ELA (EURES 2025) potwierdza, że niedobory w opiece mają charakter trwały. Do 2035 r. branża będzie potrzebować około 100 tys. opiekunów. Apelujemy o wznowienie prac i utrzymanie zawodów opiekuńczych w wykazie.</p>
+				<h3 data-i18n="apel.h3">PSOD i KIDO apelują o wznowienie prac nad wykazem zawodów deficytowych</h3>
+				<p data-i18n="apel.p">Co najmniej pół miliona osób w Polsce wymaga opieki długoterminowej, a już dziś brakuje około 20 tys. opiekunów. Do 2035 roku realizacja usług opiekuńczych będzie wymagała zatrudnienia około 100 tys. osób.</p>
+				<p data-i18n="apel.p2">Mimo to Ministerstwo Rodziny, Pracy i Polityki Społecznej zawiesiło prace nad rozporządzeniem, które miało uznać kluczowe zawody opiekuńcze za deficytowe i usprawnić zatrudnianie wykwalifikowanych pracowników, także spoza UE.</p>
+				<p data-i18n="apel.p3">PSOD i KIDO apelują o wyjaśnienie powodów tej decyzji, wznowienie prac oraz pozostawienie zawodów opiekuńczych w wykazie. Rosnące bezrobocie nie rozwiąże strukturalnego braku osób przygotowanych do opieki nad seniorami, chorymi i osobami niesamodzielnymi.</p>
 				<a class="btn btn--primary" href="<?php echo esc_url( $stanowisko_pdf ); ?>" target="_blank" rel="noopener" data-i18n="apel.cta">Zobacz stanowisko</a>
 			</div>
 		</div>

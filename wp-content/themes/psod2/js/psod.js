@@ -71,26 +71,71 @@
   });
 })();
 
-/* --- 1. Demografia: suwak roku + refleksja --- */
+/* --- 1. Demografia: suwak roku urodzenia -> 4 fakty o roku 80. urodzin ---
+   Dane: assets/dane-demografia-pl.json (Eurostat EUROPOP2025 + EU-SILC, zrodla
+   opisane w polu _source tego pliku). Zadnej interpretacji/komentarza - tylko
+   liczby wyliczone z danych, tekst zdania jest stalym szablonem. */
 (function(){
-  var TERAZ=2026, MIN=1940, MAX=2012;
+  var MIN=1940, MAX=2012;
+  var DATA_MIN_YEAR=2025, DATA_MAX_YEAR=2100;
   var range=document.getElementById('demoRange');
-  var year=document.getElementById('demoYear');
-  var reflect=document.getElementById('demoReflect');
+  var yearEl=document.getElementById('demoYear');
+  var facts=document.getElementById('demoFacts');
+  if(!range||!yearEl||!facts) return;
+
+  var DATA=null;
+
+  function plural(n,forms){
+    // forms: [jedna, dwie-cztery, pieciu-i-wiecej]
+    if(n===1) return forms[0];
+    var last=n%10, lastTwo=n%100;
+    if(last>=2&&last<=4&&!(lastTwo>=12&&lastTwo<=14)) return forms[1];
+    return forms[2];
+  }
+
+  function fmtMillion(n,decimals){
+    var mln=n/1000000;
+    var rounded=decimals?Math.round(mln*10)/10:Math.round(mln);
+    var text=rounded.toString().replace('.',',');
+    return 'około '+text+' mln';
+  }
+
+  function fmtWorkersPerSenior(ratio){
+    if(ratio<2) return 'mniej niż 2 '+plural(2,['osoba','osoby','osób']);
+    var n=Math.round(ratio);
+    return 'około '+n+' '+plural(n,['osoba','osoby','osób']);
+  }
+
   function render(){
+    if(!DATA) return;
     var rok=parseInt(range.value,10);
-    year.textContent=rok;
+    yearEl.textContent=rok;
     var fill=((rok-MIN)/(MAX-MIN))*100;
     range.style.background='linear-gradient(to right,var(--fiolet) '+fill+'%,var(--linia) '+fill+'%)';
-    var rok65=rok+65;
-    if(rok65>TERAZ){
-      reflect.innerHTML='W <em>'+rok65+'</em> roku skończysz 65 lat. Wtedy w wieku emerytalnym będzie już niemal <em>jedna trzecia</em> Polaków — a wielu z nich będzie potrzebować codziennej opieki.';
-    }else{
-      reflect.innerHTML='Masz już za sobą <em>65. urodziny</em>. Należysz do pokolenia, które dziś najbardziej potrzebuje dobrze zorganizowanej opieki.';
-    }
+
+    var year80=rok+80;
+    var lookupYear=Math.min(DATA_MAX_YEAR,Math.max(DATA_MIN_YEAR,year80));
+    var row=DATA.byYear[String(lookupYear)];
+    if(!row){ facts.innerHTML=''; return; }
+
+    var pop80plus=row.pop80plus;
+    var workersPerSenior=row.pop1564/row.pop65plus;
+    var peopleNeedingSupport=row.pop65plus*DATA.careNeedRate65plus;
+
+    var s1='W <strong>'+year80+'</strong> roku skończysz 80 lat.';
+    var s2='W Polsce będzie wtedy <strong>'+fmtMillion(pop80plus,false)+'</strong> osób w Twoim wieku lub starszych.';
+    var s3='Szacuje się, że <strong>'+fmtMillion(peopleNeedingSupport,true)+'</strong> seniorów może wymagać wsparcia w codziennym funkcjonowaniu.';
+    var s4='Na jednego seniora przypadnie <strong>'+fmtWorkersPerSenior(workersPerSenior)+'</strong> w wieku produkcyjnym.';
+
+    facts.innerHTML='<p class="demo__fact">'+s1+' '+s2+' '+s3+' '+s4+'</p>';
   }
+
   range.addEventListener('input',render);
-  render();
+
+  fetch(PSOD_ASSETS+'/dane-demografia-pl.json')
+    .then(function(r){ return r.json(); })
+    .then(function(json){ DATA=json; render(); })
+    .catch(function(){ facts.innerHTML=''; });
 })();
 
 /* --- 2. Filary: zakładki (tablist) --- */
