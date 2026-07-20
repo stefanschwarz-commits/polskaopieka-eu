@@ -137,12 +137,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 		<img class="about__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
 		<h2 data-i18n="about.h2">Polskie Stowarzyszenie Opieki Domowej</h2>
 		<p data-i18n-html="about.p1"><b>jest organizacją pracodawców</b> zrzeszającą polskie firmy świadczące profesjonalne usługi opieki domowej.</p>
-		<div class="about__extra" id="aboutExtra" hidden>
-			<p data-i18n-html="about.p2">Usługi te wspierają osoby, które z powodu wieku, choroby, niepełnosprawności lub ograniczonej samodzielności potrzebują pomocy w codziennym funkcjonowaniu.</p>
-			<p data-i18n-html="about.p3">Opieka domowa jest jedną z form szerszego systemu opieki długoterminowej. Działalność członków PSOD koncentruje się przede wszystkim na profesjonalnym, niemedycznym wsparciu świadczonym w miejscu zamieszkania, w tym na opiece domowej z zamieszkaniem (live-in care).</p>
-			<p data-i18n-html="about.p4">PSOD działa na rzecz przejrzystych regulacji, wysokich standardów usług, uczciwej konkurencji oraz poszanowania interesów osób korzystających z opieki, ich rodzin i personelu opiekuńczego.</p>
-		</div>
-		<button class="about__toggle" id="aboutToggle" aria-expanded="false">czytaj więcej <span>→</span></button>
+		<a class="about__toggle" href="<?php echo esc_url( home_url( '/o-nas/' ) ); ?>"><span data-i18n="about.more">czytaj więcej</span> <span>→</span></a>
 	</div>
 </section>
 

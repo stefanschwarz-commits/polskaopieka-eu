@@ -252,9 +252,6 @@ body.nav-open{overflow:hidden}
 .about h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.25;color:var(--tekst);margin-bottom:26px}
 .about p{font-size:17px;line-height:1.85;color:var(--tekst-2);max-width:680px;margin:0 auto}
 .about p b{color:var(--tekst);font-weight:500}
-.about__extra{margin-top:14px}
-.about__extra p+p{margin-top:16px}
-.about__extra[hidden]{display:none}
 .about__toggle{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-size:14px;font-weight:500;color:var(--fiolet);text-decoration:none;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
 
 /* ---------- Priorytety ---------- */
@@ -336,6 +333,35 @@ body.nav-open{overflow:hidden}
 .join__cta .fill{background:#fff;color:var(--fiolet);font-weight:600}
 .join__cta .ghost{background:transparent;color:#fff;font-weight:500;border:1.5px solid rgba(255,255,255,.7)}
 
+/* ---------- Podstrona: O nas (Czym jest PSOD?) ---------- */
+.page-hero{background:#fff;padding:64px 0 72px;text-align:center}
+.page-hero__back{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--tekst-2);text-decoration:none;margin-bottom:40px;transition:color var(--dur-fast)}
+.page-hero__back:hover{color:var(--fiolet)}
+.page-hero__mark{width:46px;height:46px;display:block;margin:0 auto 26px}
+.page-hero h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(32px,4.6vw,54px);line-height:1.2;color:var(--tekst);margin-top:14px}
+
+.onas-intro{background:#fff;padding:0 0 96px;text-align:center}
+.onas-intro .wrap{max-width:720px}
+.onas-intro p{font-size:16.5px;line-height:1.85;color:var(--tekst-2);margin-bottom:20px}
+.onas-intro p:last-child{margin-bottom:0}
+.onas-intro p b{color:var(--tekst);font-weight:500}
+.onas-intro__lead{font-family:var(--font-serif);font-size:clamp(19px,2.2vw,24px);line-height:1.6;color:var(--tekst)}
+.onas-intro__lead b{font-weight:500}
+
+.onas-list{background:var(--mgla);padding:96px 0}
+.onas-list__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:48px}
+.onas-list__item{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:var(--r-lg);padding:26px 24px;transition:box-shadow var(--dur-med) var(--ease)}
+.onas-list__item:hover{box-shadow:var(--shadow-card)}
+.onas-list__item .arw{color:var(--fiolet);font-size:18px;line-height:1.6;flex-shrink:0}
+.onas-list__item span:last-child{font-size:16px;line-height:1.6;color:var(--tekst)}
+
+.onas-stats{background:var(--opieka-tlo);padding:64px 0;text-align:center}
+.onas-stats__row{display:flex;justify-content:center;align-items:baseline;gap:20px;flex-wrap:wrap}
+.onas-stats__item{display:inline-flex;align-items:baseline;gap:10px}
+.onas-stats__num{font-family:var(--font-serif);font-weight:400;font-size:clamp(32px,5vw,52px);color:var(--fiolet);line-height:1}
+.onas-stats__label{font-size:16px;color:var(--opieka);font-weight:500}
+.onas-stats__sep{color:var(--opieka);opacity:.6;font-size:22px}
+
 /* ---------- Footer ---------- */
 .site-footer{background:var(--stopka-tlo);color:var(--stopka-tekst);padding:64px 0 40px;font-size:13.5px}
 .site-footer .cols{max-width:var(--wrap-wide);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px}
@@ -367,6 +393,7 @@ body.nav-open{overflow:hidden}
   .pillars__cols{grid-template-columns:1fr;gap:20px}
   .pillars__tabs{flex-direction:row;flex-wrap:wrap}
   .ptab{flex:1 1 140px}
+  .onas-list__grid{grid-template-columns:1fr}
 }
 @media(max-width:560px){
   :root{--wrap-pad:20px}
@@ -377,7 +404,9 @@ body.nav-open{overflow:hidden}
   .site-footer .cols{grid-template-columns:1fr;gap:32px}
   .myths__card{padding:32px 22px 28px}
   .myth__fact{padding:24px 22px}
-  .demo,.challenges,.appeal,.news,.pillars,.about,.priorities,.activity,.myths,.pubs,.faq{padding-top:72px;padding-bottom:72px}
+  .demo,.challenges,.appeal,.news,.pillars,.about,.priorities,.activity,.myths,.pubs,.faq,.onas-list,.onas-stats{padding-top:72px;padding-bottom:72px}
+  .onas-intro{padding-bottom:72px}
+  .page-hero{padding-top:48px;padding-bottom:48px}
   .seal{padding:88px 0}
 }
 

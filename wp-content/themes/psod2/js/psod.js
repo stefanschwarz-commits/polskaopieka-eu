@@ -171,6 +171,7 @@
   ];
   var tabs=document.getElementById('pillarTabs');
   var panel=document.getElementById('pillarPanel');
+  if(!tabs||!panel) return;
   var curIdx=0;
   function pad(n){return String(n).padStart(2,'0');}
   function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -205,26 +206,6 @@
   document.addEventListener('psod:langchange',function(){buildTabs();select(curIdx);});
 })();
 
-/* --- 3. O nas: czytaj więcej --- */
-(function(){
-  var t=document.getElementById('aboutToggle');
-  var extra=document.getElementById('aboutExtra');
-  function label(open){
-    var key=open?'about.toggle.less':'about.toggle.more';
-    var pl=open?'zwiń':'czytaj więcej';
-    return (window.psodT?psodT(key,pl):pl)+' <span>→</span>';
-  }
-  t.addEventListener('click',function(){
-    var open=extra.hasAttribute('hidden');
-    if(open){extra.removeAttribute('hidden');}else{extra.setAttribute('hidden','');}
-    t.setAttribute('aria-expanded',open?'true':'false');
-    t.innerHTML=label(open);
-  });
-  document.addEventListener('psod:langchange',function(){
-    t.innerHTML=label(t.getAttribute('aria-expanded')==='true');
-  });
-})();
-
 /* --- 4. Mity: gra „Prawda czy mit?" --- */
 (function(){
   var MITY=[
@@ -240,6 +221,7 @@
   var innerEl=document.getElementById('mythInner');
   var countEl=document.getElementById('mythCount');
   var nextEl=document.getElementById('mythNext');
+  if(!dotsEl||!innerEl||!countEl||!nextEl) return;
   MITY.forEach(function(m,k){
     var d=document.createElement('button');
     d.className='myths__dot';d.setAttribute('aria-label','Twierdzenie '+(k+1));
