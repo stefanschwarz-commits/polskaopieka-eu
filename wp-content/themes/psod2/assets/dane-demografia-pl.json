@@ -1,0 +1,389 @@
+{
+  "_source": {
+    "population": "Eurostat, EUROPOP2025 (scenariusz bazowy BSL), zbior proj_25np - Population on 1st January by age, sex and type of projection. Pobrane z API Eurostatu (ec.europa.eu/eurostat/api/dissemination) dnia 2026-07-20.",
+    "careNeedRate": "Eurostat EU-SILC, zbior hlth_silc_12 - Level of disability (activity limitation) - odsetek osob w wieku 65+ w Polsce zglaszajacych POWAZNE ograniczenie aktywnosci (GALI, lev_limit=SEV): 15.2% w 2025. Wskaznik utrzymany na stalym poziomie i zastosowany do przyszlej populacji 65+ - ta sama metoda co model opieki dlugoterminowej w unijnym Ageing Report (KE stosuje wskaznik wystepowania niesamodzielnosci z roku bazowego do prognozy populacji). Nie jest to bezposredni cytat liczby z Ageing Report - nie udalo sie wydobyc gotowej tabeli 'liczba osob zaleznych' dla Polski wprost z PDF raportu."
+  },
+  "careNeedRate65plus": 0.152,
+  "byYear": {
+    "2025": {
+      "pop80plus": 1610973,
+      "pop1564": 24030588,
+      "pop65plus": 7702204
+    },
+    "2026": {
+      "pop80plus": 1617612,
+      "pop1564": 23987187,
+      "pop65plus": 7842310
+    },
+    "2027": {
+      "pop80plus": 1690671,
+      "pop1564": 23918818,
+      "pop65plus": 7948851
+    },
+    "2028": {
+      "pop80plus": 1784101,
+      "pop1564": 23856070,
+      "pop65plus": 8033685
+    },
+    "2029": {
+      "pop80plus": 1890606,
+      "pop1564": 23769265,
+      "pop65plus": 8108562
+    },
+    "2030": {
+      "pop80plus": 1999901,
+      "pop1564": 23687826,
+      "pop65plus": 8167679
+    },
+    "2031": {
+      "pop80plus": 2116123,
+      "pop1564": 23604280,
+      "pop65plus": 8211159
+    },
+    "2032": {
+      "pop80plus": 2239442,
+      "pop1564": 23523587,
+      "pop65plus": 8243426
+    },
+    "2033": {
+      "pop80plus": 2360787,
+      "pop1564": 23463686,
+      "pop65plus": 8268635
+    },
+    "2034": {
+      "pop80plus": 2479702,
+      "pop1564": 23384693,
+      "pop65plus": 8292301
+    },
+    "2035": {
+      "pop80plus": 2591770,
+      "pop1564": 23286941,
+      "pop65plus": 8318204
+    },
+    "2036": {
+      "pop80plus": 2708847,
+      "pop1564": 23157940,
+      "pop65plus": 8353667
+    },
+    "2037": {
+      "pop80plus": 2814100,
+      "pop1564": 23021676,
+      "pop65plus": 8400084
+    },
+    "2038": {
+      "pop80plus": 2913332,
+      "pop1564": 22845320,
+      "pop65plus": 8459388
+    },
+    "2039": {
+      "pop80plus": 2998230,
+      "pop1564": 22627312,
+      "pop65plus": 8530599
+    },
+    "2040": {
+      "pop80plus": 3063958,
+      "pop1564": 22372375,
+      "pop65plus": 8615238
+    },
+    "2041": {
+      "pop80plus": 3107099,
+      "pop1564": 22088084,
+      "pop65plus": 8713141
+    },
+    "2042": {
+      "pop80plus": 3127424,
+      "pop1564": 21776931,
+      "pop65plus": 8822917
+    },
+    "2043": {
+      "pop80plus": 3133413,
+      "pop1564": 21472694,
+      "pop65plus": 8926388
+    },
+    "2044": {
+      "pop80plus": 3134223,
+      "pop1564": 21168898,
+      "pop65plus": 9030491
+    },
+    "2045": {
+      "pop80plus": 3126646,
+      "pop1564": 20857331,
+      "pop65plus": 9145205
+    },
+    "2046": {
+      "pop80plus": 3111894,
+      "pop1564": 20549199,
+      "pop65plus": 9259439
+    },
+    "2047": {
+      "pop80plus": 3093929,
+      "pop1564": 20255022,
+      "pop65plus": 9363014
+    },
+    "2048": {
+      "pop80plus": 3075397,
+      "pop1564": 19945640,
+      "pop65plus": 9489322
+    },
+    "2049": {
+      "pop80plus": 3061593,
+      "pop1564": 19628342,
+      "pop65plus": 9632199
+    },
+    "2050": {
+      "pop80plus": 3055421,
+      "pop1564": 19334366,
+      "pop65plus": 9758964
+    },
+    "2051": {
+      "pop80plus": 3061994,
+      "pop1564": 19057248,
+      "pop65plus": 9872572
+    },
+    "2052": {
+      "pop80plus": 3080268,
+      "pop1564": 18809335,
+      "pop65plus": 9960833
+    },
+    "2053": {
+      "pop80plus": 3113520,
+      "pop1564": 18583007,
+      "pop65plus": 10032446
+    },
+    "2054": {
+      "pop80plus": 3160748,
+      "pop1564": 18366236,
+      "pop65plus": 10100558
+    },
+    "2055": {
+      "pop80plus": 3222493,
+      "pop1564": 18164431,
+      "pop65plus": 10158958
+    },
+    "2056": {
+      "pop80plus": 3298185,
+      "pop1564": 17960938,
+      "pop65plus": 10225299
+    },
+    "2057": {
+      "pop80plus": 3385846,
+      "pop1564": 17772138,
+      "pop65plus": 10280991
+    },
+    "2058": {
+      "pop80plus": 3471313,
+      "pop1564": 17609427,
+      "pop65plus": 10312649
+    },
+    "2059": {
+      "pop80plus": 3559223,
+      "pop1564": 17459843,
+      "pop65plus": 10333355
+    },
+    "2060": {
+      "pop80plus": 3655615,
+      "pop1564": 17324208,
+      "pop65plus": 10341019
+    },
+    "2061": {
+      "pop80plus": 3751280,
+      "pop1564": 17206660,
+      "pop65plus": 10329805
+    },
+    "2062": {
+      "pop80plus": 3837870,
+      "pop1564": 17094171,
+      "pop65plus": 10312662
+    },
+    "2063": {
+      "pop80plus": 3939401,
+      "pop1564": 16991028,
+      "pop65plus": 10283654
+    },
+    "2064": {
+      "pop80plus": 4049991,
+      "pop1564": 16896450,
+      "pop65plus": 10242476
+    },
+    "2065": {
+      "pop80plus": 4144336,
+      "pop1564": 16805465,
+      "pop65plus": 10193556
+    },
+    "2066": {
+      "pop80plus": 4225256,
+      "pop1564": 16711448,
+      "pop65plus": 10143427
+    },
+    "2067": {
+      "pop80plus": 4283308,
+      "pop1564": 16621120,
+      "pop65plus": 10084281
+    },
+    "2068": {
+      "pop80plus": 4325388,
+      "pop1564": 16537382,
+      "pop65plus": 10012835
+    },
+    "2069": {
+      "pop80plus": 4361749,
+      "pop1564": 16457298,
+      "pop65plus": 9932490
+    },
+    "2070": {
+      "pop80plus": 4387664,
+      "pop1564": 16366865,
+      "pop65plus": 9859004
+    },
+    "2071": {
+      "pop80plus": 4417490,
+      "pop1564": 16263968,
+      "pop65plus": 9795426
+    },
+    "2072": {
+      "pop80plus": 4436990,
+      "pop1564": 16149444,
+      "pop65plus": 9741785
+    },
+    "2073": {
+      "pop80plus": 4436929,
+      "pop1564": 16009631,
+      "pop65plus": 9714046
+    },
+    "2074": {
+      "pop80plus": 4428678,
+      "pop1564": 15857330,
+      "pop65plus": 9699406
+    },
+    "2075": {
+      "pop80plus": 4411293,
+      "pop1564": 15704099,
+      "pop65plus": 9686459
+    },
+    "2076": {
+      "pop80plus": 4381077,
+      "pop1564": 15554885,
+      "pop65plus": 9671013
+    },
+    "2077": {
+      "pop80plus": 4349210,
+      "pop1564": 15422624,
+      "pop65plus": 9640083
+    },
+    "2078": {
+      "pop80plus": 4311724,
+      "pop1564": 15281488,
+      "pop65plus": 9622929
+    },
+    "2079": {
+      "pop80plus": 4269079,
+      "pop1564": 15158488,
+      "pop65plus": 9590992
+    },
+    "2080": {
+      "pop80plus": 4225463,
+      "pop1564": 15023202,
+      "pop65plus": 9578265
+    },
+    "2081": {
+      "pop80plus": 4186371,
+      "pop1564": 14892842,
+      "pop65plus": 9566611
+    },
+    "2082": {
+      "pop80plus": 4145823,
+      "pop1564": 14754952,
+      "pop65plus": 9570132
+    },
+    "2083": {
+      "pop80plus": 4101294,
+      "pop1564": 14607769,
+      "pop65plus": 9591059
+    },
+    "2084": {
+      "pop80plus": 4055850,
+      "pop1564": 14486619,
+      "pop65plus": 9591057
+    },
+    "2085": {
+      "pop80plus": 4022137,
+      "pop1564": 14371421,
+      "pop65plus": 9592119
+    },
+    "2086": {
+      "pop80plus": 4002162,
+      "pop1564": 14273086,
+      "pop65plus": 9582232
+    },
+    "2087": {
+      "pop80plus": 3995317,
+      "pop1564": 14184698,
+      "pop65plus": 9568683
+    },
+    "2088": {
+      "pop80plus": 4013658,
+      "pop1564": 14115920,
+      "pop65plus": 9540541
+    },
+    "2089": {
+      "pop80plus": 4046239,
+      "pop1564": 14066923,
+      "pop65plus": 9497129
+    },
+    "2090": {
+      "pop80plus": 4082977,
+      "pop1564": 14031767,
+      "pop65plus": 9444416
+    },
+    "2091": {
+      "pop80plus": 4119700,
+      "pop1564": 14005432,
+      "pop65plus": 9387291
+    },
+    "2092": {
+      "pop80plus": 4145406,
+      "pop1564": 13988682,
+      "pop65plus": 9324349
+    },
+    "2093": {
+      "pop80plus": 4183447,
+      "pop1564": 13966006,
+      "pop65plus": 9271939
+    },
+    "2094": {
+      "pop80plus": 4208931,
+      "pop1564": 13943644,
+      "pop65plus": 9222535
+    },
+    "2095": {
+      "pop80plus": 4249950,
+      "pop1564": 13919568,
+      "pop65plus": 9177730
+    },
+    "2096": {
+      "pop80plus": 4290056,
+      "pop1564": 13893690,
+      "pop65plus": 9137012
+    },
+    "2097": {
+      "pop80plus": 4340650,
+      "pop1564": 13865439,
+      "pop65plus": 9100359
+    },
+    "2098": {
+      "pop80plus": 4402761,
+      "pop1564": 13834295,
+      "pop65plus": 9067897
+    },
+    "2099": {
+      "pop80plus": 4443244,
+      "pop1564": 13799432,
+      "pop65plus": 9040051
+    },
+    "2100": {
+      "pop80plus": 4481127,
+      "pop1564": 13760402,
+      "pop65plus": 9016940
+    }
+  }
+}

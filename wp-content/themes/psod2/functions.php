@@ -17,6 +17,20 @@ if ( ! defined( 'PSOD2_VERSION' ) ) {
 }
 
 /**
+ * URL do kotwicy sekcji strony głównej (Wyzwania, Priorytety, Działalność, Apel,
+ * Publikacje, Q&A) — używane w menu głównym i stopce, widocznych na KAŻDEJ
+ * podstronie. Na stronie głównej: czysta kotwica „#id" (płynny scroll obsługuje
+ * psod.js, sekcja 0b). Na pozostałych podstronach: „/#id" — bo tych sekcji tam
+ * nie ma (są tylko na home), więc trzeba najpierw wrócić na stronę główną.
+ *
+ * @param string $id ID sekcji (bez „#").
+ * @return string
+ */
+function psod2_anchor_url( $id ) {
+	return is_front_page() ? '#' . $id : home_url( '/#' . $id );
+}
+
+/**
  * Podstawowa konfiguracja motywu.
  */
 function psod2_setup() {
@@ -47,12 +61,15 @@ add_action( 'after_setup_theme', 'psod2_setup' );
  * TODO (RODO/wydajność): rozważyć self-hosting fontów zamiast Google Fonts.
  */
 function psod2_assets() {
-	// Google Fonts.
+	// Fonty self-hostowane (Fraunces + Poppins, SIL OFL 1.1) — bez Google Fonts.
+	// Powód: RODO/prywatność (Google Fonts na żywo wysyła IP odwiedzającego do
+	// Google) + wydajność. Pliki woff2 + @font-face w assets/fonts/.
+	$psod2_fonts_css = get_template_directory() . '/assets/fonts/fonts.css';
 	wp_enqueue_style(
 		'psod2-fonts',
-		'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Poppins:wght@400;500;600;700&display=swap',
+		get_template_directory_uri() . '/assets/fonts/fonts.css',
 		array(),
-		null
+		file_exists( $psod2_fonts_css ) ? filemtime( $psod2_fonts_css ) : PSOD2_VERSION
 	);
 
 	// Główny arkusz stylów motywu (zawiera tokeny + cały layout).
@@ -66,12 +83,23 @@ function psod2_assets() {
 		file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : PSOD2_VERSION
 	);
 
-	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ).
+	// Silnik i18n (PL/DE/EN) — wczytywany przed psod.js, który z niego korzysta
+	// (tłumaczenie treści budowanych w JS: Filary, Prawda czy mit?).
+	$psod2_i18n_path = get_template_directory() . '/js/i18n.js';
+	wp_enqueue_script(
+		'psod2-i18n',
+		get_template_directory_uri() . '/js/i18n.js',
+		array(),
+		file_exists( $psod2_i18n_path ) ? filemtime( $psod2_i18n_path ) : PSOD2_VERSION,
+		true
+	);
+
+	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ, menu, i18n DOM).
 	$psod2_js_path = get_template_directory() . '/js/psod.js';
 	wp_enqueue_script(
 		'psod2-script',
 		get_template_directory_uri() . '/js/psod.js',
-		array(),
+		array( 'psod2-i18n' ),
 		file_exists( $psod2_js_path ) ? filemtime( $psod2_js_path ) : PSOD2_VERSION,
 		true
 	);
@@ -82,20 +110,484 @@ function psod2_assets() {
 		'var PSOD_ASSETS=' . wp_json_encode( get_template_directory_uri() . '/assets' ) . ';',
 		'before'
 	);
+
+	// Centrum wiedzy — spory, samodzielny skrypt (fetch + render 47 pytań),
+	// wczytywany tylko na tej jednej podstronie, nie globalnie.
+	if ( is_page_template( 'page-centrum-wiedzy.php' ) ) {
+		$psod2_kb_path = get_template_directory() . '/js/centrum-wiedzy.js';
+		wp_enqueue_script(
+			'psod2-centrum-wiedzy',
+			get_template_directory_uri() . '/js/centrum-wiedzy.js',
+			array( 'psod2-i18n' ),
+			file_exists( $psod2_kb_path ) ? filemtime( $psod2_kb_path ) : PSOD2_VERSION,
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'psod2_assets' );
 
 /**
- * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
+ * Szablon „Pismo A4" (page-stanowisko.php) to samodzielny dokument — wyłączamy
+ * główny arkusz stylów i skrypty motywu, żeby nie kolidowały z layoutem A4.
+ * Fonty (Poppins) zostają.
  */
-function psod2_resource_hints( $urls, $relation_type ) {
-	if ( 'preconnect' === $relation_type ) {
-		$urls[] = array( 'href' => 'https://fonts.googleapis.com' );
-		$urls[] = array(
-			'href'        => 'https://fonts.gstatic.com',
-			'crossorigin' => 'anonymous',
+function psod2_stanowisko_assets() {
+	if ( is_page_template( 'page-stanowisko.php' ) ) {
+		wp_dequeue_style( 'psod2-style' );
+		wp_dequeue_script( 'psod2-script' );
+		wp_dequeue_script( 'psod2-i18n' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'psod2_stanowisko_assets', 100 );
+
+/**
+ * Rejestracja custom post type „Aktualności" (klucz: aktualnosci).
+ *
+ * Odwzorowuje CPT z produkcji polskaopieka.eu: URL-e /aktualnosci/{slug}/,
+ * archiwum pod /aktualnosci/. Dzięki temu redaktor zarządza wpisami w wp-adminie
+ * (menu „Aktualności"), a motyw renderuje je przez archive-aktualnosci.php
+ * (lista) i single-aktualnosci.php (pojedynczy wpis).
+ *
+ * UWAGA: po zmianie rejestracji CPT trzeba raz przeładować reguły przepisań
+ * (flush_rewrite_rules) — robione jednorazowo skryptem wdrożeniowym, nie na init.
+ */
+function psod2_register_aktualnosci() {
+	$labels = array(
+		'name'               => __( 'Aktualności', 'psod2' ),
+		'singular_name'      => __( 'Aktualność', 'psod2' ),
+		'menu_name'          => __( 'Aktualności', 'psod2' ),
+		'add_new'            => __( 'Dodaj nową', 'psod2' ),
+		'add_new_item'       => __( 'Dodaj nową aktualność', 'psod2' ),
+		'edit_item'          => __( 'Edytuj aktualność', 'psod2' ),
+		'new_item'           => __( 'Nowa aktualność', 'psod2' ),
+		'view_item'          => __( 'Zobacz aktualność', 'psod2' ),
+		'search_items'       => __( 'Szukaj aktualności', 'psod2' ),
+		'not_found'          => __( 'Nie znaleziono aktualności', 'psod2' ),
+		'all_items'          => __( 'Wszystkie aktualności', 'psod2' ),
+	);
+
+	register_post_type(
+		'aktualnosci',
+		array(
+			'labels'       => $labels,
+			'public'       => true,
+			'has_archive'  => true,
+			'menu_icon'    => 'dashicons-megaphone',
+			'menu_position' => 5,
+			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
+			'rewrite'      => array(
+				'slug'       => 'aktualnosci',
+				'with_front' => false,
+			),
+			'show_in_rest' => true,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_aktualnosci' );
+
+/**
+ * Rejestracja custom post type „Q&A" (klucz: faq) — pytania i odpowiedzi.
+ *
+ * Pytanie = tytuł wpisu, odpowiedź = treść (edytor). Bez ACF — sam wbudowany
+ * mechanizm WordPressa. Redaktor zarządza w wp-adminie (menu „Q&A"), kolejność
+ * ustawia polem „Kolejność" (page-attributes → menu_order). Sekcja Q&A na
+ * stronie głównej renderuje te wpisy (front-page.php). CPT nie ma własnego URL
+ * (public=false) — to treść strony głównej, nie osobna podstrona.
+ */
+function psod2_register_faq() {
+	register_post_type(
+		'faq',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Q&A (Pytania)', 'psod2' ),
+				'singular_name' => __( 'Pytanie', 'psod2' ),
+				'menu_name'     => __( 'Q&A', 'psod2' ),
+				'add_new'       => __( 'Dodaj pytanie', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowe pytanie', 'psod2' ),
+				'edit_item'     => __( 'Edytuj pytanie', 'psod2' ),
+				'new_item'      => __( 'Nowe pytanie', 'psod2' ),
+				'search_items'  => __( 'Szukaj pytań', 'psod2' ),
+				'not_found'     => __( 'Nie znaleziono pytań', 'psod2' ),
+				'all_items'     => __( 'Wszystkie pytania', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-editor-help',
+			'menu_position' => 6,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_faq' );
+
+/**
+ * CPT „Mity" (klucz: mit) — gra „Prawda czy mit?". Twierdzenie = tytuł,
+ * treść „faktu" = edytor. Dane trafiają do JS (psod.js) — patrz
+ * psod2_frontpage_data(). Kolejność: page-attributes (menu_order).
+ */
+function psod2_register_mit() {
+	register_post_type(
+		'mit',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Mity', 'psod2' ),
+				'singular_name' => __( 'Mit', 'psod2' ),
+				'menu_name'     => __( 'Mity', 'psod2' ),
+				'add_new'       => __( 'Dodaj mit', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy mit', 'psod2' ),
+				'edit_item'     => __( 'Edytuj mit', 'psod2' ),
+				'all_items'     => __( 'Wszystkie mity', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-lightbulb',
+			'menu_position' => 7,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_mit' );
+
+/**
+ * CPT „Filary" (klucz: filar) — filary opieki domowej. Nazwa = tytuł;
+ * ikona, wprowadzenie i lista punktów w meta boxie „Filar". Dane trafiają do
+ * JS (psod.js) — patrz psod2_frontpage_data(). Kolejność: menu_order.
+ */
+function psod2_register_filar() {
+	register_post_type(
+		'filar',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Filary', 'psod2' ),
+				'singular_name' => __( 'Filar', 'psod2' ),
+				'menu_name'     => __( 'Filary', 'psod2' ),
+				'add_new'       => __( 'Dodaj filar', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy filar', 'psod2' ),
+				'edit_item'     => __( 'Edytuj filar', 'psod2' ),
+				'all_items'     => __( 'Wszystkie filary', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'menu_icon'     => 'dashicons-screenoptions',
+			'menu_position' => 8,
+			'supports'      => array( 'title', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_filar' );
+
+/** Lista dostępnych ikon filarów (plik w assets/). */
+function psod2_filar_icons() {
+	return array(
+		'filar-wybor.svg'          => 'Wybór',
+		'filar-bezpieczenstwo.svg' => 'Bezpieczeństwo',
+		'filar-szacunek.svg'       => 'Szacunek',
+		'filar-ciaglosc.svg'       => 'Ciągłość',
+		'filar-indywidualne.svg'   => 'Indywidualne podejście',
+	);
+}
+
+/** Meta box filaru: ikona (select), wprowadzenie (textarea), punkty (textarea, 1/linia). */
+function psod2_filar_metabox() {
+	add_meta_box( 'psod2_filar', __( 'Filar — treść', 'psod2' ), 'psod2_filar_metabox_cb', 'filar', 'normal', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_filar_metabox' );
+
+function psod2_filar_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_filar_save', 'psod2_filar_nonce' );
+	$icon    = get_post_meta( $post->ID, '_psod_filar_icon', true );
+	$intro   = get_post_meta( $post->ID, '_psod_filar_intro', true );
+	$bullets = get_post_meta( $post->ID, '_psod_filar_bullets', true );
+	echo '<p><label><strong>' . esc_html__( 'Ikona', 'psod2' ) . '</strong><br><select name="psod2_filar_icon" style="min-width:280px">';
+	foreach ( psod2_filar_icons() as $file => $label ) {
+		echo '<option value="' . esc_attr( $file ) . '" ' . selected( $icon, $file, false ) . '>' . esc_html( $label ) . ' (' . esc_html( $file ) . ')</option>';
+	}
+	echo '</select></label></p>';
+	echo '<p><label><strong>' . esc_html__( 'Wprowadzenie', 'psod2' ) . '</strong><br><textarea name="psod2_filar_intro" rows="3" style="width:100%">' . esc_textarea( $intro ) . '</textarea></label></p>';
+	echo '<p><label><strong>' . esc_html__( 'Punkty', 'psod2' ) . '</strong> <span class="description">' . esc_html__( '(jeden punkt na linię)', 'psod2' ) . '</span><br><textarea name="psod2_filar_bullets" rows="8" style="width:100%">' . esc_textarea( $bullets ) . '</textarea></label></p>';
+}
+
+function psod2_filar_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_filar_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_filar_nonce'] ) ), 'psod2_filar_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	$icons = psod2_filar_icons();
+	if ( isset( $_POST['psod2_filar_icon'] ) && isset( $icons[ $_POST['psod2_filar_icon'] ] ) ) {
+		update_post_meta( $post_id, '_psod_filar_icon', sanitize_text_field( wp_unslash( $_POST['psod2_filar_icon'] ) ) );
+	}
+	if ( isset( $_POST['psod2_filar_intro'] ) ) {
+		update_post_meta( $post_id, '_psod_filar_intro', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_intro'] ) ) );
+	}
+	if ( isset( $_POST['psod2_filar_bullets'] ) ) {
+		update_post_meta( $post_id, '_psod_filar_bullets', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_bullets'] ) ) );
+	}
+}
+add_action( 'save_post_filar', 'psod2_filar_save' );
+
+/**
+ * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu, treść = opis,
+ * zdjęcie wyróżniające = kadr, meta link = adres artykułu „Czytaj więcej".
+ * Używany na stronie głównej (kafle) i podstronie /nasze-priorytety/.
+ * Kolejność: menu_order.
+ */
+function psod2_register_priorytet() {
+	register_post_type(
+		'priorytet',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Priorytety', 'psod2' ),
+				'singular_name' => __( 'Priorytet', 'psod2' ),
+				'menu_name'     => __( 'Priorytety', 'psod2' ),
+				'add_new'       => __( 'Dodaj priorytet', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy priorytet', 'psod2' ),
+				'edit_item'     => __( 'Edytuj priorytet', 'psod2' ),
+				'all_items'     => __( 'Wszystkie priorytety', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-flag',
+			'menu_position' => 9,
+			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_priorytet' );
+
+/** Meta box priorytetu: link „Czytaj więcej". */
+function psod2_priorytet_metabox() {
+	add_meta_box( 'psod2_priorytet', __( 'Link „Czytaj więcej"', 'psod2' ), 'psod2_priorytet_metabox_cb', 'priorytet', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_priorytet_metabox' );
+
+function psod2_priorytet_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_priorytet_save', 'psod2_priorytet_nonce' );
+	$link = get_post_meta( $post->ID, '_psod_prio_link', true );
+	echo '<p><label>' . esc_html__( 'Adres artykułu (URL):', 'psod2' ) . '<br><input type="text" name="psod2_prio_link" value="' . esc_attr( $link ) . '" style="width:100%" placeholder="/artykuly/…/"></label></p>';
+	echo '<p class="description">' . esc_html__( 'Dokąd prowadzi „Czytaj więcej" na podstronie Nasze priorytety.', 'psod2' ) . '</p>';
+}
+
+function psod2_priorytet_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_priorytet_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_priorytet_nonce'] ) ), 'psod2_priorytet_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_prio_link'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_link', esc_url_raw( wp_unslash( $_POST['psod2_prio_link'] ) ) );
+	}
+}
+add_action( 'save_post_priorytet', 'psod2_priorytet_save' );
+
+/** Priorytety (CPT) w kolejności menu_order — wspólne dla strony głównej i /nasze-priorytety/. */
+function psod2_get_priorytety() {
+	return get_posts(
+		array(
+			'post_type'   => 'priorytet',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'menu_order',
+			'order'       => 'ASC',
+		)
+	);
+}
+
+/**
+ * Dane sekcji strony głównej budowanych w JS (Mity, Filary) → globalne zmienne
+ * JS (odczyt w psod.js). Tylko na stronie głównej (te sekcje są tylko tam).
+ */
+function psod2_frontpage_data() {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$mity = array();
+	$mq = new WP_Query( array( 'post_type' => 'mit', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
+	foreach ( $mq->posts as $p ) {
+		$mity[] = array(
+			't' => get_the_title( $p ),
+			'f' => trim( apply_filters( 'the_content', $p->post_content ) ),
 		);
 	}
-	return $urls;
+	$filary = array();
+	$fq = new WP_Query( array( 'post_type' => 'filar', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
+	foreach ( $fq->posts as $p ) {
+		$icon    = get_post_meta( $p->ID, '_psod_filar_icon', true );
+		$bullets = array_values( array_filter( array_map( 'trim', explode( "\n", (string) get_post_meta( $p->ID, '_psod_filar_bullets', true ) ) ) ) );
+		$filary[] = array(
+			'name'    => get_the_title( $p ),
+			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon : '',
+			'intro'   => (string) get_post_meta( $p->ID, '_psod_filar_intro', true ),
+			'bullets' => $bullets,
+		);
+	}
+	wp_reset_postdata();
+	wp_add_inline_script(
+		'psod2-script',
+		'window.PSOD_MITY=' . wp_json_encode( $mity ) . ';window.PSOD_FILARY=' . wp_json_encode( $filary ) . ';',
+		'before'
+	);
 }
-add_filter( 'wp_resource_hints', 'psod2_resource_hints', 10, 2 );
+add_action( 'wp_enqueue_scripts', 'psod2_frontpage_data', 20 );
+
+/**
+ * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
+ *
+ * Wyróżnione wpisy (meta _psod_wyrozniony=1) pojawiają się na górze listy
+ * /aktualnosci/ jako duże bloki (do 2). Redaktor zarządza tym w wp-adminie.
+ */
+function psod2_wyrozniony_metabox() {
+	add_meta_box( 'psod2_wyrozniony', __( 'Wyróżnienie', 'psod2' ), 'psod2_wyrozniony_metabox_cb', 'aktualnosci', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_wyrozniony_metabox' );
+
+function psod2_wyrozniony_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_wyrozniony_save', 'psod2_wyrozniony_nonce' );
+	$val = get_post_meta( $post->ID, '_psod_wyrozniony', true );
+	echo '<label><input type="checkbox" name="psod2_wyrozniony" value="1" ' . checked( $val, '1', false ) . '> '
+		. esc_html__( 'Pokaż jako wyróżniony na liście aktualności', 'psod2' ) . '</label>';
+	echo '<p class="description">' . esc_html__( 'Wyróżnione wpisy pojawiają się na górze /aktualnosci/ (do 2 naraz).', 'psod2' ) . '</p>';
+}
+
+function psod2_wyrozniony_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_wyrozniony_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_wyrozniony_nonce'] ) ), 'psod2_wyrozniony_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_wyrozniony'] ) ) {
+		update_post_meta( $post_id, '_psod_wyrozniony', '1' );
+	} else {
+		delete_post_meta( $post_id, '_psod_wyrozniony' );
+	}
+}
+add_action( 'save_post_aktualnosci', 'psod2_wyrozniony_save' );
+
+/**
+ * ID wyróżnionych wpisów aktualności (meta), najnowsze pierwsze.
+ * Gdy żaden nie jest oznaczony — fallback: najnowszy wpis (jak dotychczas).
+ *
+ * @param int $limit maksymalna liczba wyróżnionych.
+ * @return int[] lista ID.
+ */
+function psod2_featured_ids( $limit = 2 ) {
+	$q = new WP_Query(
+		array(
+			'post_type'      => 'aktualnosci',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_key'       => '_psod_wyrozniony',
+			'meta_value'     => '1',
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	$ids = $q->posts;
+	if ( empty( $ids ) ) {
+		$q2 = new WP_Query(
+			array(
+				'post_type'      => 'aktualnosci',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+		$ids = $q2->posts;
+	}
+	return $ids;
+}
+
+/**
+ * Data po polsku w dopełniaczu, np. „16 lipca 2026".
+ *
+ * WordPress get_the_date('j F Y') przy polskiej lokalizacji potrafi zwrócić
+ * mianownik („16 lipiec"); tu wymuszamy dopełniacz zgodny z projektem makiet.
+ *
+ * @param int|WP_Post|null $post ID lub obiekt wpisu (domyślnie bieżący).
+ * @return string
+ */
+function psod2_polish_date( $post = null ) {
+	$ts = get_post_time( 'U', false, $post );
+	if ( ! $ts ) {
+		return '';
+	}
+	$months = array(
+		1 => 'stycznia', 2 => 'lutego', 3 => 'marca', 4 => 'kwietnia',
+		5 => 'maja', 6 => 'czerwca', 7 => 'lipca', 8 => 'sierpnia',
+		9 => 'września', 10 => 'października', 11 => 'listopada', 12 => 'grudnia',
+	);
+	$d = (int) wp_date( 'j', $ts );
+	$m = (int) wp_date( 'n', $ts );
+	$y = wp_date( 'Y', $ts );
+	return $d . ' ' . $months[ $m ] . ' ' . $y;
+}
+
+/**
+ * Znaczniki Open Graph / Twitter Card dla pojedynczych wpisów aktualności.
+ *
+ * Na stagingu nie ma wtyczki SEO (Yoast/RankMath), a wariant 1B ma przyciski
+ * udostępniania (LinkedIn/Facebook) — bez og:image podglądy byłyby puste.
+ * Jeśli w przyszłości pojawi się Yoast, ta funkcja się wyłącza (guard poniżej),
+ * żeby nie dublować znaczników.
+ */
+function psod2_og_tags() {
+	if ( defined( 'WPSEO_VERSION' ) || ! is_singular( 'aktualnosci' ) ) {
+		return;
+	}
+	$post_id = get_queried_object_id();
+	$title   = get_the_title( $post_id );
+	$excerpt = has_excerpt( $post_id )
+		? get_the_excerpt( $post_id )
+		: wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 40 );
+	$url = get_permalink( $post_id );
+
+	printf( '<meta property="og:type" content="article">' . "\n" );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $excerpt ) );
+	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $url ) );
+	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+
+	if ( has_post_thumbnail( $post_id ) ) {
+		$img = get_the_post_thumbnail_url( $post_id, 'large' );
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $img ) );
+		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $img ) );
+	} else {
+		printf( '<meta name="twitter:card" content="summary">' . "\n" );
+	}
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $title ) );
+	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $excerpt ) );
+}
+add_action( 'wp_head', 'psod2_og_tags', 5 );
+
+// (Preconnect do Google Fonts usunięty — fonty są self-hostowane, patrz
+// psod2_assets() + assets/fonts/. Zero połączeń do domen Google = zgodność RODO.)
