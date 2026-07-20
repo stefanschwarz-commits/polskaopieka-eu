@@ -57,8 +57,8 @@ add_action( 'after_setup_theme', 'psod2_setup' );
 /**
  * Wczytanie stylów i skryptów.
  *
- * Fonty: Fraunces (serif) + Poppins (sans) z Google Fonts — zgodnie z projektem.
- * TODO (RODO/wydajność): rozważyć self-hosting fontów zamiast Google Fonts.
+ * Fonty: Fraunces (serif) + Poppins (sans) — self-hostowane (@font-face, SIL OFL),
+ * bez Google Fonts (RODO/prywatność + wydajność). Pliki woff2 w assets/fonts/.
  */
 function psod2_assets() {
 	// Fonty self-hostowane (Fraunces + Poppins, SIL OFL 1.1) — bez Google Fonts.
@@ -435,6 +435,7 @@ function psod2_frontpage_data() {
 		$icon    = get_post_meta( $p->ID, '_psod_filar_icon', true );
 		$bullets = array_values( array_filter( array_map( 'trim', explode( "\n", (string) get_post_meta( $p->ID, '_psod_filar_bullets', true ) ) ) ) );
 		$filary[] = array(
+			'key'     => $p->post_name, // slug — klucz i18n (filary.<slug>.*), patrz js/i18n.js.
 			'name'    => get_the_title( $p ),
 			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon : '',
 			'intro'   => (string) get_post_meta( $p->ID, '_psod_filar_intro', true ),
@@ -449,6 +450,164 @@ function psod2_frontpage_data() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'psod2_frontpage_data', 20 );
+
+/** Czy CPT ma już jakiekolwiek wpisy (dowolny status poza koszem/auto-draft)? */
+function psod2_cpt_has_posts( $type ) {
+	$ids = get_posts(
+		array(
+			'post_type'      => $type,
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	return ! empty( $ids );
+}
+
+/**
+ * Jednorazowy seed treści CPT „filar" i „mit" — odtwarza wartości, które wcześniej
+ * były zaszyte w js/psod.js (treść 1:1 z oryginału PSOD). Dzięki temu po ręcznym
+ * wdrożeniu motywu (SFTP — brak zdarzenia aktywacji) sekcje „Filary" i „Prawda czy
+ * mit?" na stronie głównej nie są puste, zanim redaktor cokolwiek doda.
+ *
+ * Idempotentny: flaga w opcji `psod2_seeded_filar_mit` gwarantuje jednorazowe
+ * uruchomienie; dodatkowo seeduje dany CPT tylko gdy jest pusty — nie duplikuje ani
+ * nie nadpisuje wpisów utworzonych ręcznie. Slug filaru ustawiany na stałe (wybor,
+ * bezpieczenstwo…), aby klucze i18n (filary.<slug>.*) były zgodne z js/i18n.js.
+ * Mit #2 celowo zawiera placeholder faktu (oryginał nie zawiera treści).
+ */
+function psod2_seed_filar_mit() {
+	if ( get_option( 'psod2_seeded_filar_mit' ) ) {
+		return;
+	}
+
+	$filary = array(
+		array(
+			'slug'    => 'wybor',
+			'name'    => 'Wybór',
+			'icon'    => 'filar-wybor.svg',
+			'intro'   => 'Oznacza zapewnienie podopiecznym prawa do dokonania wyboru sposobu, w jaki żyją i otrzymują opiekę. W szczególności:',
+			'bullets' => array(
+				'wspieranie podopiecznych w zarządzaniu własnym zdrowiem i samopoczuciem,',
+				'zapewnienie podopiecznym i ich opiekunom wiedzy o prawie do uczestniczenia w opiece i dokonywania wyborów w tym zakresie,',
+				'zaangażowanie do podejmowania decyzji dotyczących opieki oraz możliwości wyboru i kontroli nad usługami, z których korzystają,',
+				'zlecanie usług, które zapewniają podopiecznym informacje i wsparcie w celu określenia i osiągnięcia wyników, które są dla nich ważne,',
+				'uwzględnienie świadomych preferencji podopiecznych',
+			),
+		),
+		array(
+			'slug'    => 'bezpieczenstwo',
+			'name'    => 'Bezpieczeństwo',
+			'icon'    => 'filar-bezpieczenstwo.svg',
+			'intro'   => 'Opieka domowa musi być realizowane w sposób bezpieczny, obejmujący m.in.:',
+			'bullets' => array(
+				'ocenę ryzyka poszczególnych czynności opiekuńczych dla zdrowia i bezpieczeństwa podopiecznego oraz podejmowanie wszelkich możliwych działań w celu zmniejszenia takiego ryzyka,',
+				'zapewnienie personelu opiekuńczego o odpowiednich kwalifikacjach, kompetencjach i doświadczeniu zapewniających bezpieczeństwo opieki,',
+				'zapewnienie bezpieczeństwa i zgodności z przeznaczeniem pomieszczeń i sprzętu używanego do opieki',
+				'zaspokojenie potrzeb podopiecznego w obszarze żywieniowym, nawodnienia i właściwe zarządzanie lekami,',
+				'ocena ryzyka, zapobiegania, wykrywania i kontroli nad rozprzestrzenianiem się zakażeń,',
+				'w przypadku, gdy odpowiedzialność za opiekę domową jest dzielona, zapewnienie współpracy na każdym etapie planowania i realizacji opieki.',
+			),
+		),
+		array(
+			'slug'    => 'szacunek',
+			'name'    => 'Szacunek',
+			'icon'    => 'filar-szacunek.svg',
+			'intro'   => 'Zarówno osoby korzystające z usług opieki, jak i opiekunowie muszą być chronieni przed nadużyciami i traktowani z godnością oraz szacunkiem. Usługi opieki domowej nie mogą być świadczone w sposób, który:',
+			'bullets' => array(
+				'dopuszcza dyskryminację, jest lekceważący lub poniżający,',
+				'obejmuje działania ograniczające autonomię i niezależność podopiecznych, które nie są niezbędne lub są nieproporcjonalną reakcją w stosunku do ryzyka powstania szkody dla podopiecznego, personelu lub innych osób',
+				'nie respektuje osobistej przestrzeni podopiecznego i opiekuna oraz prywatności i poufności dotyczącej osobistych informacji,',
+				'ograniczaja wolność w celu uzyskania opieki lub leczenia – opieka i leczenie muszą być zapewnione za zgodą podopiecznych lub ich prawnych opiekunów.',
+			),
+		),
+		array(
+			'slug'    => 'ciaglosc',
+			'name'    => 'Ciągłość',
+			'icon'    => 'filar-ciaglosc.svg',
+			'intro'   => 'Opieka domowa wymaga:',
+			'bullets' => array(
+				'zapewnienia podopiecznym prawa do zachowania ciągłości opieki, tj. nieprzerwanego świadczenia bez narażania ich na ryzyko przerwy w dostępie do opieki,',
+				'zachowania dokładnej, pełnej i aktualnej informacji (poprzez odpowiednią dokumentację) dotyczącej każdego podopiecznego oraz decyzji podjętych w odniesieniu do zapewnionej opieki,',
+				'zapewnienia możliwości spersonalizowanego długotrwałego planowania opieki',
+			),
+		),
+		array(
+			'slug'    => 'indywidualne',
+			'name'    => 'Indywidualne podejście',
+			'icon'    => 'filar-indywidualne.svg',
+			'intro'   => 'Opieka domowa wymaga zatrudnienia odpowiedniej liczby wykwalifikowanego i otwartego na potrzeby podopiecznych personelu, w celu:',
+			'bullets' => array(
+				'zapewnienia zakresu opieki dostosowanego do potrzeb i preferencji podopiecznych,',
+				'możliwości skupienia się na tym, co jest ważne dla podopiecznych w kontekście jakości ich życia, a nie tylko liście schorzeń lub objawów, które należy leczyć,',
+				'dbania o transparentność w relacjach oraz zakresie leczenia i świadczonej opieki,',
+				'zapewnienia skuteczności w rejestrowaniu, reagowaniu i rozwiązywaniu problemów zgłaszanych przez pacjentów, ich rodziny i personel.',
+			),
+		),
+	);
+
+	if ( ! psod2_cpt_has_posts( 'filar' ) ) {
+		$order = 1;
+		foreach ( $filary as $f ) {
+			$fid = wp_insert_post(
+				array(
+					'post_type'   => 'filar',
+					'post_status' => 'publish',
+					'post_title'  => $f['name'],
+					'post_name'   => $f['slug'],
+					'menu_order'  => $order,
+				),
+				true
+			);
+			if ( ! is_wp_error( $fid ) && $fid ) {
+				update_post_meta( $fid, '_psod_filar_icon', $f['icon'] );
+				update_post_meta( $fid, '_psod_filar_intro', $f['intro'] );
+				update_post_meta( $fid, '_psod_filar_bullets', implode( "\n", $f['bullets'] ) );
+			}
+			$order++;
+		}
+	}
+
+	$mity = array(
+		array(
+			'title'   => 'Opiekunowie domowi pracują 24h na dobę',
+			'content' => 'Faktem jest, że opiekunowie domowi mają zapewnione zakwaterowanie w domu podopiecznego, więc w zasadzie przebywają w miejscu pracy 24h na dobę. Nie jest jednak prawdą, że przez cały ten czas wykonują pracę. Profesjonalna firma opiekuńcza powinna ustalić z opiekunem zakres czynności i obowiązków, który obejmuje wyłącznie czynności, których bezpośrednim beneficjentem jest osoba podopieczna. Zlecenia nie mogą zakładać pomocy choremu „non stop”.',
+		),
+		array(
+			'title'   => 'Usługi opieki domowej świadczą Agencje Pracy Tymczasowej',
+			'content' => '<em>[Do uzupełnienia — oryginalna strona nie zawiera tekstu faktu dla tego mitu. Treść do dostarczenia przez PSOD.]</em>',
+		),
+		array(
+			'title'   => 'Opiekunowie domowi nie muszą mieć kompetencji',
+			'content' => 'Takie stwierdzenie jest krzywdzące dla opiekunów i może być niebezpieczne dla podopiecznych. Nie każdy może zostać opiekunem domowym — profesjonalne firmy zwracają uwagę na szereg cech, kompetencji i predyspozycji. Kluczowe są umiejętności praktyczne obejmujące codzienną opiekę i pielęgnację, wiedza o procesie starzenia i demencji, a także empatia, cierpliwość, komunikatywność i szacunek do drugiego człowieka.',
+		),
+		array(
+			'title'   => 'Opieka nad osobą starszą to dobre zajęcie tylko dla kobiet 50+',
+			'content' => 'Prawdą jest, że wśród opiekunów zdecydowaną większość stanowią kobiety, często w grupie wiekowej 50+. Jednak wśród opiekunów coraz więcej jest mężczyzn (ok. 10%) i osób młodych, które przyciąga misyjność tego zawodu. Biorąc pod uwagę tempo starzenia się społeczeństwa, opiekuna osoby starszej można nazwać zawodem przyszłości.',
+		),
+	);
+
+	if ( ! psod2_cpt_has_posts( 'mit' ) ) {
+		$order = 1;
+		foreach ( $mity as $m ) {
+			wp_insert_post(
+				array(
+					'post_type'    => 'mit',
+					'post_status'  => 'publish',
+					'post_title'   => $m['title'],
+					'post_content' => $m['content'],
+					'menu_order'   => $order,
+				),
+				true
+			);
+			$order++;
+		}
+	}
+
+	update_option( 'psod2_seeded_filar_mit', 1 );
+}
+add_action( 'init', 'psod2_seed_filar_mit', 20 );
 
 /**
  * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.

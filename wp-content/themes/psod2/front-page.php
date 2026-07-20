@@ -159,7 +159,7 @@ wp_reset_postdata();
 </section>
 
 <!-- ======================= FILARY (zakładki) ======================= -->
-<?php // Zawartość filarów budowana w JS (js/psod.js). Docelowo: dane z pól ACF. ?>
+<?php // Filary z CPT „filar" (edytowalne w wp-adminie, menu „Filary"); dane → JS przez psod2_frontpage_data(), render w js/psod.js. ?>
 <section class="pillars">
 	<div class="wrap wrap--wide">
 		<div class="sec-head"><h2 data-i18n="pillars.h2">Filary opieki domowej</h2></div>
@@ -222,7 +222,7 @@ wp_reset_postdata();
 </section>
 
 <!-- ======================= MITY (gra) ======================= -->
-<?php // Twierdzenia i fakty budowane w JS (js/psod.js). Mit #2 ma celowy placeholder faktu. ?>
+<?php // Twierdzenia i fakty z CPT „mit" (edytowalne w wp-adminie, menu „Mity"); dane → JS przez psod2_frontpage_data(). Mit #2 ma celowy placeholder faktu (brak w oryginale). ?>
 <section class="myths">
 	<div class="wrap">
 		<div class="overline overline--care" data-i18n="myths.overline">Sprawdź się — zabawa edukacyjna</div>
