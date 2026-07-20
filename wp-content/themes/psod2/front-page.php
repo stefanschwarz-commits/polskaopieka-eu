@@ -67,7 +67,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 <section class="appeal" id="apel">
 	<div class="wrap wrap--wide">
 		<div class="grid">
-			<a class="appeal__doc" href="<?php echo esc_url( $stanowisko_pdf ); ?>" target="_blank" rel="noopener" style="display:block">
+			<a class="appeal__doc" href="<?php echo esc_url( home_url( '/stanowisko/' ) ); ?>" title="<?php esc_attr_e( 'Zobacz pełną treść stanowiska', 'psod2' ); ?>" style="display:block">
 				<img src="<?php echo esc_url( $assets . '/stanowisko-crisp.png' ); ?>" alt="Wspólne stanowisko PSOD i KIDO z 15 czerwca 2026 roku">
 			</a>
 			<div>
@@ -77,7 +77,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 				<p data-i18n="apel.p">Co najmniej pół miliona osób w Polsce wymaga opieki długoterminowej, a już dziś brakuje około 20 tys. opiekunów. Do 2035 roku realizacja usług opiekuńczych będzie wymagała zatrudnienia około 100 tys. osób.</p>
 				<p data-i18n="apel.p2">Mimo to Ministerstwo Rodziny, Pracy i Polityki Społecznej zawiesiło prace nad rozporządzeniem, które miało uznać kluczowe zawody opiekuńcze za deficytowe i usprawnić zatrudnianie wykwalifikowanych pracowników, także spoza UE.</p>
 				<p data-i18n="apel.p3">PSOD i KIDO apelują o wyjaśnienie powodów tej decyzji, wznowienie prac oraz pozostawienie zawodów opiekuńczych w wykazie. Rosnące bezrobocie nie rozwiąże strukturalnego braku osób przygotowanych do opieki nad seniorami, chorymi i osobami niesamodzielnymi.</p>
-				<a class="btn btn--primary" href="<?php echo esc_url( $stanowisko_pdf ); ?>" target="_blank" rel="noopener" data-i18n="apel.cta">Zobacz stanowisko</a>
+				<a class="btn btn--primary" href="<?php echo esc_url( $stanowisko_pdf ); ?>" download rel="noopener" data-i18n="apel.cta">Pobierz stanowisko</a>
 			</div>
 		</div>
 	</div>

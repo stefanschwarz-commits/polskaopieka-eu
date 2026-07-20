@@ -110,6 +110,20 @@ function psod2_assets() {
 add_action( 'wp_enqueue_scripts', 'psod2_assets' );
 
 /**
+ * Szablon „Pismo A4" (page-stanowisko.php) to samodzielny dokument — wyłączamy
+ * główny arkusz stylów i skrypty motywu, żeby nie kolidowały z layoutem A4.
+ * Fonty (Poppins) zostają.
+ */
+function psod2_stanowisko_assets() {
+	if ( is_page_template( 'page-stanowisko.php' ) ) {
+		wp_dequeue_style( 'psod2-style' );
+		wp_dequeue_script( 'psod2-script' );
+		wp_dequeue_script( 'psod2-i18n' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'psod2_stanowisko_assets', 100 );
+
+/**
  * Rejestracja custom post type „Aktualności" (klucz: aktualnosci).
  *
  * Odwzorowuje CPT z produkcji polskaopieka.eu: URL-e /aktualnosci/{slug}/,
