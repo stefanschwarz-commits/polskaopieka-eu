@@ -85,29 +85,67 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 
 <!-- ======================= AKTUALNOŚCI ======================= -->
 <?php
-// TODO: zastąpić pętlą WP_Query po typie „aktualnosci". Zdjęcia ponizej to prawdziwe
-// zdjęcia tych samych wpisów z produkcji (polskaopieka.eu/aktualnosci), pobrane recznie.
-?>
+// Dynamicznie: 5 najnowszych wpisow CPT „aktualnosci" (import z produkcji,
+// edytowalne w wp-adminie). Pierwszy = wyrozniony, pozostale 4 = karty.
+$psod2_news = new WP_Query(
+	array(
+		'post_type'      => 'aktualnosci',
+		'post_status'    => 'publish',
+		'posts_per_page' => 5,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'no_found_rows'  => true,
+	)
+);
+$psod2_news_all  = $psod2_news->posts;
+$psod2_news_feat = ! empty( $psod2_news_all ) ? array_shift( $psod2_news_all ) : null;
+if ( $psod2_news_feat ) :
+	?>
 <section class="news" id="aktualnosci">
 	<div class="wrap wrap--wide">
 		<div class="news__head"><h2 data-i18n="aktualnosci.h2">Aktualności</h2></div>
-		<a class="news__feat" href="#">
-			<div class="news__featimg"><img src="<?php echo esc_url( $assets . '/news-1-gazeta-wyborcza.jpg' ); ?>" alt="Okładka „Gazety Wyborczej” z 1 lipca 2026"></div>
+		<a class="news__feat" href="<?php echo esc_url( get_permalink( $psod2_news_feat ) ); ?>">
+			<div class="news__featimg">
+				<?php if ( has_post_thumbnail( $psod2_news_feat ) ) : ?>
+					<?php echo get_the_post_thumbnail( $psod2_news_feat, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_news_feat ) ) ) ); ?>
+				<?php endif; ?>
+			</div>
 			<div>
-				<h3 data-i18n="aktualnosci.feat.title">Kryzys opieki senioralnej na okładce „Gazety Wyborczej”. Czas na konkretne działania</h3>
-				<div class="date">1 lipca 2026</div>
-				<p data-i18n="aktualnosci.feat.p">Temat, o którym mówimy od lat, trafił na pierwszą stronę ogólnopolskiego dziennika. Rynek opieki senioralnej wymaga pilnych rozwiązań systemowych — komentujemy okładkowy materiał i wskazujemy, od czego zacząć.</p>
+				<h3><?php echo esc_html( get_the_title( $psod2_news_feat ) ); ?></h3>
+				<div class="date"><?php echo esc_html( psod2_polish_date( $psod2_news_feat ) ); ?></div>
+				<?php
+				$psod2_feat_excerpt = has_excerpt( $psod2_news_feat )
+					? get_the_excerpt( $psod2_news_feat )
+					: wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $psod2_news_feat ) ), 42 );
+				?>
+				<p><?php echo esc_html( $psod2_feat_excerpt ); ?></p>
 				<span class="news__more" data-i18n="aktualnosci.feat.more">Czytaj dalej</span>
 			</div>
 		</a>
 		<div class="news__grid">
-			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-2-dzien-praw.jpg' ); ?>" alt=""></div><div><h3 data-i18n="aktualnosci.card2.title">Światowy Dzień Praw Osób Starszych. Czy Polska jest gotowa na nadchodzący kryzys opieki?</h3><div class="date">15 czerwca 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-3-webinar.jpg' ); ?>" alt=""></div><div><h3 data-i18n="aktualnosci.card3.title">PSOD partnerem webinaru „Efektywna współpraca z Rodziną Podopiecznego w opiece nad Seniorami”</h3><div class="date">2 czerwca 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-4-dzien-opiekuna.jpg' ); ?>" alt=""></div><div><h3 data-i18n="aktualnosci.card4.title">Dzień Opiekuna Osób Starszych. Zawód, od którego będzie zależeć bezpieczeństwo milionów seniorów</h3><div class="date">15 maja 2026</div></div></a>
-			<a class="newscard" href="#"><div class="newscard__foto"><img src="<?php echo esc_url( $assets . '/news-5-bon-senioralny.jpg' ); ?>" alt=""></div><div><h3 data-i18n="aktualnosci.card5.title">Bon senioralny to krok w dobrą stronę — ale nie zastąpi systemu opieki</h3><div class="date">24 kwietnia 2026</div></div></a>
+			<?php foreach ( $psod2_news_all as $psod2_nc ) : ?>
+				<a class="newscard" href="<?php echo esc_url( get_permalink( $psod2_nc ) ); ?>">
+					<div class="newscard__foto">
+						<?php if ( has_post_thumbnail( $psod2_nc ) ) : ?>
+							<?php echo get_the_post_thumbnail( $psod2_nc, 'medium_large', array( 'alt' => esc_attr( get_the_title( $psod2_nc ) ), 'loading' => 'lazy' ) ); ?>
+						<?php endif; ?>
+					</div>
+					<div>
+						<h3><?php echo esc_html( get_the_title( $psod2_nc ) ); ?></h3>
+						<div class="date"><?php echo esc_html( psod2_polish_date( $psod2_nc ) ); ?></div>
+					</div>
+				</a>
+			<?php endforeach; ?>
+		</div>
+		<div class="news__all">
+			<a class="arrow-link" href="<?php echo esc_url( home_url( '/aktualnosci/' ) ); ?>"><span data-i18n="aktualnosci.all">Wszystkie aktualności</span> <span class="arw" aria-hidden="true">→</span></a>
 		</div>
 	</div>
 </section>
+	<?php
+endif;
+wp_reset_postdata();
+?>
 
 <!-- ======================= CYTAT-PIECZĘĆ ======================= -->
 <section class="seal">

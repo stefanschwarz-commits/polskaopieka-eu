@@ -110,6 +110,76 @@ function psod2_assets() {
 add_action( 'wp_enqueue_scripts', 'psod2_assets' );
 
 /**
+ * Rejestracja custom post type „Aktualności" (klucz: aktualnosci).
+ *
+ * Odwzorowuje CPT z produkcji polskaopieka.eu: URL-e /aktualnosci/{slug}/,
+ * archiwum pod /aktualnosci/. Dzięki temu redaktor zarządza wpisami w wp-adminie
+ * (menu „Aktualności"), a motyw renderuje je przez archive-aktualnosci.php
+ * (lista) i single-aktualnosci.php (pojedynczy wpis).
+ *
+ * UWAGA: po zmianie rejestracji CPT trzeba raz przeładować reguły przepisań
+ * (flush_rewrite_rules) — robione jednorazowo skryptem wdrożeniowym, nie na init.
+ */
+function psod2_register_aktualnosci() {
+	$labels = array(
+		'name'               => __( 'Aktualności', 'psod2' ),
+		'singular_name'      => __( 'Aktualność', 'psod2' ),
+		'menu_name'          => __( 'Aktualności', 'psod2' ),
+		'add_new'            => __( 'Dodaj nową', 'psod2' ),
+		'add_new_item'       => __( 'Dodaj nową aktualność', 'psod2' ),
+		'edit_item'          => __( 'Edytuj aktualność', 'psod2' ),
+		'new_item'           => __( 'Nowa aktualność', 'psod2' ),
+		'view_item'          => __( 'Zobacz aktualność', 'psod2' ),
+		'search_items'       => __( 'Szukaj aktualności', 'psod2' ),
+		'not_found'          => __( 'Nie znaleziono aktualności', 'psod2' ),
+		'all_items'          => __( 'Wszystkie aktualności', 'psod2' ),
+	);
+
+	register_post_type(
+		'aktualnosci',
+		array(
+			'labels'       => $labels,
+			'public'       => true,
+			'has_archive'  => true,
+			'menu_icon'    => 'dashicons-megaphone',
+			'menu_position' => 5,
+			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
+			'rewrite'      => array(
+				'slug'       => 'aktualnosci',
+				'with_front' => false,
+			),
+			'show_in_rest' => true,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_aktualnosci' );
+
+/**
+ * Data po polsku w dopełniaczu, np. „16 lipca 2026".
+ *
+ * WordPress get_the_date('j F Y') przy polskiej lokalizacji potrafi zwrócić
+ * mianownik („16 lipiec"); tu wymuszamy dopełniacz zgodny z projektem makiet.
+ *
+ * @param int|WP_Post|null $post ID lub obiekt wpisu (domyślnie bieżący).
+ * @return string
+ */
+function psod2_polish_date( $post = null ) {
+	$ts = get_post_time( 'U', false, $post );
+	if ( ! $ts ) {
+		return '';
+	}
+	$months = array(
+		1 => 'stycznia', 2 => 'lutego', 3 => 'marca', 4 => 'kwietnia',
+		5 => 'maja', 6 => 'czerwca', 7 => 'lipca', 8 => 'sierpnia',
+		9 => 'września', 10 => 'października', 11 => 'listopada', 12 => 'grudnia',
+	);
+	$d = (int) wp_date( 'j', $ts );
+	$m = (int) wp_date( 'n', $ts );
+	$y = wp_date( 'Y', $ts );
+	return $d . ' ' . $months[ $m ] . ' ' . $y;
+}
+
+/**
  * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
  */
 function psod2_resource_hints( $urls, $relation_type ) {

@@ -278,15 +278,16 @@
   if(!grid||!moreBtn||!moreWrap||!counter) return;
   var cards=[].slice.call(grid.querySelectorAll('.aktual-card'));
   var total=cards.length;
+  var step=parseInt(grid.getAttribute('data-step'),10)||3;
   var visible=cards.filter(function(c){return !c.hidden;}).length;
   function update(){
     counter.textContent=visible+' z '+total+' wpisów';
     if(visible>=total) moreWrap.style.display='none';
   }
   moreBtn.addEventListener('click',function(){
-    var toShow=cards.filter(function(c){return c.hidden;}).slice(0,3);
+    var toShow=cards.filter(function(c){return c.hidden;}).slice(0,step);
     toShow.forEach(function(c){c.hidden=false;});
-    visible=Math.min(visible+3,total);
+    visible=Math.min(visible+step,total);
     update();
   });
 })();
