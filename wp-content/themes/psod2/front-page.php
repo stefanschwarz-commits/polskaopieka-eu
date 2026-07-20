@@ -85,65 +85,43 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 
 <!-- ======================= AKTUALNOŚCI ======================= -->
 <?php
-// Dynamicznie z CPT „aktualnosci" (edytowalne w wp-adminie): u góry wpisy
-// wyróżnione (meta _psod_wyrozniony, do 2 — wspólny helper z /aktualnosci/),
-// poniżej 4 najnowsze karty (bez wyróżnionych).
-$psod2_featured_ids = psod2_featured_ids( 2 );
-$psod2_fcount       = count( $psod2_featured_ids );
-$psod2_cards_q      = new WP_Query(
+// Dynamicznie: 5 najnowszych wpisow CPT „aktualnosci" (import z produkcji,
+// edytowalne w wp-adminie). Pierwszy = wyrozniony, pozostale 4 = karty.
+$psod2_news = new WP_Query(
 	array(
 		'post_type'      => 'aktualnosci',
 		'post_status'    => 'publish',
-		'posts_per_page' => 4,
+		'posts_per_page' => 5,
 		'orderby'        => 'date',
 		'order'          => 'DESC',
-		'post__not_in'   => $psod2_featured_ids,
 		'no_found_rows'  => true,
 	)
 );
-$psod2_news_all = $psod2_cards_q->posts;
-if ( $psod2_featured_ids ) :
+$psod2_news_all  = $psod2_news->posts;
+$psod2_news_feat = ! empty( $psod2_news_all ) ? array_shift( $psod2_news_all ) : null;
+if ( $psod2_news_feat ) :
 	?>
 <section class="news" id="aktualnosci">
 	<div class="wrap wrap--wide">
 		<div class="news__head"><h2 data-i18n="aktualnosci.h2">Aktualności</h2></div>
-		<?php if ( $psod2_fcount >= 2 ) : ?>
-			<div class="aktual-feat2">
-				<?php foreach ( $psod2_featured_ids as $psod2_fid ) : ?>
-					<a class="aktual-feat2__card" href="<?php echo esc_url( get_permalink( $psod2_fid ) ); ?>">
-						<div class="aktual-feat2__img">
-							<?php if ( has_post_thumbnail( $psod2_fid ) ) : ?>
-								<?php echo get_the_post_thumbnail( $psod2_fid, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_fid ) ) ) ); ?>
-							<?php else : ?>
-								<span class="aktual-card__noimg">foto wpisu</span>
-							<?php endif; ?>
-						</div>
-						<span class="tag">Wyróżnione</span>
-						<h3><?php echo esc_html( get_the_title( $psod2_fid ) ); ?></h3>
-						<div class="aktual-card__date"><?php echo esc_html( psod2_polish_date( $psod2_fid ) ); ?></div>
-					</a>
-				<?php endforeach; ?>
+		<a class="news__feat" href="<?php echo esc_url( get_permalink( $psod2_news_feat ) ); ?>">
+			<div class="news__featimg">
+				<?php if ( has_post_thumbnail( $psod2_news_feat ) ) : ?>
+					<?php echo get_the_post_thumbnail( $psod2_news_feat, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_news_feat ) ) ) ); ?>
+				<?php endif; ?>
 			</div>
-		<?php else : $psod2_news_feat = $psod2_featured_ids[0]; ?>
-			<a class="news__feat" href="<?php echo esc_url( get_permalink( $psod2_news_feat ) ); ?>">
-				<div class="news__featimg">
-					<?php if ( has_post_thumbnail( $psod2_news_feat ) ) : ?>
-						<?php echo get_the_post_thumbnail( $psod2_news_feat, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_news_feat ) ) ) ); ?>
-					<?php endif; ?>
-				</div>
-				<div>
-					<h3><?php echo esc_html( get_the_title( $psod2_news_feat ) ); ?></h3>
-					<div class="date"><?php echo esc_html( psod2_polish_date( $psod2_news_feat ) ); ?></div>
-					<?php
-					$psod2_feat_excerpt = has_excerpt( $psod2_news_feat )
-						? wp_trim_words( get_the_excerpt( $psod2_news_feat ), 30 )
-						: wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $psod2_news_feat ) ), 30 );
-					?>
-					<p><?php echo esc_html( $psod2_feat_excerpt ); ?></p>
-					<span class="news__more" data-i18n="aktualnosci.feat.more">Czytaj dalej</span>
-				</div>
-			</a>
-		<?php endif; ?>
+			<div>
+				<h3><?php echo esc_html( get_the_title( $psod2_news_feat ) ); ?></h3>
+				<div class="date"><?php echo esc_html( psod2_polish_date( $psod2_news_feat ) ); ?></div>
+				<?php
+				$psod2_feat_excerpt = has_excerpt( $psod2_news_feat )
+					? wp_trim_words( get_the_excerpt( $psod2_news_feat ), 30 )
+					: wp_trim_words( wp_strip_all_tags( get_the_content( null, false, $psod2_news_feat ) ), 30 );
+				?>
+				<p><?php echo esc_html( $psod2_feat_excerpt ); ?></p>
+				<span class="news__more" data-i18n="aktualnosci.feat.more">Czytaj dalej</span>
+			</div>
+		</a>
 		<div class="news__grid">
 			<?php foreach ( $psod2_news_all as $psod2_nc ) : ?>
 				<a class="newscard" href="<?php echo esc_url( get_permalink( $psod2_nc ) ); ?>">
