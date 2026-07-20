@@ -245,14 +245,18 @@ body.nav-open{overflow:hidden}
 .pillars__panel .bullet .dot{color:var(--fiolet);line-height:1.75;flex-shrink:0}
 .pillars__panel .bullet span:last-child{font-size:15px;line-height:1.75;color:var(--tekst-2)}
 
-/* ---------- O nas ---------- */
-.about{padding:80px 0;background:#fff;text-align:center}
-.about .wrap{max-width:820px}
-.about__mark{width:46px;height:46px;display:block;margin:0 auto 30px}
-.about h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.25;color:var(--tekst);margin-bottom:26px}
-.about p{font-size:17px;line-height:1.85;color:var(--tekst-2);max-width:680px;margin:0 auto}
-.about p b{color:var(--tekst);font-weight:500}
-.about__toggle{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-size:14px;font-weight:500;color:var(--fiolet);text-decoration:none;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
+/* ---------- O PSOD ---------- */
+.about{padding:100px 0;background:#fff}
+.about__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:72px;align-items:start}
+.about__col h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(24px,2.8vw,34px);line-height:1.4;color:var(--tekst);margin-bottom:22px}
+.about__col p{font-size:16px;line-height:1.8;color:var(--tekst-2);margin-bottom:16px}
+.about__col p:last-of-type{margin-bottom:32px}
+.about__areas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.about__area{border:1px solid var(--linia);border-radius:var(--r-lg);padding:24px 22px;transition:border-color var(--dur-fast),box-shadow var(--dur-med) var(--ease)}
+.about__area:hover{border-color:var(--fiolet);box-shadow:var(--shadow-card)}
+.about__area-accent{width:26px;height:2px;background:var(--fiolet);margin-bottom:14px}
+.about__area h3{font-family:var(--font-sans);font-weight:600;font-size:16px;line-height:1.35;color:var(--tekst);margin-bottom:8px}
+.about__area p{font-size:14px;line-height:1.6;color:var(--tekst-2)}
 
 /* ---------- Priorytety ---------- */
 .priorities{background:var(--mgla);padding:100px 0}
@@ -388,6 +392,7 @@ body.nav-open{overflow:hidden}
   .news__grid{grid-template-columns:1fr;gap:36px}
   .pubs .grid{grid-template-columns:1fr;gap:32px}
   .pubs__cover{position:static;max-width:280px}
+  .about__grid{grid-template-columns:1fr;gap:48px}
 }
 @media(max-width:760px){
   .pillars__cols{grid-template-columns:1fr;gap:20px}
@@ -399,6 +404,7 @@ body.nav-open{overflow:hidden}
   :root{--wrap-pad:20px}
   .challenges .grid,.priorities .grid{grid-template-columns:1fr;gap:16px}
   .challenges .tile,.priorities .tile{aspect-ratio:16/10}
+  .about__areas{grid-template-columns:1fr}
   .newscard{grid-template-columns:1fr;gap:14px}
   .newscard__foto{aspect-ratio:16/9;max-width:none}
   .site-footer .cols{grid-template-columns:1fr;gap:32px}

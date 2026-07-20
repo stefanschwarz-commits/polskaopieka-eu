@@ -131,13 +131,42 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	</div>
 </section>
 
-<!-- ======================= O NAS ======================= -->
+<!-- ======================= O PSOD ======================= -->
 <section class="about">
-	<div class="wrap">
-		<img class="about__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
-		<h2 data-i18n="about.h2">Polskie Stowarzyszenie Opieki Domowej</h2>
-		<p data-i18n-html="about.p1"><b>jest organizacją pracodawców</b> zrzeszającą polskie firmy świadczące profesjonalne usługi opieki domowej.</p>
-		<a class="about__toggle" href="<?php echo esc_url( home_url( '/o-nas/' ) ); ?>"><span data-i18n="about.more">czytaj więcej</span> <span>→</span></a>
+	<div class="wrap wrap--wide">
+		<div class="about__grid">
+			<div class="about__col">
+				<div class="overline" data-i18n="about.overline">O PSOD</div>
+				<h2 data-i18n="about.lead">Reprezentujemy polskie firmy świadczące profesjonalne usługi opieki domowej.</h2>
+				<p data-i18n="about.p1">Polskie Stowarzyszenie Opieki Domowej jest związkiem pracodawców zrzeszającym polskie przedsiębiorstwa świadczące profesjonalne usługi opieki domowej.</p>
+				<p data-i18n="about.p2">Członkowie PSOD wspierają osoby, które z powodu wieku, choroby, niepełnosprawności lub ograniczonej samodzielności potrzebują pomocy w codziennym funkcjonowaniu. Ich działalność koncentruje się przede wszystkim na niemedycznym wsparciu świadczonym w miejscu zamieszkania, w tym na opiece domowej z zamieszkaniem (live-in care).</p>
+				<p data-i18n="about.p3">Opieka domowa jest jedną z form szerszego systemu opieki długoterminowej. Nie zastępuje opieki medycznej, pielęgniarskiej ani wsparcia rodziny, lecz powinna być z nimi odpowiednio skoordynowana.</p>
+				<p data-i18n="about.p4">PSOD działa na rzecz wysokich standardów usług, przejrzystych regulacji, uczciwej konkurencji oraz poszanowania interesów osób korzystających z opieki, ich rodzin i personelu opiekuńczego.</p>
+				<a class="btn btn--primary" href="<?php echo esc_url( home_url( '/o-nas/' ) ); ?>" data-i18n="about.cta">Poznaj PSOD</a>
+			</div>
+			<div class="about__areas">
+				<div class="about__area">
+					<div class="about__area-accent"></div>
+					<h3 data-i18n="about.area1.h">Wysokie standardy usług</h3>
+					<p data-i18n="about.area1.p">Rozwijamy zasady jakości i odpowiedzialnej organizacji opieki.</p>
+				</div>
+				<div class="about__area">
+					<div class="about__area-accent"></div>
+					<h3 data-i18n="about.area2.h">Bezpieczeństwo opieki</h3>
+					<p data-i18n="about.area2.p">Chronimy interesy osób korzystających z opieki, ich rodzin i personelu.</p>
+				</div>
+				<div class="about__area">
+					<div class="about__area-accent"></div>
+					<h3 data-i18n="about.area3.h">Przejrzyste regulacje</h3>
+					<p data-i18n="about.area3.p">Działamy na rzecz jasnych, stabilnych i możliwych do stosowania przepisów.</p>
+				</div>
+				<div class="about__area">
+					<div class="about__area-accent"></div>
+					<h3 data-i18n="about.area4.h">Uczciwa konkurencja</h3>
+					<p data-i18n="about.area4.p">Wspieramy profesjonalny rynek oparty na równych zasadach.</p>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -214,7 +243,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	<div class="wrap">
 		<div class="faq__head"><h2 data-i18n="qa.h2">Pytania i odpowiedzi</h2></div>
 		<div class="faq__list">
-			<details open><summary data-i18n="qa.q1.q">Czym jest PSOD?</summary><div data-i18n="qa.q1.a">PSOD jest związkiem pracodawców zrzeszającym polskie firmy oferujące usługi opieki domowej dla seniorów.</div></details>
+			<details open><summary data-i18n="qa.q1.q">Czym jest PSOD?</summary><div data-i18n="qa.q1.a">PSOD jest związkiem pracodawców zrzeszającym polskie firmy świadczące profesjonalne usługi opieki domowej, przede wszystkim niemedyczną pomoc w codziennym funkcjonowaniu.</div></details>
 			<details><summary data-i18n="qa.q2.q">Z jakich źródeł finansowana jest działalność PSOD?</summary><div data-i18n="qa.q2.a">Nasza działalność finansowana jest ze składek członkowskich oraz darowizn.</div></details>
 			<details><summary data-i18n="qa.q3.q">Kim są nasi Członkowie?</summary><div data-i18n="qa.q3.a">Organizacja reprezentuje obecnie 16 usługodawców zatrudniających w sumie 6500 opiekunów. Członkiem mogą zostać firmy i stowarzyszenia działające na obszarze RP, zatrudniające co najmniej jedną osobę, których zakres działalności obejmuje opiekę domową nad osobami starszymi.</div></details>
 			<details><summary data-i18n="qa.q4.q">Dlaczego warto być naszym Członkiem?</summary><div data-i18n="qa.q4.a">Chcemy wspierać i promować polskich pracodawców świadczących usługi opieki w Polsce i za granicą oraz reprezentować ich interesy wobec instytucji krajowych i zagranicznych, decydentów oraz mediów. Głównym postulatem jest wprowadzenie w Polsce obligatoryjnego rejestru usługodawców w obszarze opieki domowej.</div></details>
