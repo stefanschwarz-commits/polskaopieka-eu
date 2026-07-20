@@ -17,6 +17,20 @@ if ( ! defined( 'PSOD2_VERSION' ) ) {
 }
 
 /**
+ * URL do kotwicy sekcji strony głównej (Wyzwania, Priorytety, Działalność, Apel,
+ * Publikacje, Q&A) — używane w menu głównym i stopce, widocznych na KAŻDEJ
+ * podstronie. Na stronie głównej: czysta kotwica „#id" (płynny scroll obsługuje
+ * psod.js, sekcja 0b). Na pozostałych podstronach: „/#id" — bo tych sekcji tam
+ * nie ma (są tylko na home), więc trzeba najpierw wrócić na stronę główną.
+ *
+ * @param string $id ID sekcji (bez „#").
+ * @return string
+ */
+function psod2_anchor_url( $id ) {
+	return is_front_page() ? '#' . $id : home_url( '/#' . $id );
+}
+
+/**
  * Podstawowa konfiguracja motywu.
  */
 function psod2_setup() {
@@ -324,6 +338,80 @@ function psod2_filar_save( $post_id ) {
 	}
 }
 add_action( 'save_post_filar', 'psod2_filar_save' );
+
+/**
+ * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu, treść = opis,
+ * zdjęcie wyróżniające = kadr, meta link = adres artykułu „Czytaj więcej".
+ * Używany na stronie głównej (kafle) i podstronie /nasze-priorytety/.
+ * Kolejność: menu_order.
+ */
+function psod2_register_priorytet() {
+	register_post_type(
+		'priorytet',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Priorytety', 'psod2' ),
+				'singular_name' => __( 'Priorytet', 'psod2' ),
+				'menu_name'     => __( 'Priorytety', 'psod2' ),
+				'add_new'       => __( 'Dodaj priorytet', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy priorytet', 'psod2' ),
+				'edit_item'     => __( 'Edytuj priorytet', 'psod2' ),
+				'all_items'     => __( 'Wszystkie priorytety', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-flag',
+			'menu_position' => 9,
+			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_priorytet' );
+
+/** Meta box priorytetu: link „Czytaj więcej". */
+function psod2_priorytet_metabox() {
+	add_meta_box( 'psod2_priorytet', __( 'Link „Czytaj więcej"', 'psod2' ), 'psod2_priorytet_metabox_cb', 'priorytet', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_priorytet_metabox' );
+
+function psod2_priorytet_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_priorytet_save', 'psod2_priorytet_nonce' );
+	$link = get_post_meta( $post->ID, '_psod_prio_link', true );
+	echo '<p><label>' . esc_html__( 'Adres artykułu (URL):', 'psod2' ) . '<br><input type="text" name="psod2_prio_link" value="' . esc_attr( $link ) . '" style="width:100%" placeholder="/artykuly/…/"></label></p>';
+	echo '<p class="description">' . esc_html__( 'Dokąd prowadzi „Czytaj więcej" na podstronie Nasze priorytety.', 'psod2' ) . '</p>';
+}
+
+function psod2_priorytet_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_priorytet_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_priorytet_nonce'] ) ), 'psod2_priorytet_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_prio_link'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_link', esc_url_raw( wp_unslash( $_POST['psod2_prio_link'] ) ) );
+	}
+}
+add_action( 'save_post_priorytet', 'psod2_priorytet_save' );
+
+/** Priorytety (CPT) w kolejności menu_order — wspólne dla strony głównej i /nasze-priorytety/. */
+function psod2_get_priorytety() {
+	return get_posts(
+		array(
+			'post_type'   => 'priorytet',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'menu_order',
+			'order'       => 'ASC',
+		)
+	);
+}
 
 /**
  * Dane sekcji strony głównej budowanych w JS (Mity, Filary) → globalne zmienne

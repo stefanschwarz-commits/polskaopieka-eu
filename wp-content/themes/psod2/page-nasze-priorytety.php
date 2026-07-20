@@ -5,28 +5,21 @@
  *
  * 4 priorytety jako naprzemienne wiersze zdjęcie/tekst + CTA „Dołącz do nas".
  * Odtworzenie prototypu design_handoff_nasze_priorytety/ — treść 1:1, tokeny psod2.
- * Zdjęcia: istniejące w motywie kadry priorytetów (te same 4 priorytety co na
- * stronie głównej). Tło CTA: photo-dolacz.jpg. Opis jest identyczny dla wszystkich
- * 4 priorytetów (verbatim ze źródła).
+ * Dynamicznie z CPT „priorytet" (edytowalne w wp-adminie, menu „Priorytety") —
+ * ten sam CPT zasila też kafle priorytetów na stronie głównej.
  *
- * UWAGA: linki „Czytaj więcej" prowadzą do /artykuly/{slug}/ — te podstrony
- * artykułów jeszcze nie istnieją (do zbudowania osobno). Przycisk CTA → /kontakt/.
+ * UWAGA: link „Czytaj więcej" pochodzi z pola „Adres artykułu" w edytorze
+ * priorytetu; dopóki redaktor go nie uzupełni, prowadzi do „#" (bez błędu).
+ * Przycisk CTA → /kontakt/ (podstrona jeszcze nie istnieje — do zbudowania).
  *
  * @package PSOD2
  */
 
 get_header();
 
-$assets = get_template_directory_uri() . '/assets';
-
-$npri_desc = 'Nasza działalność jest realizowana poprzez inicjowanie dialogu z przedstawicielami administracji publicznej, świata nauki, mediów, związkami zawodowymi a także samymi opiekunami.';
-
-$npri_items = array(
-	array( 'n' => '01', 'title' => 'Likwidacja barier w opiece transgranicznej',  'img' => 'prio-transgraniczna.png', 'href' => '/artykuly/likwidacja-barier-w-opiece-transgranicznej/' ),
-	array( 'n' => '02', 'title' => 'Ustanowienie standardów w opiece domowej',    'img' => 'prio-standardy.png',      'href' => '/artykuly/ustanowienie-standardow-w-opiece-domowej/' ),
-	array( 'n' => '03', 'title' => 'Ograniczenie szarej strefy w opiece domowej', 'img' => 'prio-szara-strefa.png',   'href' => '/artykuly/ograniczenie-szarej-strefy-w-opiece-domowej/' ),
-	array( 'n' => '04', 'title' => 'Stworzenie ram prawnych dla opieki domowej',  'img' => 'prio-ramy-prawne.jpg',    'href' => '/artykuly/stworzenie-ram-prawnych-dla-opieki-domowej/' ),
-);
+$assets      = get_template_directory_uri() . '/assets';
+$npri_desc   = 'Nasza działalność jest realizowana poprzez inicjowanie dialogu z przedstawicielami administracji publicznej, świata nauki, mediów, związkami zawodowymi a także samymi opiekunami.';
+$npri_items  = psod2_get_priorytety();
 ?>
 
 <!-- ======================= HERO TYTUŁOWY ======================= -->
@@ -41,20 +34,26 @@ $npri_items = array(
 <!-- ======================= LISTA PRIORYTETÓW ======================= -->
 <section class="npri-list">
 	<div class="wrap">
-		<?php foreach ( $npri_items as $i => $it ) : ?>
+		<?php foreach ( $npri_items as $i => $psod2_p ) : ?>
+			<?php
+			$psod2_link = get_post_meta( $psod2_p->ID, '_psod_prio_link', true );
+			$psod2_link = $psod2_link ? $psod2_link : '#';
+			?>
 			<div class="npri-row<?php echo ( 1 === $i % 2 ) ? ' npri-row--rev' : ''; ?>">
 				<div class="npri-media">
-					<img src="<?php echo esc_url( $assets . '/' . $it['img'] ); ?>" alt="<?php echo esc_attr( $it['title'] ); ?>" loading="lazy">
+					<?php if ( has_post_thumbnail( $psod2_p ) ) : ?>
+						<?php echo get_the_post_thumbnail( $psod2_p, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_p ) ), 'loading' => 'lazy' ) ); ?>
+					<?php endif; ?>
 				</div>
 				<div class="npri-body">
 					<div class="npri-num">
-						<span class="npri-num__n"><?php echo esc_html( $it['n'] ); ?></span>
+						<span class="npri-num__n"><?php echo esc_html( str_pad( $i + 1, 2, '0', STR_PAD_LEFT ) ); ?></span>
 						<span class="npri-num__line" aria-hidden="true"></span>
 						<span class="npri-num__label" data-i18n="npri.label">Priorytet</span>
 					</div>
-					<h2 data-i18n="npri.title.<?php echo esc_attr( $i + 1 ); ?>"><?php echo esc_html( $it['title'] ); ?></h2>
-					<p data-i18n="npri.desc"><?php echo esc_html( $npri_desc ); ?></p>
-					<a class="arrow-link" href="<?php echo esc_url( home_url( $it['href'] ) ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
+					<h2><?php echo esc_html( get_the_title( $psod2_p ) ); ?></h2>
+					<div class="npri-body__desc"><?php echo apply_filters( 'the_content', $psod2_p->post_content ? $psod2_p->post_content : $npri_desc ); // phpcs:ignore ?></div>
+					<a class="arrow-link" href="<?php echo esc_url( 0 === strpos( $psod2_link, '/' ) ? home_url( $psod2_link ) : $psod2_link ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
 				</div>
 			</div>
 		<?php endforeach; ?>

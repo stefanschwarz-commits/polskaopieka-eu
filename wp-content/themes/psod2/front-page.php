@@ -181,6 +181,8 @@ wp_reset_postdata();
 </section>
 
 <!-- ======================= PRIORYTETY ======================= -->
+<?php $psod2_prio_list = psod2_get_priorytety(); ?>
+<?php if ( $psod2_prio_list ) : ?>
 <section class="priorities" id="priorytety">
 	<div class="wrap wrap--wide">
 		<div class="sec-head">
@@ -188,14 +190,20 @@ wp_reset_postdata();
 			<p data-i18n="priorytety.p">Przyszłość opieki domowej zaczyna się dziś. Oto kluczowe obszary działań Polskiego Stowarzyszenia Opieki Domowej.</p>
 		</div>
 		<div class="grid">
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/prio-transgraniczna.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><h3 data-i18n="priorytety.tile.transgraniczna">Likwidacja barier w opiece transgranicznej</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/prio-standardy.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><h3 data-i18n="priorytety.tile.standardy">Ustanowienie standardów w opiece domowej</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/prio-szara-strefa.png' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><h3 data-i18n="priorytety.tile.szarastrefa">Ograniczenie szarej strefy</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/prio-ramy-prawne.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><h3 data-i18n="priorytety.tile.ramyprawne">Likwidacja barier prawnych i administracyjnych</h3></div></a>
+			<?php foreach ( $psod2_prio_list as $psod2_p ) : ?>
+				<a class="tile" href="<?php echo esc_url( home_url( '/nasze-priorytety/' ) ); ?>">
+					<?php if ( has_post_thumbnail( $psod2_p ) ) : ?>
+						<?php echo get_the_post_thumbnail( $psod2_p, 'medium_large', array( 'class' => 'tile__img', 'alt' => '' ) ); ?>
+					<?php endif; ?>
+					<div class="tile__veil"></div>
+					<div class="tile__body"><h3><?php echo esc_html( get_the_title( $psod2_p ) ); ?></h3></div>
+				</a>
+			<?php endforeach; ?>
 		</div>
-		<div class="priorities__cta"><a class="btn btn--primary btn--uppercase" href="#" data-i18n="priorytety.cta">Więcej</a></div>
+		<div class="priorities__cta"><a class="btn btn--primary btn--uppercase" href="<?php echo esc_url( home_url( '/nasze-priorytety/' ) ); ?>" data-i18n="priorytety.cta">Więcej</a></div>
 	</div>
 </section>
+<?php endif; ?>
 
 <!-- ======================= DZIAŁALNOŚĆ ======================= -->
 <section class="activity" id="dzialalnosc">
