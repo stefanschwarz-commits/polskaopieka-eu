@@ -93,6 +93,19 @@ function psod2_assets() {
 		'var PSOD_ASSETS=' . wp_json_encode( get_template_directory_uri() . '/assets' ) . ';',
 		'before'
 	);
+
+	// Centrum wiedzy — spory, samodzielny skrypt (fetch + render 47 pytań),
+	// wczytywany tylko na tej jednej podstronie, nie globalnie.
+	if ( is_page_template( 'page-centrum-wiedzy.php' ) ) {
+		$psod2_kb_path = get_template_directory() . '/js/centrum-wiedzy.js';
+		wp_enqueue_script(
+			'psod2-centrum-wiedzy',
+			get_template_directory_uri() . '/js/centrum-wiedzy.js',
+			array( 'psod2-i18n' ),
+			file_exists( $psod2_kb_path ) ? filemtime( $psod2_kb_path ) : PSOD2_VERSION,
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'psod2_assets' );
 

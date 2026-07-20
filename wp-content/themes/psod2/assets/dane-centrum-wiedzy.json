@@ -1,0 +1,1185 @@
+{
+  "_source": "Handoff Centrum wiedzy o opiece domowej (PSOD) - dostarczony przez Stefana 2026-07-20. Trescr ekspercka (pytania, odpowiedzi, zrodla) to PROPOZYCJA wymagajaca weryfikacji PSOD - patrz README.md w oryginalnym pakiecie handoff. Nie sa to zweryfikowane liczby/fakty publikowane przez PSOD - tylko draft do akceptacji.",
+  "categories": [
+    {
+      "id": "pojecia",
+      "name": "Podstawowe pojęcia",
+      "short": "Podstawowe pojęcia",
+      "desc": "Wyjaśnienia najważniejszych terminów dotyczących opieki długoterminowej i domowej."
+    },
+    {
+      "id": "rodzina",
+      "name": "Osoba korzystająca z opieki i jej rodzina",
+      "short": "Osoba i rodzina",
+      "desc": "Prawa, potrzeby, wybór usługodawcy i wsparcie opiekunów nieformalnych."
+    },
+    {
+      "id": "jakosc",
+      "name": "Jakość i bezpieczeństwo",
+      "short": "Jakość i bezpieczeństwo",
+      "desc": "Standardy usług, weryfikacja personelu, zgłaszanie nieprawidłowości i ryzyka pracy nierejestrowanej."
+    },
+    {
+      "id": "system",
+      "name": "System opieki w Polsce",
+      "short": "System opieki",
+      "desc": "Dane demograficzne, organizacja systemu, dostępność usług i główne wyzwania."
+    },
+    {
+      "id": "pracownicy",
+      "name": "Pracownicy opieki",
+      "short": "Pracownicy opieki",
+      "desc": "Kompetencje, zakres obowiązków, niedobór pracowników i mobilność transgraniczna."
+    },
+    {
+      "id": "otepienie",
+      "name": "Otępienie i profilaktyka",
+      "short": "Otępienie",
+      "desc": "Objawy, codzienne wsparcie, bezpieczeństwo oraz możliwości ograniczania ryzyka."
+    },
+    {
+      "id": "finansowanie",
+      "name": "Finansowanie opieki",
+      "short": "Finansowanie",
+      "desc": "Koszty, dostępne świadczenia, modele finansowania i odpowiedzialność państwa, rodziny i samorządów."
+    },
+    {
+      "id": "dane",
+      "name": "Dane, źródła i metodologia",
+      "short": "Dane i źródła",
+      "desc": "Źródła danych, sposób ich weryfikacji, definicje wskaźników i daty aktualizacji."
+    }
+  ],
+  "questions": [
+    {
+      "id": "p1",
+      "c": "pojecia",
+      "q": "Czym jest opieka długoterminowa?",
+      "short": "Opieka długoterminowa obejmuje usługi i wsparcie dla osób, które przez dłuższy czas potrzebują pomocy w codziennym funkcjonowaniu albo stałej opieki pielęgniarskiej. Może dotyczyć osób starszych, przewlekle chorych, osób z niepełnosprawnościami oraz osób po urazach lub hospitalizacji.",
+      "long": "W praktyce łączy wsparcie w czynnościach dnia codziennego (mycie, ubieranie, posiłki, mobilność) z elementami opieki zdrowotnej i wsparcia społecznego. Może być świadczona w domu, w placówce dziennej lub całodobowej. Kluczową cechą jest ciągłość — pomoc trwa miesiącami lub latami, a nie jednorazowo.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        }
+      ],
+      "related": [
+        "p2",
+        "p6",
+        "s1"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "p2",
+      "c": "pojecia",
+      "q": "Czym jest opieka domowa?",
+      "short": "Opieka domowa to wsparcie świadczone w miejscu zamieszkania osoby potrzebującej, zamiast w placówce. Pozwala zachować dotychczasowe otoczenie, rytm dnia i poczucie samodzielności.",
+      "long": "Zakres bywa różny — od kilku godzin pomocy w tygodniu po opiekę całodobową z zamieszkaniem opiekuna. Obejmuje czynności pielęgnacyjne, gospodarcze, wsparcie w mobilności i towarzyszenie. W modelu formalnym realizują ją wyspecjalizowane firmy i przeszkoleni opiekunowie.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        }
+      ],
+      "related": [
+        "p1",
+        "p3",
+        "p5"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "p3",
+      "c": "pojecia",
+      "q": "Czym jest formalna opieka domowa?",
+      "short": "Formalna opieka domowa jest świadczona przez zarejestrowane podmioty na podstawie umowy, przez przeszkolony personel i według określonych standardów. Odróżnia ją od pomocy nieformalnej udokumentowany zakres usług, odpowiedzialność usługodawcy i możliwość kontroli jakości.",
+      "long": "Formalny charakter oznacza legalne zatrudnienie, ubezpieczenie, dokumentację i jasne zasady rozliczeń. Daje to rodzinie ochronę prawną i przejrzystość, a opiekunowi — bezpieczne warunki pracy.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        },
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        }
+      ],
+      "related": [
+        "p2",
+        "j2",
+        "w6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "p4",
+      "c": "pojecia",
+      "q": "Czym różni się opieka domowa od opieki medycznej?",
+      "short": "Opieka domowa koncentruje się na wsparciu w codziennym funkcjonowaniu i pielęgnacji, natomiast opieka medyczna obejmuje świadczenia zdrowotne wykonywane przez personel medyczny. W praktyce często się uzupełniają.",
+      "long": "Czynności medyczne (podawanie leków dożylnych, zabiegi, diagnostyka) wymagają uprawnień pielęgniarskich lub lekarskich i są finansowane głównie ze środków ochrony zdrowia. Opieka domowa wypełnia lukę między systemem zdrowia a samodzielnym funkcjonowaniem, dbając o bezpieczeństwo i jakość życia na co dzień.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "Narodowy Fundusz Zdrowia (NFZ)",
+          "year": 2024,
+          "url": "https://www.nfz.gov.pl"
+        }
+      ],
+      "related": [
+        "p1",
+        "w3",
+        "p2"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "p5",
+      "c": "pojecia",
+      "q": "Czym jest opieka domowa z zamieszkaniem?",
+      "short": "To model, w którym opiekun mieszka razem z osobą potrzebującą wsparcia i zapewnia pomoc w ciągu dnia zgodnie z ustalonym grafikiem. Sprawdza się przy dużej niesamodzielności, gdy potrzebna jest stała obecność.",
+      "long": "Model wymaga jasnego określenia czasu pracy, odpoczynku i zastępstw, aby chronić zarówno podopiecznego, jak i opiekuna. W wersji formalnej reguluje go umowa, a jakość zależy od organizacji zmian i wsparcia ze strony usługodawcy.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        }
+      ],
+      "related": [
+        "p2",
+        "w1",
+        "r3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "p6",
+      "c": "pojecia",
+      "q": "Kto może potrzebować opieki długoterminowej?",
+      "short": "Opieki długoterminowej mogą potrzebować osoby starsze o ograniczonej samodzielności, osoby przewlekle chore, osoby z niepełnosprawnościami oraz osoby po ciężkich urazach, udarach czy hospitalizacji. Potrzeba wynika z ograniczenia zdolności do samodzielnego funkcjonowania, a nie z samego wieku.",
+      "long": "Zapotrzebowanie ocenia się na podstawie stopnia niesamodzielności — możliwości mycia, ubierania, przemieszczania się, przyjmowania posiłków i leków. Potrzeba może pojawić się nagle (po udarze) lub narastać stopniowo (np. przy otępieniu).",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "p1",
+        "o1",
+        "s1"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r1",
+      "c": "rodzina",
+      "q": "Jakie prawa ma osoba korzystająca z opieki?",
+      "short": "Osoba korzystająca z opieki ma prawo do poszanowania godności, prywatności i autonomii, do informacji o zakresie usług oraz do współdecydowania o sposobie sprawowania opieki. Ma także prawo do bezpieczeństwa i do zgłaszania nieprawidłowości bez obawy o pogorszenie opieki.",
+      "long": "W praktyce oznacza to jasną umowę, znajomość osoby opiekuna, możliwość zgłaszania uwag i wpływ na plan opieki. Prawa te wynikają z ogólnych praw człowieka i praw konsumenta usług, a odpowiedzialny usługodawca zapisuje je w swoich standardach.",
+      "sources": [
+        {
+          "inst": "Karta Praw Podstawowych UE",
+          "year": 2016,
+          "url": "https://eur-lex.europa.eu"
+        },
+        {
+          "inst": "Rzecznik Praw Obywatelskich",
+          "year": 2023,
+          "url": "https://bip.brpo.gov.pl"
+        }
+      ],
+      "related": [
+        "j2",
+        "r3",
+        "j4"
+      ],
+      "position": "Każda umowa o opiekę powinna zawierać czytelną kartę praw osoby korzystającej z opieki — to element bezpieczeństwa, o który PSOD zabiega w standardach branżowych.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r2",
+      "c": "rodzina",
+      "q": "Jak rozpoznać, że bliska osoba potrzebuje wsparcia?",
+      "short": "Sygnałami bywają trudności z codziennymi czynnościami, zaniedbanie domu i higieny, pomijanie leków, utrata wagi, częstsze upadki oraz wycofanie z kontaktów. Pojedynczy objaw nie przesądza, ale ich nasilenie warto skonsultować.",
+      "long": "Pomocne jest zwrócenie uwagi na zmiany względem dotychczasowego funkcjonowania, a nie na sam wiek. Wczesna reakcja pozwala dobrać wsparcie stopniowo — od pomocy kilka godzin w tygodniu po szerszą opiekę.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "p6",
+        "o3",
+        "r4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r3",
+      "c": "rodzina",
+      "q": "Jak wybrać bezpiecznego usługodawcę?",
+      "short": "Warto sprawdzić, czy usługodawca działa legalnie, zatrudnia przeszkolony i zweryfikowany personel, zawiera pisemną umowę i jasno określa zakres oraz koszt usług. Dobrym sygnałem są przejrzyste standardy, referencje i gotowość do odpowiadania na pytania.",
+      "long": "Bezpieczny wybór to taki, w którym wiadomo, kto przychodzi do domu, na jakich zasadach i kto ponosi odpowiedzialność. Unikaj ofert bez umowy i pracy „na czarno\" — obniżają koszt pozornie, a przenoszą ryzyko na rodzinę.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        },
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "r4",
+        "j2",
+        "j5"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r4",
+      "c": "rodzina",
+      "q": "O co zapytać przed rozpoczęciem współpracy?",
+      "short": "Zapytaj o zakres usług, kwalifikacje i weryfikację opiekunów, zasady zastępstw, sposób rozliczeń, formę umowy oraz procedurę zgłaszania uwag. Ważne jest też, kto koordynuje opiekę i jak wygląda kontakt w sytuacjach nagłych.",
+      "long": "Dobre pytania dotyczą także dopasowania opiekuna do potrzeb, ciągłości (czy to wciąż ta sama osoba) oraz tego, co dzieje się przy chorobie opiekuna. Odpowiedzi powinny być konkretne i zapisane w umowie.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "r3",
+        "j2",
+        "j1"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r5",
+      "c": "rodzina",
+      "q": "Kim jest opiekun nieformalny?",
+      "short": "Opiekun nieformalny to najczęściej członek rodziny lub bliska osoba, która sprawuje opiekę bez wynagrodzenia i bez formalnego zatrudnienia. To on stanowi obecnie największą część systemu opieki w Polsce.",
+      "long": "Opieka nieformalna bywa obciążająca fizycznie, emocjonalnie i finansowo, zwłaszcza gdy łączy się z pracą zawodową. Wsparcie takich osób — odciążenie, szkolenia, opieka wytchnieniowa — jest istotnym elementem dobrze działającego systemu.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "r6",
+        "s3",
+        "f3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "r6",
+      "c": "rodzina",
+      "q": "Gdzie rodzina może uzyskać pomoc?",
+      "short": "Wsparcia udzielają ośrodki pomocy społecznej, poradnie, organizacje pozarządowe oraz wyspecjalizowani usługodawcy opieki domowej. Dostępne bywają też świadczenia i programy, np. opieka wytchnieniowa czy usługi opiekuńcze gminy.",
+      "long": "Pierwszym krokiem jest zwykle ośrodek pomocy społecznej właściwy dla miejsca zamieszkania oraz lekarz rodzinny. Warto łączyć źródła wsparcia — publiczne, pozarządowe i komercyjne — dopasowując je do potrzeb i możliwości.",
+      "sources": [
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        }
+      ],
+      "related": [
+        "r5",
+        "s5",
+        "f3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j1",
+      "c": "jakosc",
+      "q": "Jak wygląda profesjonalna opieka domowa?",
+      "short": "Profesjonalna opieka domowa opiera się na planie dostosowanym do potrzeb, przeszkolonym personelu, ciągłości i dokumentacji. Cechują ją szacunek do podopiecznego, przewidywalność i jasna odpowiedzialność usługodawcy.",
+      "long": "W praktyce oznacza to rozpoznanie potrzeb, ustalony zakres czynności, koordynację i reagowanie na zmiany stanu zdrowia. Jakość widać w szczegółach: punktualności, komunikacji z rodziną i dbałości o bezpieczeństwo.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        }
+      ],
+      "related": [
+        "j2",
+        "p3",
+        "r1"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j2",
+      "c": "jakosc",
+      "q": "Jakie standardy powinien spełniać usługodawca?",
+      "short": "Usługodawca powinien działać legalnie, zatrudniać zweryfikowany i przeszkolony personel, zawierać umowy, prowadzić dokumentację oraz mieć procedury reagowania na nieprawidłowości. Standardy powinny obejmować też ochronę danych i ciągłość opieki.",
+      "long": "Dobre standardy są spisane i możliwe do sprawdzenia, a nie deklaratywne. Obejmują rekrutację, szkolenia, nadzór nad jakością oraz jasne zasady współpracy z rodziną.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        },
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "j3",
+        "j6",
+        "r3"
+      ],
+      "position": "PSOD opracowuje i promuje branżowe standardy jakości formalnej opieki domowej, aby ujednolicić poziom bezpieczeństwa usług.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j3",
+      "c": "jakosc",
+      "q": "Jak weryfikowane są osoby świadczące opiekę?",
+      "short": "Weryfikacja obejmuje sprawdzenie kwalifikacji i doświadczenia, przeszkolenie oraz — w odpowiedzialnych firmach — potwierdzenie niekaralności i referencji. Formalne zatrudnienie umożliwia bieżący nadzór nad jakością pracy.",
+      "long": "W opiece nieformalnej i „szarej strefie\" taka weryfikacja zwykle nie istnieje, co zwiększa ryzyko. Formalny usługodawca odpowiada za dobór i przygotowanie opiekuna oraz za reagowanie na sygnały o problemach.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "j5",
+        "w2",
+        "r3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j4",
+      "c": "jakosc",
+      "q": "Jak zgłaszać nieprawidłowości?",
+      "short": "Nieprawidłowości warto zgłaszać najpierw usługodawcy, który powinien mieć procedurę przyjmowania i rozpatrywania skarg. W poważnych sprawach można zwrócić się do właściwych instytucji, a w sytuacjach zagrożenia — do służb.",
+      "long": "Rzetelny usługodawca traktuje zgłoszenia jako element jakości, a nie zagrożenie. Zgłoszenie nie powinno pogarszać sytuacji podopiecznego — to jeden z warunków bezpiecznej opieki.",
+      "sources": [
+        {
+          "inst": "Rzecznik Praw Obywatelskich",
+          "year": 2023,
+          "url": "https://bip.brpo.gov.pl"
+        }
+      ],
+      "related": [
+        "r1",
+        "j2",
+        "j6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j5",
+      "c": "jakosc",
+      "q": "Jakie ryzyka wiążą się z pracą nierejestrowaną?",
+      "short": "Praca nierejestrowana oznacza brak umowy, weryfikacji personelu, ubezpieczenia i odpowiedzialności usługodawcy. Ryzyko — od braku ciągłości po zagrożenie bezpieczeństwa — w całości spoczywa wtedy na rodzinie i podopiecznym.",
+      "long": "Pozorna oszczędność bywa kosztowna: brak zastępstwa przy chorobie opiekuna, brak ochrony przy szkodzie, brak kontroli jakości. Legalna opieka przenosi część tego ryzyka na profesjonalny podmiot.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        },
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        }
+      ],
+      "related": [
+        "j3",
+        "r3",
+        "s6"
+      ],
+      "position": "Ograniczanie szarej strefy w opiece PSOD wskazuje jako jeden z kluczowych warunków bezpieczeństwa rodzin i podopiecznych.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "j6",
+      "c": "jakosc",
+      "q": "Czy opieka domowa podlega kontroli lub rejestracji?",
+      "short": "Część usług opiekuńczych realizowanych ze środków publicznych podlega wymogom i nadzorowi, natomiast rynek komercyjnej opieki domowej nie jest w Polsce objęty jednolitą, dedykowaną rejestracją. To jedna z luk systemowych wskazywanych przez branżę.",
+      "long": "W praktyce jakość zależy dziś w dużej mierze od standardów samego usługodawcy. Uporządkowanie zasad rejestracji i nadzoru zwiększyłoby bezpieczeństwo i porównywalność ofert.",
+      "sources": [
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        },
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "j2",
+        "s6",
+        "j5"
+      ],
+      "position": "PSOD postuluje uporządkowanie zasad rejestracji i nadzoru nad formalną opieką domową.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s1",
+      "c": "system",
+      "q": "Ile osób w Polsce potrzebuje opieki długoterminowej?",
+      "short": "Szacuje się, że w Polsce z różnych form opieki długoterminowej korzysta lub jej potrzebuje kilka milionów osób, a liczba ta rośnie wraz ze starzeniem się społeczeństwa. Dokładne wartości różnią się w zależności od przyjętej definicji niesamodzielności.",
+      "long": "Rozbieżności w danych wynikają z tego, że różne źródła inaczej definiują niesamodzielność i zakres opieki. Wspólny wniosek pozostaje jednak stały: potrzeby przewyższają dostępność sformalizowanych usług.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "s2",
+        "p6",
+        "d3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s2",
+      "c": "system",
+      "q": "Jak starzenie się społeczeństwa zmieni zapotrzebowanie na opiekę?",
+      "short": "Rosnący udział osób starszych, zwłaszcza po 80. roku życia, będzie zwiększał zapotrzebowanie na opiekę długoterminową w kolejnych dekadach. Jednocześnie kurczy się grupa osób w wieku produkcyjnym mogących tę opiekę świadczyć.",
+      "long": "To połączenie — więcej potrzebujących i mniej opiekunów — bywa nazywane luką opiekuńczą. Bez wzmocnienia systemu formalnego ciężar w coraz większym stopniu spadnie na rodziny.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "s1",
+        "w4",
+        "f4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s3",
+      "c": "system",
+      "q": "Kto obecnie zapewnia opiekę osobom niesamodzielnym?",
+      "short": "Największą część opieki świadczą dziś rodziny i opiekunowie nieformalni, uzupełniani przez usługi gminne, placówki oraz komercyjnych usługodawców opieki domowej. Udział opieki formalnej jest w Polsce stosunkowo niski.",
+      "long": "Oznacza to, że system opiera się w dużej mierze na niewynagradzanej pracy bliskich. Przesunięcie części zadań do sektora formalnego mogłoby odciążyć rodziny i zwiększyć bezpieczeństwo opieki.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "r5",
+        "s1",
+        "f4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s4",
+      "c": "system",
+      "q": "Jak finansowana jest opieka długoterminowa?",
+      "short": "Finansowanie łączy środki publiczne (świadczenia, usługi gminne, ochrona zdrowia) z wydatkami prywatnymi rodzin. W Polsce znaczna część kosztów obciąża bezpośrednio gospodarstwa domowe.",
+      "long": "Brak jednego, dedykowanego mechanizmu finansowania opieki długoterminowej powoduje rozproszenie środków i nierówności w dostępie. To jeden z głównych tematów debaty o przyszłości systemu.",
+      "sources": [
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        },
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        }
+      ],
+      "related": [
+        "f4",
+        "f3",
+        "s6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s5",
+      "c": "system",
+      "q": "Jakie świadczenia publiczne są dostępne?",
+      "short": "Dostępne bywają m.in. świadczenia pieniężne związane z niesamodzielnością i opieką, usługi opiekuńcze organizowane przez gminy oraz programy wsparcia, takie jak opieka wytchnieniowa. Zakres i warunki zależą od sytuacji i miejsca zamieszkania.",
+      "long": "Świadczenia są rozproszone między różne instytucje, dlatego warto sprawdzić ofertę ośrodka pomocy społecznej i aktualne programy. Wysokość wsparcia często nie pokrywa pełnych kosztów opieki.",
+      "sources": [
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        }
+      ],
+      "related": [
+        "f3",
+        "r6",
+        "s4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "s6",
+      "c": "system",
+      "q": "Jakich elementów brakuje w polskim systemie?",
+      "short": "Wskazywane luki to m.in. brak spójnego finansowania opieki długoterminowej, niedobór pracowników, ograniczony nadzór nad rynkiem oraz słabe wsparcie opiekunów nieformalnych. Skutkuje to nierównym dostępem i przenoszeniem ciężaru na rodziny.",
+      "long": "Uporządkowanie tych obszarów wymaga decyzji systemowych: stabilnego finansowania, standardów jakości i polityki kadrowej. To warunek przygotowania kraju na rosnące potrzeby.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        },
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        }
+      ],
+      "related": [
+        "s4",
+        "w4",
+        "j6"
+      ],
+      "position": "Kompleksowe uporządkowanie systemu opieki długoterminowej — finansowanie, standardy i kadry — jest głównym celem działań rzeczniczych PSOD.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w1",
+      "c": "pracownicy",
+      "q": "Kim jest pracownik opieki domowej?",
+      "short": "Pracownik opieki domowej to osoba, która zawodowo wspiera podopiecznego w codziennym funkcjonowaniu — w higienie, posiłkach, mobilności, prowadzeniu domu i towarzyszeniu. Pracuje w domu osoby potrzebującej, często w ścisłym kontakcie z rodziną.",
+      "long": "Rola wymaga kompetencji opiekuńczych, komunikacyjnych i odpowiedzialności, a nie wyłącznie dobrych chęci. W modelu formalnym opiekun jest przeszkolony, zatrudniony legalnie i wspierany przez usługodawcę.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        }
+      ],
+      "related": [
+        "w2",
+        "w3",
+        "p2"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w2",
+      "c": "pracownicy",
+      "q": "Jakie kompetencje powinna mieć osoba świadcząca opiekę?",
+      "short": "Potrzebne są podstawy pielęgnacji i bezpieczeństwa, umiejętność wsparcia w mobilności, komunikacja z osobą starszą lub chorą oraz umiejętność reagowania w sytuacjach nagłych. Ważne są też empatia, cierpliwość i rzetelność.",
+      "long": "Kompetencje rozwija się przez szkolenia i doświadczenie, a odpowiedzialny usługodawca zapewnia przygotowanie i wsparcie. Przy określonych stanach zdrowia konieczna jest współpraca z personelem medycznym.",
+      "sources": [
+        {
+          "inst": "EFPS — Europejska Federacja Usług dla Osób",
+          "year": 2023,
+          "url": "https://www.efsi-europe.eu"
+        },
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "w1",
+        "w3",
+        "j3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w3",
+      "c": "pracownicy",
+      "q": "Czym różni się pracownik opieki od pielęgniarki?",
+      "short": "Pielęgniarka wykonuje świadczenia medyczne wymagające uprawnień, natomiast pracownik opieki wspiera codzienne funkcjonowanie i pielęgnację niemedyczną. Obie role często się uzupełniają, ale mają różny zakres i podstawę prawną.",
+      "long": "Zadania medyczne (iniekcje, opatrunki specjalistyczne, ocena kliniczna) należą do personelu medycznego. Rozdzielenie ról jest istotne dla bezpieczeństwa — opiekun nie zastępuje pielęgniarki ani lekarza.",
+      "sources": [
+        {
+          "inst": "Narodowy Fundusz Zdrowia (NFZ)",
+          "year": 2024,
+          "url": "https://www.nfz.gov.pl"
+        },
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2022,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "p4",
+        "w1",
+        "w2"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w4",
+      "c": "pracownicy",
+      "q": "Dlaczego w sektorze opieki brakuje pracowników?",
+      "short": "Niedobór wynika z rosnących potrzeb, starzenia się kadr, wymagającego charakteru pracy oraz konkurencji o pracowników na rynku. Brakuje też stabilnych ścieżek zawodowych i wystarczającego finansowania usług.",
+      "long": "Luka kadrowa będzie się pogłębiać wraz ze wzrostem liczby osób potrzebujących opieki. Bez poprawy warunków pracy i finansowania trudno będzie utrzymać dostępność usług.",
+      "sources": [
+        {
+          "inst": "Europejski Urząd Pracy (ELA) / EURES",
+          "year": 2024,
+          "url": "https://www.ela.europa.eu"
+        },
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        }
+      ],
+      "related": [
+        "s2",
+        "w5",
+        "s6"
+      ],
+      "position": "PSOD wskazuje politykę kadrową dla sektora opieki — kształcenie, warunki pracy i finansowanie — jako warunek utrzymania dostępności usług.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w5",
+      "c": "pracownicy",
+      "q": "Jak mobilność transgraniczna wpływa na dostępność opieki?",
+      "short": "Mobilność pracowników w Europie zwiększa dostępność opieki tam, gdzie brakuje rąk, ale też przenosi niedobory między krajami. Legalne, uregulowane delegowanie pozwala korzystać z tej mobilności bezpiecznie.",
+      "long": "Dla rodzin oznacza to szerszy dostęp do opiekunów, a dla pracowników — legalne warunki zatrudnienia i ochronę socjalną. Kluczowe jest, by odbywało się to zgodnie z przepisami o delegowaniu i koordynacji ubezpieczeń.",
+      "sources": [
+        {
+          "inst": "Europejski Urząd Pracy (ELA) / EURES",
+          "year": 2024,
+          "url": "https://www.ela.europa.eu"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "w6",
+        "w4",
+        "s3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "w6",
+      "c": "pracownicy",
+      "q": "Na czym polega legalne delegowanie pracowników opieki?",
+      "short": "Legalne delegowanie to zgodne z przepisami kierowanie pracownika do świadczenia opieki w innym kraju, z zachowaniem umowy, ubezpieczenia i praw pracowniczych. Zapewnia ochronę zarówno opiekunowi, jak i rodzinie korzystającej z usług.",
+      "long": "Obejmuje właściwe zgłoszenia, koordynację ubezpieczeń społecznych i przestrzeganie warunków pracy kraju przyjmującego. Odróżnia to profesjonalną usługę od pracy „na czarno\" bez zabezpieczeń.",
+      "sources": [
+        {
+          "inst": "Europejski Urząd Pracy (ELA) / EURES",
+          "year": 2024,
+          "url": "https://www.ela.europa.eu"
+        }
+      ],
+      "related": [
+        "w5",
+        "p3",
+        "j5"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o1",
+      "c": "otepienie",
+      "q": "Czym jest otępienie?",
+      "short": "Otępienie (demencja) to zespół objawów wynikających z chorób mózgu, prowadzący do stopniowego pogarszania pamięci, myślenia i codziennego funkcjonowania. Najczęstszą przyczyną jest choroba Alzheimera.",
+      "long": "Otępienie nie jest jedną chorobą, lecz następstwem różnych schorzeń uszkadzających mózg. Postępuje w czasie i z czasem wymaga coraz większego wsparcia w codziennym życiu.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "Alzheimer Europe",
+          "year": 2023,
+          "url": "https://www.alzheimer-europe.org"
+        }
+      ],
+      "related": [
+        "o2",
+        "o3",
+        "p6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o2",
+      "c": "otepienie",
+      "q": "Czy otępienie jest naturalnym elementem starzenia?",
+      "short": "Nie. Pojedyncze, łagodne zapominanie bywa związane z wiekiem, ale otępienie jest skutkiem choroby, a nie normalnym etapem starzenia. Dlatego niepokojących objawów nie należy lekceważyć jako „naturalnej starości\".",
+      "long": "Odróżnienie zwykłych zmian od objawów choroby wymaga oceny specjalisty. Wczesne rozpoznanie pozwala lepiej zaplanować leczenie, wsparcie i bezpieczeństwo.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "o1",
+        "o3",
+        "o5"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o3",
+      "c": "otepienie",
+      "q": "Jakie są pierwsze objawy?",
+      "short": "Do wczesnych objawów należą kłopoty z pamięcią bieżącą, trudności w doborze słów, dezorientacja, problemy z planowaniem oraz zmiany nastroju i wycofanie. Objawy narastają stopniowo i utrudniają codzienne czynności.",
+      "long": "Wczesne sygnały bywają subtelne i mylone ze zmęczeniem lub stresem. Zauważenie ich i konsultacja umożliwiają szybszą diagnozę oraz przygotowanie wsparcia.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "Alzheimer Europe",
+          "year": 2023,
+          "url": "https://www.alzheimer-europe.org"
+        }
+      ],
+      "related": [
+        "o2",
+        "o4",
+        "r2"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o4",
+      "c": "otepienie",
+      "q": "Jak wspierać osobę z otępieniem w domu?",
+      "short": "Pomagają stały rytm dnia, bezpieczne i przewidywalne otoczenie, spokojna komunikacja oraz wsparcie w czynnościach przy zachowaniu samodzielności tam, gdzie to możliwe. Ważne jest też odciążenie i wsparcie opiekuna.",
+      "long": "Warto upraszczać otoczenie, oznaczać przestrzeń, ograniczać zagrożenia (np. ryzyko upadków) i reagować na potrzeby, a nie tylko na objawy. Profesjonalne wsparcie i szkolenia pomagają uniknąć wypalenia opiekuna.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "o5",
+        "o6",
+        "r5"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o5",
+      "c": "otepienie",
+      "q": "Czy można zmniejszać ryzyko rozwoju otępienia?",
+      "short": "Nie ma pewnej metody zapobiegania, ale ryzyko można ograniczać dbając o aktywność fizyczną i umysłową, kontrolę ciśnienia i cukru, sen, kontakty społeczne oraz unikanie używek. Działa tu profilaktyka podobna jak w chorobach serca.",
+      "long": "Wpływ mają czynniki, na które mamy wpływ przez całe życie — dlatego warto o nie dbać wcześnie. Profilaktyka nie daje gwarancji, ale realnie obniża ryzyko na poziomie populacji.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        },
+        {
+          "inst": "Lancet Commission on Dementia",
+          "year": 2020,
+          "url": "https://www.thelancet.com"
+        }
+      ],
+      "related": [
+        "o2",
+        "o1",
+        "o6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "o6",
+      "c": "otepienie",
+      "q": "Gdzie szukać profesjonalnej pomocy?",
+      "short": "Pierwszym krokiem jest lekarz rodzinny, który może skierować do poradni neurologicznej lub psychogeriatrycznej. Wsparcie oferują też organizacje zajmujące się chorobą Alzheimera oraz wyspecjalizowani usługodawcy opieki.",
+      "long": "Warto łączyć pomoc medyczną z organizacyjną i emocjonalną — dla chorego i dla opiekuna. Im wcześniej zbudowana zostanie sieć wsparcia, tym łatwiej radzić sobie w kolejnych etapach.",
+      "sources": [
+        {
+          "inst": "Światowa Organizacja Zdrowia (WHO)",
+          "year": 2023,
+          "url": "https://www.who.int"
+        }
+      ],
+      "related": [
+        "o4",
+        "r6",
+        "o3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "f1",
+      "c": "finansowanie",
+      "q": "Ile kosztuje profesjonalna opieka domowa?",
+      "short": "Koszt zależy przede wszystkim od liczby godzin i zakresu opieki — od kilku godzin wsparcia w tygodniu po opiekę całodobową. Dlatego zamiast jednej ceny podaje się widełki zależne od potrzeb.",
+      "long": "Na cenę wpływają też zakres czynności, pora (dni wolne, noce), lokalizacja i model (opieka dochodząca lub z zamieszkaniem). Rzetelny usługodawca przedstawia wycenę po rozpoznaniu potrzeb, a nie „z góry\".",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "f2",
+        "p5",
+        "r3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "f2",
+      "c": "finansowanie",
+      "q": "Od czego zależy koszt opieki?",
+      "short": "Koszt zależy od zakresu i intensywności opieki, kwalifikacji personelu, modelu usługi oraz od tego, czy jest ona świadczona legalnie. Wpływ mają także lokalizacja i dostępność opiekunów.",
+      "long": "Niższa cena bywa pozorna, jeśli oznacza brak umowy, weryfikacji i zastępstw. Porównując oferty, warto patrzeć na całkowitą wartość i bezpieczeństwo, a nie tylko na stawkę godzinową.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "f1",
+        "j5",
+        "r4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "f3",
+      "c": "finansowanie",
+      "q": "Jakie formy wsparcia finansowego są dostępne?",
+      "short": "Dostępne bywają świadczenia związane z niesamodzielnością i opieką, usługi opiekuńcze organizowane przez gminy oraz programy wsparcia dla opiekunów. Zakres zależy od sytuacji zdrowotnej, dochodowej i miejsca zamieszkania.",
+      "long": "Świadczenia są rozproszone i często nie pokrywają pełnych kosztów opieki. Warto sprawdzić ofertę ośrodka pomocy społecznej oraz aktualne programy krajowe i lokalne.",
+      "sources": [
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        }
+      ],
+      "related": [
+        "s5",
+        "f4",
+        "r6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "f4",
+      "c": "finansowanie",
+      "q": "Kto powinien finansować opiekę długoterminową?",
+      "short": "Opieka długoterminowa jest współdzieloną odpowiedzialnością państwa, samorządów, rodzin i — w części — pracodawców. Trwają dyskusje o proporcjach oraz o wprowadzeniu stabilnego mechanizmu finansowania.",
+      "long": "Model oparty głównie na wydatkach rodzin prowadzi do nierówności i przeciążenia opiekunów nieformalnych. Bardziej przewidywalne, publiczne współfinansowanie zwiększyłoby dostępność i bezpieczeństwo opieki.",
+      "sources": [
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        },
+        {
+          "inst": "Ministerstwo Rodziny, Pracy i Polityki Społecznej",
+          "year": 2024,
+          "url": "https://www.gov.pl/web/rodzina"
+        }
+      ],
+      "related": [
+        "s4",
+        "f3",
+        "s6"
+      ],
+      "position": "PSOD postuluje wprowadzenie stabilnego, współdzielonego mechanizmu finansowania opieki długoterminowej.",
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "f5",
+      "c": "finansowanie",
+      "q": "Jak system finansowania wygląda w innych państwach?",
+      "short": "W wielu krajach europejskich funkcjonują dedykowane mechanizmy finansowania opieki długoterminowej — np. ubezpieczenie opiekuńcze lub silniejsze finansowanie publiczne usług. Rozwiązania różnią się zakresem i sposobem organizacji.",
+      "long": "Doświadczenia innych państw pokazują, że przewidywalne finansowanie zwiększa dostępność opieki formalnej i odciąża rodziny. Bywają one punktem odniesienia w debacie o polskim systemie.",
+      "sources": [
+        {
+          "inst": "OECD",
+          "year": 2023,
+          "url": "https://www.oecd.org"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "f4",
+        "s4",
+        "d3"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d1",
+      "c": "dane",
+      "q": "Skąd pochodzą dane publikowane przez PSOD?",
+      "short": "Dane pochodzą z uznanych źródeł krajowych i międzynarodowych, m.in. GUS, Eurostatu, WHO i OECD, a także z opracowań branżowych. Przy każdej informacji podajemy instytucję, rok i, jeśli to możliwe, link do źródła.",
+      "long": "Łączymy dane statystyczne z raportami eksperckimi, aby przedstawić pełniejszy obraz. Tam, gdzie dane są niepewne lub rozbieżne, zaznaczamy to wprost.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        },
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        }
+      ],
+      "related": [
+        "d2",
+        "d3",
+        "d6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d2",
+      "c": "dane",
+      "q": "Jak PSOD weryfikuje dane?",
+      "short": "Dane weryfikujemy sprawdzając ich źródło, datę i metodologię oraz porównując wartości między niezależnymi źródłami. Preferujemy dane instytucji publicznych i recenzowanych opracowań.",
+      "long": "Gdy źródła się różnią, staramy się wyjaśnić przyczynę rozbieżności zamiast wybierać jedną wygodną liczbę. Informacje aktualizujemy, gdy pojawią się nowsze dane.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "d3",
+        "d1",
+        "d4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d3",
+      "c": "dane",
+      "q": "Dlaczego dane z różnych raportów mogą się różnić?",
+      "short": "Różnice wynikają najczęściej z odmiennych definicji (np. czym jest niesamodzielność), zakresu badania, roku i metody zbierania danych. Nie oznaczają automatycznie błędu — to efekt różnych podejść.",
+      "long": "Dlatego istotne jest podawanie definicji i metodologii razem z liczbą. Porównywanie danych bez tego kontekstu prowadzi do mylnych wniosków.",
+      "sources": [
+        {
+          "inst": "Eurostat",
+          "year": 2023,
+          "url": "https://ec.europa.eu/eurostat"
+        },
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        }
+      ],
+      "related": [
+        "d4",
+        "d2",
+        "s1"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d4",
+      "c": "dane",
+      "q": "Co oznaczają używane na stronie wskaźniki?",
+      "short": "Wskaźniki opisują m.in. skalę potrzeb, dostępność usług i strukturę wieku. Przy każdym staramy się podać, co dokładnie mierzy i z jakiego źródła pochodzi.",
+      "long": "Definicje wskaźników zbieramy w metodologii, aby były porównywalne w czasie. Jeśli wskaźnik zmienia definicję, zaznaczamy to, by uniknąć mylących porównań.",
+      "sources": [
+        {
+          "inst": "Główny Urząd Statystyczny (GUS)",
+          "year": 2023,
+          "url": "https://stat.gov.pl"
+        }
+      ],
+      "related": [
+        "d3",
+        "d2",
+        "d6"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d5",
+      "c": "dane",
+      "q": "Kiedy dane były ostatnio aktualizowane?",
+      "short": "Każda odpowiedź zawiera datę ostatniej aktualizacji, a przy danych liczbowych — rok źródła. Treści przeglądamy okresowo i po pojawieniu się istotnych nowych danych.",
+      "long": "Data aktualizacji odpowiedzi i rok źródła to dwie różne informacje — pierwsza dotyczy tekstu, druga danych. Podajemy obie, aby zachować przejrzystość.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "d6",
+        "d1",
+        "d2"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    },
+    {
+      "id": "d6",
+      "c": "dane",
+      "q": "Gdzie można znaleźć raporty źródłowe?",
+      "short": "Raporty i opracowania, na których opieramy publikowane informacje, zbieramy w module „Raporty, dane i opracowania\". Znajdują się tam źródła krajowe i międzynarodowe wraz z linkami.",
+      "long": "Zachęcamy do sięgania do źródeł bezpośrednio — pozwala to zweryfikować kontekst i metodologię. Linki aktualizujemy, gdy instytucje publikują nowe wersje raportów.",
+      "sources": [
+        {
+          "inst": "Polskie Stowarzyszenie Opieki Domowej",
+          "year": 2025,
+          "url": "https://polskaopieka.eu"
+        }
+      ],
+      "related": [
+        "d1",
+        "d2",
+        "d4"
+      ],
+      "position": null,
+      "updated": "lipiec 2026"
+    }
+  ],
+  "mostReadIds": [
+    "p1",
+    "f1",
+    "r3",
+    "r1",
+    "o1",
+    "s1"
+  ]
+}
