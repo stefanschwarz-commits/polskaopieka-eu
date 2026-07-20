@@ -25,7 +25,7 @@ $psod2_assets = get_template_directory_uri() . '/assets';
 			<a href="<?php echo esc_url( home_url( '/centrum-wiedzy/' ) ); ?>" data-i18n="nav.centrum"><?php esc_html_e( 'Centrum wiedzy', 'psod2' ); ?></a>
 			<a href="#" data-i18n="nav.szkolenia"><?php esc_html_e( 'Szkolenia', 'psod2' ); ?></a>
 			<a href="#qa" data-i18n="nav.qa"><?php esc_html_e( 'Q&A', 'psod2' ); ?></a>
-			<a href="#aktualnosci" data-i18n="nav.aktualnosci"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/aktualnosci/' ) ); ?>" data-i18n="nav.aktualnosci"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a>
 		</div>
 		<div>
 			<h4 data-i18n="footer.kontakt"><?php esc_html_e( 'Kontakt', 'psod2' ); ?></h4>
