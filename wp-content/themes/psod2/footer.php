@@ -22,7 +22,7 @@ $psod2_assets = get_template_directory_uri() . '/assets';
 			<a href="#dzialalnosc" data-i18n="nav.dzialalnosc"><?php esc_html_e( 'Nasza działalność', 'psod2' ); ?></a>
 			<a href="#apel" data-i18n="nav.apel"><?php esc_html_e( 'Apel do rządu', 'psod2' ); ?></a>
 			<a href="#publikacje" data-i18n="nav.publikacje"><?php esc_html_e( 'Publikacje', 'psod2' ); ?></a>
-			<a href="<?php echo esc_url( home_url( '/centrum-wiedzy/' ) ); ?>" data-i18n="nav.centrumWiedzy"><?php esc_html_e( 'Centrum wiedzy', 'psod2' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/centrum-wiedzy/' ) ); ?>" data-i18n="nav.centrum"><?php esc_html_e( 'Centrum wiedzy', 'psod2' ); ?></a>
 			<a href="#" data-i18n="nav.szkolenia"><?php esc_html_e( 'Szkolenia', 'psod2' ); ?></a>
 			<a href="#qa" data-i18n="nav.qa"><?php esc_html_e( 'Q&A', 'psod2' ); ?></a>
 			<a href="#aktualnosci" data-i18n="nav.aktualnosci"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a>
