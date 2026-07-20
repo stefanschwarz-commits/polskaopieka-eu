@@ -325,6 +325,8 @@ body.nav-open{overflow:hidden}
 .faq summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);color:var(--fiolet);font-weight:400;font-size:22px}
 .faq details[open] summary::after{content:"–"}
 .faq details > div{padding:0 4px 22px;color:var(--tekst-2);font-size:15px;line-height:1.7}
+.faq details > div p{margin:0 0 12px}
+.faq details > div p:last-child{margin-bottom:0}
 
 /* ---------- Dołącz ---------- */
 .join{position:relative;overflow:hidden;display:grid;place-items:center;padding:110px 28px}

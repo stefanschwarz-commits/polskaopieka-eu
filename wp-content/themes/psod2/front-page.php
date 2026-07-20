@@ -249,19 +249,45 @@ wp_reset_postdata();
 </section>
 
 <!-- ======================= Q&A ======================= -->
+<?php
+// Dynamicznie z CPT „faq" (edytowalne w wp-adminie, menu „Q&A"). Pytanie = tytuł,
+// odpowiedź = treść. Kolejność wg pola „Kolejność" (menu_order). Pierwszy otwarty.
+$psod2_faq = new WP_Query(
+	array(
+		'post_type'      => 'faq',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'orderby'        => 'menu_order',
+		'order'          => 'ASC',
+		'no_found_rows'  => true,
+	)
+);
+if ( $psod2_faq->have_posts() ) :
+	?>
 <section class="faq" id="qa">
 	<div class="wrap">
 		<div class="faq__head"><h2 data-i18n="qa.h2">Pytania i odpowiedzi</h2></div>
 		<div class="faq__list">
-			<details open><summary data-i18n="qa.q1.q">Czym jest PSOD?</summary><div data-i18n="qa.q1.a">PSOD jest związkiem pracodawców zrzeszającym polskie firmy świadczące profesjonalne usługi opieki domowej, przede wszystkim niemedyczną pomoc w codziennym funkcjonowaniu.</div></details>
-			<details><summary data-i18n="qa.q2.q">Z jakich źródeł finansowana jest działalność PSOD?</summary><div data-i18n="qa.q2.a">Nasza działalność finansowana jest ze składek członkowskich oraz darowizn.</div></details>
-			<details><summary data-i18n="qa.q3.q">Kim są nasi Członkowie?</summary><div data-i18n="qa.q3.a">Organizacja reprezentuje obecnie 16 usługodawców zatrudniających w sumie 6500 opiekunów. Członkiem mogą zostać firmy i stowarzyszenia działające na obszarze RP, zatrudniające co najmniej jedną osobę, których zakres działalności obejmuje opiekę domową nad osobami starszymi.</div></details>
-			<details><summary data-i18n="qa.q4.q">Dlaczego warto być naszym Członkiem?</summary><div data-i18n="qa.q4.a">Chcemy wspierać i promować polskich pracodawców świadczących usługi opieki w Polsce i za granicą oraz reprezentować ich interesy wobec instytucji krajowych i zagranicznych, decydentów oraz mediów. Głównym postulatem jest wprowadzenie w Polsce obligatoryjnego rejestru usługodawców w obszarze opieki domowej.</div></details>
-			<details><summary data-i18n="qa.q5.q">Jakie są rodzaje i koszt członkostwa?</summary><div data-i18n="qa.q5.a">Statut PSOD przewiduje jeden rodzaj członkostwa. Składka członkowska wynosi 1045,00 zł miesięcznie.</div></details>
-			<details><summary data-i18n="qa.q6.q">Jak zostać Członkiem PSOD?</summary><div data-i18n="qa.q6.a">Wystarczy wypełnić deklarację członkowską. O przyjęciu w poczet Członków Stowarzyszenia formalnie decyduje Zarząd w formie uchwały.</div></details>
+			<?php
+			$psod2_faq_first = true;
+			while ( $psod2_faq->have_posts() ) :
+				$psod2_faq->the_post();
+				?>
+				<details<?php echo $psod2_faq_first ? ' open' : ''; ?>>
+					<summary><?php the_title(); ?></summary>
+					<div><?php the_content(); ?></div>
+				</details>
+				<?php
+				$psod2_faq_first = false;
+			endwhile;
+			?>
 		</div>
 	</div>
 </section>
+	<?php
+endif;
+wp_reset_postdata();
+?>
 
 <!-- ======================= DOŁĄCZ ======================= -->
 <section class="join" id="dolacz">

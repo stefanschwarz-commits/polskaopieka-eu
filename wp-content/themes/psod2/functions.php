@@ -172,6 +172,45 @@ function psod2_register_aktualnosci() {
 add_action( 'init', 'psod2_register_aktualnosci' );
 
 /**
+ * Rejestracja custom post type „Q&A" (klucz: faq) — pytania i odpowiedzi.
+ *
+ * Pytanie = tytuł wpisu, odpowiedź = treść (edytor). Bez ACF — sam wbudowany
+ * mechanizm WordPressa. Redaktor zarządza w wp-adminie (menu „Q&A"), kolejność
+ * ustawia polem „Kolejność" (page-attributes → menu_order). Sekcja Q&A na
+ * stronie głównej renderuje te wpisy (front-page.php). CPT nie ma własnego URL
+ * (public=false) — to treść strony głównej, nie osobna podstrona.
+ */
+function psod2_register_faq() {
+	register_post_type(
+		'faq',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Q&A (Pytania)', 'psod2' ),
+				'singular_name' => __( 'Pytanie', 'psod2' ),
+				'menu_name'     => __( 'Q&A', 'psod2' ),
+				'add_new'       => __( 'Dodaj pytanie', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowe pytanie', 'psod2' ),
+				'edit_item'     => __( 'Edytuj pytanie', 'psod2' ),
+				'new_item'      => __( 'Nowe pytanie', 'psod2' ),
+				'search_items'  => __( 'Szukaj pytań', 'psod2' ),
+				'not_found'     => __( 'Nie znaleziono pytań', 'psod2' ),
+				'all_items'     => __( 'Wszystkie pytania', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-editor-help',
+			'menu_position' => 6,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_faq' );
+
+/**
  * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
  *
  * Wyróżnione wpisy (meta _psod_wyrozniony=1) pojawiają się na górze listy
