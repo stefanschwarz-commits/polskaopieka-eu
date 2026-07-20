@@ -47,12 +47,15 @@ add_action( 'after_setup_theme', 'psod2_setup' );
  * TODO (RODO/wydajność): rozważyć self-hosting fontów zamiast Google Fonts.
  */
 function psod2_assets() {
-	// Google Fonts.
+	// Fonty self-hostowane (Fraunces + Poppins, SIL OFL 1.1) — bez Google Fonts.
+	// Powód: RODO/prywatność (Google Fonts na żywo wysyła IP odwiedzającego do
+	// Google) + wydajność. Pliki woff2 + @font-face w assets/fonts/.
+	$psod2_fonts_css = get_template_directory() . '/assets/fonts/fonts.css';
 	wp_enqueue_style(
 		'psod2-fonts',
-		'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Poppins:wght@400;500;600;700&display=swap',
+		get_template_directory_uri() . '/assets/fonts/fonts.css',
 		array(),
-		null
+		file_exists( $psod2_fonts_css ) ? filemtime( $psod2_fonts_css ) : PSOD2_VERSION
 	);
 
 	// Główny arkusz stylów motywu (zawiera tokeny + cały layout).
@@ -307,17 +310,5 @@ function psod2_og_tags() {
 }
 add_action( 'wp_head', 'psod2_og_tags', 5 );
 
-/**
- * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
- */
-function psod2_resource_hints( $urls, $relation_type ) {
-	if ( 'preconnect' === $relation_type ) {
-		$urls[] = array( 'href' => 'https://fonts.googleapis.com' );
-		$urls[] = array(
-			'href'        => 'https://fonts.gstatic.com',
-			'crossorigin' => 'anonymous',
-		);
-	}
-	return $urls;
-}
-add_filter( 'wp_resource_hints', 'psod2_resource_hints', 10, 2 );
+// (Preconnect do Google Fonts usunięty — fonty są self-hostowane, patrz
+// psod2_assets() + assets/fonts/. Zero połączeń do domen Google = zgodność RODO.)
