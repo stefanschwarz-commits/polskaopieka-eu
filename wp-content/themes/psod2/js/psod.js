@@ -268,3 +268,25 @@
   render(false);updateCount();
   document.addEventListener('psod:langchange',function(){render(!!seen[cur]);});
 })();
+
+/* --- 5. Podstrona Aktualności: "Wczytaj więcej" (start 6, +3/klik) --- */
+(function(){
+  var grid=document.getElementById('aktualGrid');
+  var moreBtn=document.getElementById('aktualMoreBtn');
+  var moreWrap=document.getElementById('aktualMoreWrap');
+  var counter=document.getElementById('aktualCounter');
+  if(!grid||!moreBtn||!moreWrap||!counter) return;
+  var cards=[].slice.call(grid.querySelectorAll('.aktual-card'));
+  var total=cards.length;
+  var visible=cards.filter(function(c){return !c.hidden;}).length;
+  function update(){
+    counter.textContent=visible+' z '+total+' wpisów';
+    if(visible>=total) moreWrap.style.display='none';
+  }
+  moreBtn.addEventListener('click',function(){
+    var toShow=cards.filter(function(c){return c.hidden;}).slice(0,3);
+    toShow.forEach(function(c){c.hidden=false;});
+    visible=Math.min(visible+3,total);
+    update();
+  });
+})();
