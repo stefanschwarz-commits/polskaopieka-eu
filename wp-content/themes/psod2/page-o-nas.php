@@ -23,7 +23,7 @@ $assets = get_template_directory_uri() . '/assets';
 <section class="page-hero">
 	<div class="wrap">
 		<a class="page-hero__back" href="<?php echo esc_url( home_url( '/' ) ); ?>">← <span data-i18n="onas.back">Strona główna</span></a>
-		<img loading="lazy" decoding="async" class="page-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
+		<img decoding="async" class="page-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
 		<div class="overline" data-i18n="onas.overline">O NAS</div>
 		<h1 data-i18n="onas.h1">Czym jest PSOD?</h1>
 	</div>
