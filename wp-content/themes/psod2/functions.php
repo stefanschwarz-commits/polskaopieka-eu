@@ -908,6 +908,15 @@ function psod2_seo_desc_cap( $text, $max = 160 ) {
 }
 
 /**
+ * Weryfikacja własności w Google Search Console (metoda „Tag HTML").
+ * Token jest publiczny z natury (ma być widoczny w <head>); nie jest sekretem.
+ */
+function psod2_google_site_verification() {
+	echo '<meta name="google-site-verification" content="dWf357soq_eEMD7voW2hlJ6dt-DdgehPlMKNHsALWuk">' . "\n";
+}
+add_action( 'wp_head', 'psod2_google_site_verification', 1 );
+
+/**
  * Meta description + canonical + Open Graph + Twitter Card w <head>.
  */
 function psod2_head_meta() {
