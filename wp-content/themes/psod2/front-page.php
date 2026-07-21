@@ -243,7 +243,7 @@ wp_reset_postdata();
 <section class="pubs" id="publikacje">
 	<div class="wrap wrap--wide">
 		<div class="grid">
-			<div class="pubs__cover"><img width="551" height="781" loading="lazy" decoding="async" src="<?php echo esc_url( $assets . '/report-cover.jpg' ); ?>" alt="Okładka raportu „Wyzwania branży opieki domowej 2024”"></div>
+			<div class="pubs__cover"><img width="551" height="781" loading="lazy" decoding="async" src="<?php echo esc_url( $assets . '/report-cover.jpg' ); ?>" alt="Okładka raportu „Senioralna opieka domowa — wczoraj, dziś i jutro” (2024)"></div>
 			<div>
 				<div class="pubs__meta">Polskie Stowarzyszenie Opieki Domowej · 13 marca 2024</div>
 				<h3 data-i18n="pubs.title">Raport „Senioralna opieka domowa — wczoraj, dziś i jutro”</h3>

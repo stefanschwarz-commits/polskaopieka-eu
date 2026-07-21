@@ -22,8 +22,8 @@ Text Domain: psod2
   /* — Neutralne (biel + szarości; brak czerni) — */
   --biel:#FFFFFF;
   --tekst:#4A4B52;               /* tekst podstawowy = najciemniejszy dozwolony ton */
-  --tekst-2:#7B7C84;             /* tekst drugorzędny */
-  --tekst-3:#A8A9B0;             /* etykiety, źródła */
+  --tekst-2:#6C6D74;             /* tekst drugorzędny (WCAG AA 5.15:1 na bieli) */
+  --tekst-3:#6D6E72;             /* etykiety, źródła (WCAG AA 5.09:1 na bieli) */
   --mgla:#F1F1F3;                /* tło sekcji naprzemiennych */
   --linia:#E6E6E9;               /* obramowania, separatory */
   /* — Błękit opiekuńczy — */
@@ -34,7 +34,7 @@ Text Domain: psod2
   /* — Stopka (jedyne ciemne tło) — */
   --stopka-tlo:#4A4B52;
   --stopka-tekst:#C9CBD1;
-  --stopka-tekst-2:#8E9096;
+  --stopka-tekst-2:#BABBBF;      /* WCAG AA 4.53:1 na tle stopki */
 
   /* — Typografia — */
   --font-serif:'Fraunces',Georgia,'Times New Roman',serif;
