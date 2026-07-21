@@ -167,6 +167,14 @@ function psod2_kontakt_send() {
 		wp_send_json_success();
 	}
 
+	// Anty-spam: maks. 5 zgłoszeń z jednego IP na godzinę (transient jako licznik).
+	$ip       = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$rl_key   = 'psod2_kontakt_rl_' . md5( $ip );
+	$rl_hits  = (int) get_transient( $rl_key );
+	if ( $rl_hits >= 5 ) {
+		wp_send_json_error( array( 'message' => __( 'Zbyt wiele wiadomości z tego urządzenia. Spróbuj ponownie za godzinę lub napisz bezpośrednio na kontakt@polskaopieka.eu.', 'psod2' ) ) );
+	}
+
 	$name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
 	$email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
 	$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
@@ -191,8 +199,13 @@ function psod2_kontakt_send() {
 		. "Treść wiadomości:\n{$message}\n";
 	$headers = array(
 		'Content-Type: text/plain; charset=UTF-8',
+		// From na domenie strony (SPF/DKIM), odpowiedź trafia do nadawcy przez Reply-To.
+		'From: Polskie Stowarzyszenie Opieki Domowej <kontakt@polskaopieka.eu>',
 		'Reply-To: ' . $name . ' <' . $email . '>',
 	);
+
+	// Zlicz zaakceptowane zgłoszenie do limitu anty-spam (okno godzinne).
+	set_transient( $rl_key, $rl_hits + 1, HOUR_IN_SECONDS );
 
 	$sent = wp_mail( $to, $subject, $body, $headers );
 
@@ -796,42 +809,176 @@ function psod2_polish_date( $post = null ) {
 }
 
 /**
- * Znaczniki Open Graph / Twitter Card dla pojedynczych wpisów aktualności.
+ * Kontekst SEO — jedno źródło dla meta description, Open Graph i Twitter Card.
  *
- * Na stagingu nie ma wtyczki SEO (Yoast/RankMath), a wariant 1B ma przyciski
- * udostępniania (LinkedIn/Facebook) — bez og:image podglądy byłyby puste.
- * Jeśli w przyszłości pojawi się Yoast, ta funkcja się wyłącza (guard poniżej),
- * żeby nie dublować znaczników.
+ * Na stagingu nie ma wtyczki SEO (Yoast/RankMath). Cała funkcja wyłącza się, jeśli
+ * kiedyś pojawi się Yoast (guard `WPSEO_VERSION`), żeby nie dublować znaczników.
+ * Zwraca: title, description, url, type (website|article), image (URL lub '').
  */
-function psod2_og_tags() {
-	if ( defined( 'WPSEO_VERSION' ) || ! is_singular( 'aktualnosci' ) ) {
+function psod2_seo_context() {
+	$site_name = get_bloginfo( 'name' );
+	$default   = __( 'Polskie Stowarzyszenie Opieki Domowej reprezentuje sektor opieki domowej w Polsce — wspieramy seniorów i osoby zależne oraz działamy na rzecz godnej, profesjonalnej opieki w domu.', 'psod2' );
+	$ctx = array(
+		'title'       => $site_name,
+		'description' => $default,
+		'url'         => home_url( '/' ),
+		'type'        => 'website',
+		'image'       => get_template_directory_uri() . '/assets/logo-psod-lockup.jpg',
+	);
+
+	if ( is_front_page() ) {
+		return $ctx;
+	}
+
+	if ( is_singular( 'aktualnosci' ) ) {
+		$id                = get_queried_object_id();
+		$ctx['title']      = get_the_title( $id ) . ' — ' . $site_name;
+		$ctx['description'] = has_excerpt( $id )
+			? get_the_excerpt( $id )
+			: wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 40 );
+		$ctx['url']  = get_permalink( $id );
+		$ctx['type'] = 'article';
+		if ( has_post_thumbnail( $id ) ) {
+			$ctx['image'] = get_the_post_thumbnail_url( $id, 'large' );
+		}
+	} elseif ( is_page() ) {
+		$id           = get_queried_object_id();
+		$ctx['title'] = get_the_title( $id ) . ' — ' . $site_name;
+		$content      = get_post_field( 'post_content', $id );
+		if ( '' !== trim( wp_strip_all_tags( $content ) ) ) {
+			$ctx['description'] = wp_trim_words( wp_strip_all_tags( $content ), 40 );
+		}
+		$ctx['url'] = get_permalink( $id );
+	} elseif ( is_post_type_archive( 'aktualnosci' ) ) {
+		$ctx['title'] = __( 'Aktualności', 'psod2' ) . ' — ' . $site_name;
+		$ctx['url']   = get_post_type_archive_link( 'aktualnosci' );
+	}
+
+	return $ctx;
+}
+
+/**
+ * Meta description + canonical + Open Graph + Twitter Card w <head>.
+ */
+function psod2_head_meta() {
+	if ( defined( 'WPSEO_VERSION' ) ) {
 		return;
 	}
-	$post_id = get_queried_object_id();
-	$title   = get_the_title( $post_id );
-	$excerpt = has_excerpt( $post_id )
-		? get_the_excerpt( $post_id )
-		: wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 40 );
-	$url = get_permalink( $post_id );
+	$c = psod2_seo_context();
 
-	printf( '<meta property="og:type" content="article">' . "\n" );
-	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $title ) );
-	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $excerpt ) );
-	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $url ) );
+	printf( '<meta name="description" content="%s">' . "\n", esc_attr( $c['description'] ) );
+	printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $c['url'] ) );
+
+	printf( '<meta property="og:type" content="%s">' . "\n", esc_attr( $c['type'] ) );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $c['title'] ) );
+	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $c['description'] ) );
+	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $c['url'] ) );
 	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+	printf( '<meta property="og:locale" content="pl_PL">' . "\n" );
 
-	if ( has_post_thumbnail( $post_id ) ) {
-		$img = get_the_post_thumbnail_url( $post_id, 'large' );
-		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $img ) );
+	if ( '' !== $c['image'] ) {
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $c['image'] ) );
 		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
-		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $img ) );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $c['image'] ) );
 	} else {
 		printf( '<meta name="twitter:card" content="summary">' . "\n" );
 	}
-	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $title ) );
-	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $excerpt ) );
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $c['title'] ) );
+	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $c['description'] ) );
 }
-add_action( 'wp_head', 'psod2_og_tags', 5 );
+add_action( 'wp_head', 'psod2_head_meta', 5 );
+
+/**
+ * Dane strukturalne JSON-LD (schema.org): Organization zawsze, Article na pojedynczej
+ * aktualności, FAQPage na stronie głównej (sekcja Q&A z CPT „faq"). Wyłącza się przy Yoast.
+ */
+function psod2_jsonld() {
+	if ( defined( 'WPSEO_VERSION' ) ) {
+		return;
+	}
+	$blocks = array();
+
+	$blocks[] = array(
+		'@context'      => 'https://schema.org',
+		'@type'         => 'Organization',
+		'name'          => 'Polskie Stowarzyszenie Opieki Domowej',
+		'alternateName' => 'PSOD',
+		'url'           => home_url( '/' ),
+		'logo'          => get_template_directory_uri() . '/assets/logo-psod-lockup.jpg',
+		'email'         => 'kontakt@polskaopieka.eu',
+		'address'       => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Nowy Świat 54/56',
+			'postalCode'      => '00-363',
+			'addressLocality' => 'Warszawa',
+			'addressCountry'  => 'PL',
+		),
+		'sameAs'        => array( 'https://www.linkedin.com/company/polskie-stowarzyszenie-opieki-domowej/' ),
+	);
+
+	if ( is_singular( 'aktualnosci' ) ) {
+		$id      = get_queried_object_id();
+		$article = array(
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'headline'      => wp_strip_all_tags( get_the_title( $id ) ),
+			'datePublished' => get_post_time( 'c', true, $id ),
+			'dateModified'  => get_post_modified_time( 'c', true, $id ),
+			'url'           => get_permalink( $id ),
+			'publisher'     => array(
+				'@type' => 'Organization',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+			),
+		);
+		if ( has_post_thumbnail( $id ) ) {
+			$article['image'] = get_the_post_thumbnail_url( $id, 'large' );
+		}
+		$blocks[] = $article;
+	}
+
+	if ( is_front_page() ) {
+		$fq    = new WP_Query(
+			array(
+				'post_type'      => 'faq',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'menu_order',
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
+		$items = array();
+		foreach ( $fq->posts as $p ) {
+			$answer = trim( wp_strip_all_tags( $p->post_content ) );
+			if ( '' === $answer ) {
+				continue;
+			}
+			$items[] = array(
+				'@type'          => 'Question',
+				'name'           => wp_strip_all_tags( $p->post_title ),
+				'acceptedAnswer' => array(
+					'@type' => 'Answer',
+					'text'  => $answer,
+				),
+			);
+		}
+		wp_reset_postdata();
+		if ( ! empty( $items ) ) {
+			$blocks[] = array(
+				'@context'   => 'https://schema.org',
+				'@type'      => 'FAQPage',
+				'mainEntity' => $items,
+			);
+		}
+	}
+
+	foreach ( $blocks as $b ) {
+		echo '<script type="application/ld+json">'
+			. wp_json_encode( $b, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE )
+			. '</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'psod2_jsonld', 6 );
 
 // (Preconnect do Google Fonts usunięty — fonty są self-hostowane, patrz
 // psod2_assets() + assets/fonts/. Zero połączeń do domen Google = zgodność RODO.)
