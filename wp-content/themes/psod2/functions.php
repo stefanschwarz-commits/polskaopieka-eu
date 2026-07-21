@@ -1122,9 +1122,19 @@ function psod2_graph_pre_wp_mail( $short, $atts ) {
 		return $short; // nie potrafimy złożyć odbiorców → fallback
 	}
 
+	// Nazwa nadawcy (display name) — adres zostaje PSOD_GRAPH_SENDER (SPF/DKIM), zmienia się
+	// tylko widoczna nazwa. Nadpisywalne stałą PSOD_GRAPH_FROM_NAME w wp-config.php.
+	$from_name = defined( 'PSOD_GRAPH_FROM_NAME' ) ? PSOD_GRAPH_FROM_NAME : 'Formularz kontaktowy — polskaopieka.eu';
+
 	$mail = array(
 		'message'         => array(
 			'subject'      => (string) $subject,
+			'from'         => array(
+				'emailAddress' => array(
+					'name'    => $from_name,
+					'address' => PSOD_GRAPH_SENDER,
+				),
+			),
 			'body'         => array(
 				'contentType' => $content_type,
 				'content'     => (string) $message,
