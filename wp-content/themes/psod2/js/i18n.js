@@ -7,7 +7,10 @@
    w localStorage. */
 (function(){
   var LANG_KEY='psod_lang';
-  var LANGS=['pl','de','en'];
+  // DE/EN wyłączone do czasu gotowych tłumaczeń (decyzja 2026-07-21) — przełącznik ukryty
+  // w header.php. Każdy zapisany 'de'/'en' rozwiązuje się na 'pl' (brak sierocego banera).
+  // Aby przywrócić: LANGS=['pl','de','en'] + odsłoń przełącznik w header.php.
+  var LANGS=['pl'];
   var originals={};
   var current='pl';
 

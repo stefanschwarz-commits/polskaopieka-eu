@@ -29,11 +29,18 @@
 			<?php
 			// Funkcjonalny przełącznik i18n (js/i18n.js) — nie TranslatePress (patrz spec 2026-07).
 			?>
+			<?php
+			// Przełącznik języków ukryty do czasu gotowych tłumaczeń DE/EN (decyzja 2026-07-21).
+			// Aby przywrócić: zmień `if ( false )` na `if ( true )` poniżej ORAZ przywróć
+			// LANGS = ['pl','de','en'] w js/i18n.js.
+			?>
+			<?php if ( false ) : ?>
 			<div class="lang-switch" role="group" aria-label="<?php esc_attr_e( 'Wybór języka', 'psod2' ); ?>">
 				<button type="button" class="lang-switch__btn" data-lang="pl" aria-current="true">PL</button>
 				<button type="button" class="lang-switch__btn" data-lang="de" aria-current="false">DE</button>
 				<button type="button" class="lang-switch__btn" data-lang="en" aria-current="false">EN</button>
 			</div>
+			<?php endif; ?>
 			<button class="burger" id="menuToggle" aria-label="<?php esc_attr_e( 'Menu', 'psod2' ); ?>" aria-controls="mainNav" aria-expanded="false">
 				<i></i><i></i><i></i>
 			</button>
