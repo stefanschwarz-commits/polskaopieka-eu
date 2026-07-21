@@ -113,7 +113,7 @@ function psod2_assets() {
 
 	// Centrum wiedzy — spory, samodzielny skrypt (fetch + render 47 pytań),
 	// wczytywany tylko na tej jednej podstronie, nie globalnie.
-	if ( is_page_template( 'page-centrum-wiedzy.php' ) ) {
+	if ( is_page( 'centrum-wiedzy' ) ) {
 		$psod2_kb_path = get_template_directory() . '/js/centrum-wiedzy.js';
 		wp_enqueue_script(
 			'psod2-centrum-wiedzy',
@@ -126,7 +126,7 @@ function psod2_assets() {
 
 	// Kontakt — walidacja + wysyłka formularza przez admin-ajax.php, tylko na
 	// tej podstronie. Nonce chroni akcję psod2_kontakt_send (patrz niżej).
-	if ( is_page_template( 'page-kontakt.php' ) ) {
+	if ( is_page( 'kontakt' ) ) {
 		$psod2_kontakt_path = get_template_directory() . '/js/kontakt.js';
 		wp_enqueue_script(
 			'psod2-kontakt',
@@ -211,7 +211,7 @@ add_action( 'wp_ajax_nopriv_psod2_kontakt_send', 'psod2_kontakt_send' );
  * Fonty (Poppins) zostają.
  */
 function psod2_stanowisko_assets() {
-	if ( is_page_template( 'page-stanowisko.php' ) ) {
+	if ( is_page( 'stanowisko' ) ) {
 		wp_dequeue_style( 'psod2-style' );
 		wp_dequeue_script( 'psod2-script' );
 		wp_dequeue_script( 'psod2-i18n' );
@@ -503,6 +503,12 @@ function psod2_frontpage_data() {
 	$mity = array();
 	$mq = new WP_Query( array( 'post_type' => 'mit', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
 	foreach ( $mq->posts as $p ) {
+		// Pomijamy mity z placeholderem faktu (np. Agencje Pracy Tymczasowej —
+		// oryginał nie zawiera treści). Nie pokazujemy notatki roboczej publicznie;
+		// po uzupełnieniu w wp-adminie mit sam wróci do gry.
+		if ( false !== strpos( $p->post_content, '[Do uzupełnienia' ) ) {
+			continue;
+		}
 		$mity[] = array(
 			't' => get_the_title( $p ),
 			'f' => trim( apply_filters( 'the_content', $p->post_content ) ),

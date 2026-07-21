@@ -209,7 +209,8 @@
   function render(revealed){
     var m=MITY[cur];
     var stmt=(window.psodT?psodT('mity.'+cur+'.t',m.t):m.t);
-    var html='<p class="myth__statement">„'+stmt+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true"></span>':'')+'</p>';
+    var stmtEsc=String(stmt).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    var html='<p class="myth__statement">„'+stmtEsc+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true"></span>':'')+'</p>';
     if(!revealed){
       html+='<div class="myth__guess"><div class="ask">Jak myślisz?</div><div class="myth__buttons">'+
         '<button class="btn btn--secondary" data-g="prawda">To prawda</button>'+
