@@ -8,6 +8,8 @@
 $psod2_assets = get_template_directory_uri() . '/assets';
 ?>
 
+</main><!-- #main -->
+
 <!-- ======================= FOOTER ======================= -->
 <footer class="site-footer">
 	<div class="cols">

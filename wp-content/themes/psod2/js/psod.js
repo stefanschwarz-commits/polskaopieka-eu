@@ -10,21 +10,34 @@
   var scrim=document.getElementById('navScrim');
   var closeBtn=document.getElementById('menuClose');
   if(!btn||!nav) return;
+  // Regiony wyłączane (inert) na czas otwartego, modalnego menu — pułapka fokusu:
+  // Tab nie ucieka poza panel, bo reszta strony jest nieinteraktywna.
+  var pageRegions=[document.querySelector('.site-header'),document.getElementById('main'),document.querySelector('.site-footer')];
+  function setInert(el,on){ if(!el)return; if(on){el.setAttribute('inert','');}else{el.removeAttribute('inert');} }
+  // Stan początkowy: menu zamknięte i niefokusowalne (WCAG 4.1.2 — brak fokusowalnej treści aria-hidden).
+  nav.setAttribute('inert','');
   function close(){
     nav.classList.remove('is-open');
     btn.classList.remove('is-active');
     btn.setAttribute('aria-expanded','false');
     nav.setAttribute('aria-hidden','true');
+    nav.setAttribute('inert','');
+    pageRegions.forEach(function(el){ setInert(el,false); });
     document.body.classList.remove('nav-open');
     if(scrim){ scrim.classList.remove('is-open'); scrim.hidden=true; }
+    if(document.activeElement===document.body||nav.contains(document.activeElement)){ try{ btn.focus(); }catch(e){} }
+    else { try{ btn.focus(); }catch(e){} }
   }
   function open(){
     nav.classList.add('is-open');
     btn.classList.add('is-active');
     btn.setAttribute('aria-expanded','true');
     nav.setAttribute('aria-hidden','false');
+    nav.removeAttribute('inert');
+    pageRegions.forEach(function(el){ setInert(el,true); });
     document.body.classList.add('nav-open');
     if(scrim){ scrim.hidden=false; requestAnimationFrame(function(){ scrim.classList.add('is-open'); }); }
+    if(closeBtn){ requestAnimationFrame(function(){ try{ closeBtn.focus(); }catch(e){} }); }
   }
   btn.addEventListener('click',function(){
     nav.classList.contains('is-open') ? close() : open();
@@ -35,7 +48,7 @@
     a.addEventListener('click',close);
   });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape') close();
+    if(e.key==='Escape'&&nav.classList.contains('is-open')) close();
   });
 })();
 

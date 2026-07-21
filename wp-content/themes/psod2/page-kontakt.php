@@ -38,7 +38,7 @@ $assets = get_template_directory_uri() . '/assets';
 					<div class="kontakt-form__row">
 						<div class="kontakt-field">
 							<label for="kf-name" data-i18n="kontakt.form.name">Imię i nazwisko *</label>
-							<input type="text" id="kf-name" name="name" placeholder="Jak się do Ciebie zwracać?" autocomplete="name">
+							<input type="text" id="kf-name" name="name" placeholder="Jak się do Ciebie zwracać?" autocomplete="name" required aria-required="true">
 						</div>
 						<div class="kontakt-field">
 							<label for="kf-phone" data-i18n="kontakt.form.phone">Telefon</label>
@@ -48,16 +48,16 @@ $assets = get_template_directory_uri() . '/assets';
 
 					<div class="kontakt-field">
 						<label for="kf-email" data-i18n="kontakt.form.email">Adres e-mail *</label>
-						<input type="email" id="kf-email" name="email" placeholder="Na ten adres odpiszemy" autocomplete="email">
+						<input type="email" id="kf-email" name="email" placeholder="Na ten adres odpiszemy" autocomplete="email" required aria-required="true">
 					</div>
 
 					<div class="kontakt-field">
 						<label for="kf-message" data-i18n="kontakt.form.message">Treść wiadomości *</label>
-						<textarea id="kf-message" name="message" rows="6" placeholder="W czym możemy pomóc?"></textarea>
+						<textarea id="kf-message" name="message" rows="6" placeholder="W czym możemy pomóc?" required aria-required="true"></textarea>
 					</div>
 
 					<label class="kontakt-consent">
-						<input type="checkbox" id="kf-consent" name="consent">
+						<input type="checkbox" id="kf-consent" name="consent" required aria-required="true">
 						<span data-i18n="kontakt.form.consent">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia odpowiedzi na przesłaną wiadomość. *</span>
 					</label>
 
@@ -67,7 +67,11 @@ $assets = get_template_directory_uri() . '/assets';
 						<input type="text" id="kf-website" name="website" tabindex="-1" autocomplete="off">
 					</div>
 
-					<p class="kontakt-error" id="kontaktError" hidden></p>
+					<p class="kontakt-error" id="kontaktError" role="alert" hidden></p>
+
+					<noscript>
+						<p class="kontakt-error" style="display:block">Wysyłka formularza wymaga JavaScriptu. Napisz do nas bezpośrednio: <a href="mailto:kontakt@polskaopieka.eu">kontakt@polskaopieka.eu</a> lub zadzwoń: <a href="tel:+48602194708">+48 602 194 708</a>.</p>
+					</noscript>
 
 					<button type="submit" class="btn btn--primary" id="kontaktSubmit" data-i18n="kontakt.form.submit">Wyślij wiadomość</button>
 

@@ -16,6 +16,7 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<a class="skip-link" href="#main"><?php esc_html_e( 'Przejdź do treści', 'psod2' ); ?></a>
 
 <!-- ======================= HEADER (sticky) ======================= -->
 <header class="site-header">
@@ -62,3 +63,5 @@
 		</ul>
 	</div>
 </nav>
+
+<main id="main" class="site-main">

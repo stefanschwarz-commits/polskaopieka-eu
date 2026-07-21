@@ -617,6 +617,26 @@ body.nav-open{overflow:hidden}
   .kontakt-hero,.kontakt-main,.kontakt-press,.kontakt-reg{padding-top:56px;padding-bottom:56px}
 }
 
+/* ---------- Dostępność (a11y) ---------- */
+/* Skip link — WCAG 2.4.1 (odsłaniany na fokus) */
+.skip-link{position:absolute;left:8px;top:-60px;z-index:1000;background:var(--fiolet);color:#fff;font-family:var(--font-sans);font-weight:600;font-size:14px;padding:12px 20px;border-radius:0 0 var(--r-md) var(--r-md);text-decoration:none;transition:top var(--dur-fast)}
+.skip-link:focus{top:0;outline:2px solid #fff;outline-offset:-4px}
+/* Widoczny wskaźnik fokusu klawiaturowego — WCAG 2.4.7 (podwójny pierścień) */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,[role="tab"]:focus-visible,summary:focus-visible,.tile:focus-visible,.newscard:focus-visible,.aktual-card:focus-visible{outline:2px solid var(--fiolet);outline-offset:3px;box-shadow:0 0 0 6px rgba(187,22,163,.22);border-radius:4px}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none;border-color:var(--fiolet)!important;box-shadow:0 0 0 4px rgba(187,22,163,.22)}
+summary:focus-visible{outline-offset:1px}
+/* Cele dotykowe — powiększone strefy trafienia (mieszczą się w 48px logo, nie rosną nagłówka) */
+.lang-switch__btn{padding:10px 8px;min-height:40px}
+.burger{padding:10px 6px}
+.myths__dot{position:relative}
+.myths__dot::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px}
+/* Nagłówek na bardzo wąskich ekranach — zapobiega poziomemu przewijaniu */
+@media(max-width:400px){
+  .site-header .wrap{gap:12px}
+  .header-right{gap:12px}
+  .brand__name{display:none}
+}
+
 /* ---------- Strona ogólna (page.php: Polityka Prywatności itp.) ---------- */
 .staticpage{padding:clamp(56px,8vw,96px) 0;background:#fff}
 .staticpage .wrap{max-width:760px}

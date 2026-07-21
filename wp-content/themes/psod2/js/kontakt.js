@@ -19,22 +19,29 @@
     errEl.textContent='';
   }
   [].forEach.call(form.querySelectorAll('input,textarea'),function(el){
-    el.addEventListener('input',clearError);
+    el.addEventListener('input',function(){ el.removeAttribute('aria-invalid'); clearError(); });
+    el.addEventListener('change',function(){ el.removeAttribute('aria-invalid'); clearError(); });
   });
 
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    var name=form.name.value.trim();
-    var email=form.email.value.trim();
-    var message=form.message.value.trim();
-    var consent=form.querySelector('#kf-consent').checked;
+    var nameEl=form.querySelector('#kf-name'),emailEl=form.querySelector('#kf-email'),msgEl=form.querySelector('#kf-message'),consentEl=form.querySelector('#kf-consent');
+    [nameEl,emailEl,msgEl,consentEl].forEach(function(el){ el&&el.removeAttribute('aria-invalid'); });
+    var name=nameEl.value.trim();
+    var email=emailEl.value.trim();
+    var message=msgEl.value.trim();
+    var consent=consentEl.checked;
 
     if(!name||!email||!message){
+      [nameEl,emailEl,msgEl].forEach(function(el){ if(!el.value.trim()) el.setAttribute('aria-invalid','true'); });
       showError('Uzupełnij imię, adres e-mail i treść wiadomości.');
+      (!name?nameEl:(!email?emailEl:msgEl)).focus();
       return;
     }
     if(!consent){
+      consentEl.setAttribute('aria-invalid','true');
       showError('Zaznacz zgodę na przetwarzanie danych osobowych.');
+      consentEl.focus();
       return;
     }
 

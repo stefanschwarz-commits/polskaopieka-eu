@@ -45,13 +45,22 @@
     });
   }
 
+  /* Słownik gotowy = PL (zawsze) lub język z niepustym słownikiem tłumaczeń. */
+  function dictReady(lang){
+    if(lang==='pl') return true;
+    var d=PSOD_I18N[lang];
+    return !!(d&&Object.keys(d).length);
+  }
+
   function updateChrome(){
     [].forEach.call(document.querySelectorAll('.lang-switch__btn'),function(btn){
       btn.setAttribute('aria-current',btn.getAttribute('data-lang')===current?'true':'false');
     });
     var banner=document.getElementById('i18nBanner');
     if(banner) banner.hidden=(current==='pl');
-    document.documentElement.setAttribute('lang',current);
+    // Nie zmieniamy <html lang> na język bez tłumaczeń — wyświetlana treść jest wtedy
+    // wciąż polska, a błędny atrybut lang każe czytnikom ekranu czytać ją z obcą fonetyką.
+    document.documentElement.setAttribute('lang',dictReady(current)?current:'pl');
   }
 
   function setLang(lang){

@@ -43,7 +43,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 		<div class="demo__year" id="demoYear">1980</div>
 		<input class="demo__range" id="demoRange" type="range" min="1940" max="2012" step="1" value="1980" aria-label="Rok urodzenia">
 		<div class="demo__ends"><span>1940</span><span>2012</span></div>
-		<div class="demo__facts" id="demoFacts"></div>
+		<div class="demo__facts" id="demoFacts" aria-live="polite"></div>
 	</div>
 </section>
 
@@ -230,7 +230,7 @@ wp_reset_postdata();
 		<p class="myths__intro" data-i18n="myths.intro">Wokół opieki domowej narosło wiele stereotypów. Przeczytaj twierdzenie, zaufaj intuicji — a potem odkryj, czy to prawda, czy mit.</p>
 		<div class="myths__card">
 			<div class="myths__dots" id="mythDots"></div>
-			<div class="myth__inner" id="mythInner"></div>
+			<div class="myth__inner" id="mythInner" aria-live="polite"></div>
 			<div class="myths__foot">
 				<span class="count" id="mythCount"></span>
 				<a class="arrow-link arrow-link--muted" href="#" id="mythNext"><span data-i18n="myths.next">Następne twierdzenie</span> <span class="arw">→</span></a>
