@@ -1021,3 +1021,36 @@ add_action( 'template_redirect', function () {
 		exit;
 	}
 }, 0 );
+
+/**
+ * Wysyłka poczty przez Microsoft 365 (uwierzytelniony SMTP) zamiast lokalnego sendmaila.
+ *
+ * Poczta domeny polskaopieka.eu jest na Microsoft 365 (MX → Outlook), a jej SPF dopuszcza
+ * WYŁĄCZNIE Microsoft (`v=spf1 include:spf.protection.outlook.com -all`). Dlatego mail
+ * wysłany przez serwer hostingu (domyślny `mail()`/sendmail) oblewa SPF u odbiorcy i trafia
+ * do spamu. Uwierzytelniony SMTP przez M365 sprawia, że wiadomość NAPRAWDĘ wychodzi z
+ * Microsoftu → SPF (i DKIM/DMARC, jeśli włączone w tenancie) przechodzą.
+ *
+ * Dane logowania trzymane jako stałe w wp-config.php (NIE w repo, jak PSOD_GOOGLE_MAPS_API_KEY):
+ *   define( 'PSOD_SMTP_USER', 'kontakt@polskaopieka.eu' );  // skrzynka M365 (login SMTP)
+ *   define( 'PSOD_SMTP_PASS', 'HASLO_APLIKACJI' );          // app password z M365, nie zwykłe hasło
+ *   define( 'PSOD_SMTP_FROM', 'kontakt@polskaopieka.eu' );  // opcjonalnie; domyślnie = USER
+ * Dopóki PSOD_SMTP_USER/PSOD_SMTP_PASS nie są zdefiniowane, WP używa domyślnej wysyłki
+ * (nic się nie psuje — łagodny fallback).
+ */
+function psod2_smtp_phpmailer( $phpmailer ) {
+	if ( ! defined( 'PSOD_SMTP_USER' ) || ! defined( 'PSOD_SMTP_PASS' ) ) {
+		return; // brak konfiguracji SMTP → domyślna wysyłka mail()
+	}
+	$phpmailer->isSMTP();
+	$phpmailer->Host       = defined( 'PSOD_SMTP_HOST' ) ? PSOD_SMTP_HOST : 'smtp.office365.com';
+	$phpmailer->Port       = defined( 'PSOD_SMTP_PORT' ) ? (int) PSOD_SMTP_PORT : 587;
+	$phpmailer->SMTPAuth   = true;
+	$phpmailer->SMTPSecure = 'tls'; // STARTTLS na porcie 587
+	$phpmailer->Username   = PSOD_SMTP_USER;
+	$phpmailer->Password   = PSOD_SMTP_PASS;
+	// M365 wymaga, aby nagłówek From był tożsamy z uwierzytelnioną skrzynką (albo miał SendAs).
+	$from = defined( 'PSOD_SMTP_FROM' ) ? PSOD_SMTP_FROM : PSOD_SMTP_USER;
+	$phpmailer->setFrom( $from, 'Polskie Stowarzyszenie Opieki Domowej', false );
+}
+add_action( 'phpmailer_init', 'psod2_smtp_phpmailer' );
