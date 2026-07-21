@@ -250,7 +250,7 @@ wp_reset_postdata();
 				<p data-i18n="pubs.p1">W niniejszym opracowaniu przyglądamy się usługom opieki długoterminowej, świadczonym przez cudzoziemców w prywatnych gospodarstwach domowych. Zgodnie z definicją Światowej Organizacji Zdrowia, opieka długoterminowa obejmuje zarówno wsparcie o charakterze społecznym (pomoc w codziennych czynnościach, towarzyszenie), jak i usługi medyczne dedykowane osobom, które przez dłuższy okres są zależne od innych. Opieka ta może być realizowana w placówkach stacjonarnych, takich jak domy opieki, ale także w prywatnych mieszkaniach i domach podopiecznych, co stanowi esencję opieki domowej.</p>
 				<p data-i18n="pubs.p2">Raport koncentruje się na opiece domowej nad osobami starszymi (60+), z naciskiem na rolę pracowników cudzoziemskich. Sektor opieki nad seniorami będzie odgrywał coraz większą rolę w nadchodzących latach, a zapotrzebowanie na zagranicznych opiekunów będzie rosło. Mimo zmieniającej się dynamiki na rynku pracy w Europie, przewiduje się, że migracje opiekuńcze pozostaną istotnym zjawiskiem. Chociaż sytuacja w Polsce ulega poprawie, a różnice w zarobkach się zmniejszają, nie należy spodziewać się gwałtownego zahamowania trendu zatrudniania cudzoziemców do opieki nad osobami starszymi.</p>
 				<p data-i18n="pubs.p3">Jednocześnie, z biegiem czasu możemy obserwować zmiany w kierunkach migracji opiekuńczych. Na przykład, malejące zainteresowanie migracją z Polski do Niemiec jest efektem poprawiającej się sytuacji gospodarczej w Polsce. Zmniejszająca się różnica w zarobkach sprawia, że część personelu opiekuńczego może uznać, że strategia mobilności staje się mniej atrakcyjna finansowo.</p>
-				<a class="btn btn--primary" href="#" data-i18n="pubs.cta">Zobacz raport</a>
+				<a class="btn btn--primary" href="<?php echo esc_url( $assets . '/raport-senioralna-opieka-domowa-2024.pdf' ); ?>" download rel="noopener" data-i18n="pubs.cta">Zobacz raport</a>
 			</div>
 		</div>
 	</div>
@@ -306,7 +306,10 @@ wp_reset_postdata();
 		<p data-i18n="join.p">PSOD zrzesza firmy opieki domowej, by wspólnie reprezentować branżę wobec decydentów i mediów — w Polsce i w Unii Europejskiej. Im więcej pracodawców z nami działa, tym skuteczniej chronimy interesy opiekunów i seniorów oraz budujemy standardy godnej opieki.</p>
 		<div class="join__cta">
 			<a class="fill" href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>" data-i18n="join.cta1">Dołącz do PSOD</a>
-			<a class="ghost" href="#" data-i18n="join.cta2">Wesprzyj nasze działania</a>
+			<?php $psod2_wesprzyj = get_page_by_path( 'wesprzyj' ); ?>
+				<?php if ( $psod2_wesprzyj ) : ?>
+					<a class="ghost" href="<?php echo esc_url( get_permalink( $psod2_wesprzyj ) ); ?>" data-i18n="join.cta2">Wesprzyj nasze działania</a>
+				<?php endif; ?>
 		</div>
 	</div>
 </section>
