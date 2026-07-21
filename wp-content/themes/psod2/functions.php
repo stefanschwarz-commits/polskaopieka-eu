@@ -1023,34 +1023,135 @@ add_action( 'template_redirect', function () {
 }, 0 );
 
 /**
- * Wysyłka poczty przez Microsoft 365 (uwierzytelniony SMTP) zamiast lokalnego sendmaila.
+ * Wysyłka poczty przez Microsoft Graph (OAuth2 client-credentials) zamiast lokalnego sendmaila.
  *
  * Poczta domeny polskaopieka.eu jest na Microsoft 365 (MX → Outlook), a jej SPF dopuszcza
- * WYŁĄCZNIE Microsoft (`v=spf1 include:spf.protection.outlook.com -all`). Dlatego mail
- * wysłany przez serwer hostingu (domyślny `mail()`/sendmail) oblewa SPF u odbiorcy i trafia
- * do spamu. Uwierzytelniony SMTP przez M365 sprawia, że wiadomość NAPRAWDĘ wychodzi z
- * Microsoftu → SPF (i DKIM/DMARC, jeśli włączone w tenancie) przechodzą.
+ * WYŁĄCZNIE Microsoft (`v=spf1 include:spf.protection.outlook.com -all`). Dlatego mail wysłany
+ * przez serwer hostingu (domyślny `mail()`) oblewa SPF u odbiorcy i trafia do spamu. Wysyłka
+ * przez Graph (aplikacja Azure AD z uprawnieniem Mail.Send) sprawia, że wiadomość NAPRAWDĘ
+ * wychodzi z Microsoftu → SPF/DKIM/DMARC przechodzą. Bez haseł aplikacji i bez osłabiania
+ * bezpieczeństwa (nowoczesny OAuth2, nie legacy basic-auth).
  *
- * Dane logowania trzymane jako stałe w wp-config.php (NIE w repo, jak PSOD_GOOGLE_MAPS_API_KEY):
- *   define( 'PSOD_SMTP_USER', 'kontakt@polskaopieka.eu' );  // skrzynka M365 (login SMTP)
- *   define( 'PSOD_SMTP_PASS', 'HASLO_APLIKACJI' );          // app password z M365, nie zwykłe hasło
- *   define( 'PSOD_SMTP_FROM', 'kontakt@polskaopieka.eu' );  // opcjonalnie; domyślnie = USER
- * Dopóki PSOD_SMTP_USER/PSOD_SMTP_PASS nie są zdefiniowane, WP używa domyślnej wysyłki
- * (nic się nie psuje — łagodny fallback).
+ * Stałe w wp-config.php (NIE w repo, jak PSOD_GOOGLE_MAPS_API_KEY):
+ *   define( 'PSOD_GRAPH_TENANT',        '<tenant-id>' );              // Directory (tenant) ID
+ *   define( 'PSOD_GRAPH_CLIENT_ID',     '<client-id>' );             // Application (client) ID
+ *   define( 'PSOD_GRAPH_CLIENT_SECRET', '<client-secret>' );         // wartość sekretu klienta
+ *   define( 'PSOD_GRAPH_SENDER',        'kontakt@polskaopieka.eu' ); // skrzynka nadawcza
+ * Dopóki nie są zdefiniowane, WP używa domyślnej wysyłki (łagodny fallback, nic się nie psuje).
  */
-function psod2_smtp_phpmailer( $phpmailer ) {
-	if ( ! defined( 'PSOD_SMTP_USER' ) || ! defined( 'PSOD_SMTP_PASS' ) ) {
-		return; // brak konfiguracji SMTP → domyślna wysyłka mail()
+function psod2_graph_token() {
+	if ( ! defined( 'PSOD_GRAPH_TENANT' ) || ! defined( 'PSOD_GRAPH_CLIENT_ID' ) || ! defined( 'PSOD_GRAPH_CLIENT_SECRET' ) ) {
+		return '';
 	}
-	$phpmailer->isSMTP();
-	$phpmailer->Host       = defined( 'PSOD_SMTP_HOST' ) ? PSOD_SMTP_HOST : 'smtp.office365.com';
-	$phpmailer->Port       = defined( 'PSOD_SMTP_PORT' ) ? (int) PSOD_SMTP_PORT : 587;
-	$phpmailer->SMTPAuth   = true;
-	$phpmailer->SMTPSecure = 'tls'; // STARTTLS na porcie 587
-	$phpmailer->Username   = PSOD_SMTP_USER;
-	$phpmailer->Password   = PSOD_SMTP_PASS;
-	// M365 wymaga, aby nagłówek From był tożsamy z uwierzytelnioną skrzynką (albo miał SendAs).
-	$from = defined( 'PSOD_SMTP_FROM' ) ? PSOD_SMTP_FROM : PSOD_SMTP_USER;
-	$phpmailer->setFrom( $from, 'Polskie Stowarzyszenie Opieki Domowej', false );
+	$cached = get_transient( 'psod2_graph_token' );
+	if ( $cached ) {
+		return $cached;
+	}
+	$resp = wp_remote_post(
+		'https://login.microsoftonline.com/' . rawurlencode( PSOD_GRAPH_TENANT ) . '/oauth2/v2.0/token',
+		array(
+			'timeout' => 15,
+			'body'    => array(
+				'client_id'     => PSOD_GRAPH_CLIENT_ID,
+				'client_secret' => PSOD_GRAPH_CLIENT_SECRET,
+				'scope'         => 'https://graph.microsoft.com/.default',
+				'grant_type'    => 'client_credentials',
+			),
+		)
+	);
+	if ( is_wp_error( $resp ) ) {
+		return '';
+	}
+	$data = json_decode( wp_remote_retrieve_body( $resp ), true );
+	if ( empty( $data['access_token'] ) ) {
+		return '';
+	}
+	$ttl = isset( $data['expires_in'] ) ? max( 60, (int) $data['expires_in'] - 120 ) : 3000;
+	set_transient( 'psod2_graph_token', $data['access_token'], $ttl );
+	return $data['access_token'];
 }
-add_action( 'phpmailer_init', 'psod2_smtp_phpmailer' );
+
+/**
+ * Krótkie zwarcie wp_mail(): jeśli Graph skonfigurowany i token dostępny — wyślij przez Graph.
+ * Zwrot null → WP kontynuuje domyślną wysyłką (fallback przy błędzie/braku konfiguracji).
+ */
+function psod2_graph_pre_wp_mail( $short, $atts ) {
+	if ( ! defined( 'PSOD_GRAPH_SENDER' ) ) {
+		return $short; // nieskonfigurowane → normalne wp_mail
+	}
+	$token = psod2_graph_token();
+	if ( ! $token ) {
+		return $short; // brak tokenu → fallback do wp_mail
+	}
+
+	$to      = isset( $atts['to'] ) ? (array) $atts['to'] : array();
+	$subject = isset( $atts['subject'] ) ? $atts['subject'] : '';
+	$message = isset( $atts['message'] ) ? $atts['message'] : '';
+	$headers = isset( $atts['headers'] ) ? $atts['headers'] : array();
+	if ( ! is_array( $headers ) ) {
+		$headers = explode( "\n", str_replace( "\r\n", "\n", $headers ) );
+	}
+
+	$content_type = 'Text';
+	$reply_to     = array();
+	foreach ( $headers as $h ) {
+		if ( 0 === stripos( $h, 'content-type:' ) && false !== stripos( $h, 'html' ) ) {
+			$content_type = 'HTML';
+		}
+		if ( 0 === stripos( $h, 'reply-to:' ) ) {
+			$val = trim( substr( $h, strlen( 'reply-to:' ) ) );
+			if ( preg_match( '/<([^>]+)>/', $val, $m ) && is_email( $m[1] ) ) {
+				$reply_to[] = array( 'emailAddress' => array( 'address' => $m[1] ) );
+			} elseif ( is_email( $val ) ) {
+				$reply_to[] = array( 'emailAddress' => array( 'address' => $val ) );
+			}
+		}
+	}
+
+	$to_recipients = array();
+	foreach ( $to as $addr ) {
+		if ( preg_match( '/<([^>]+)>/', $addr, $m ) ) {
+			$addr = $m[1];
+		}
+		$addr = trim( $addr );
+		if ( is_email( $addr ) ) {
+			$to_recipients[] = array( 'emailAddress' => array( 'address' => $addr ) );
+		}
+	}
+	if ( empty( $to_recipients ) ) {
+		return $short; // nie potrafimy złożyć odbiorców → fallback
+	}
+
+	$mail = array(
+		'message'         => array(
+			'subject'      => (string) $subject,
+			'body'         => array(
+				'contentType' => $content_type,
+				'content'     => (string) $message,
+			),
+			'toRecipients' => $to_recipients,
+		),
+		'saveToSentItems' => false,
+	);
+	if ( ! empty( $reply_to ) ) {
+		$mail['message']['replyTo'] = $reply_to;
+	}
+
+	$resp = wp_remote_post(
+		'https://graph.microsoft.com/v1.0/users/' . rawurlencode( PSOD_GRAPH_SENDER ) . '/sendMail',
+		array(
+			'timeout' => 15,
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $token,
+				'Content-Type'  => 'application/json',
+			),
+			'body'    => wp_json_encode( $mail ),
+		)
+	);
+	if ( is_wp_error( $resp ) ) {
+		return $short; // błąd sieci → fallback do wp_mail
+	}
+	// Graph sendMail zwraca 202 Accepted przy powodzeniu.
+	return ( 202 === (int) wp_remote_retrieve_response_code( $resp ) );
+}
+add_filter( 'pre_wp_mail', 'psod2_graph_pre_wp_mail', 10, 2 );
