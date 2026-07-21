@@ -58,6 +58,7 @@
 			<li><a href="<?php echo esc_url( home_url( '/centrum-wiedzy/' ) ); ?>" data-i18n="nav.centrum"><?php esc_html_e( 'Centrum wiedzy', 'psod2' ); ?></a></li>
 			<li><a href="<?php echo esc_url( psod2_anchor_url( 'qa' ) ); ?>" data-i18n="nav.qa"><?php esc_html_e( 'Q&A', 'psod2' ); ?></a></li>
 			<li><a href="<?php echo esc_url( home_url( '/aktualnosci/' ) ); ?>" data-i18n="nav.aktualnosci"><?php esc_html_e( 'Aktualności', 'psod2' ); ?></a></li>
+			<li><a href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>" data-i18n="nav.kontakt"><?php esc_html_e( 'Kontakt', 'psod2' ); ?></a></li>
 		</ul>
 	</div>
 </nav>
