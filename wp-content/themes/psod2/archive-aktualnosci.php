@@ -133,18 +133,18 @@ $grid_step    = 6;  // ile dokladamy na klik „Wczytaj wiecej"
 	</div>
 </section>
 
-<!-- ======================= NEWSLETTER ======================= -->
-<section class="aktual-newsletter">
-	<div class="wrap aktual-newsletter__grid">
-		<div>
-			<div class="overline" style="color:var(--opieka)" data-i18n="aktual.newsletter.overline">Newsletter</div>
-			<h2 data-i18n="aktual.newsletter.h2">Bądźmy w kontakcie. Nowe stanowiska i wydarzenia — prosto do Ciebie.</h2>
-		</div>
-		<div class="aktual-newsletter__cta">
-			<a class="btn btn--primary" href="#" data-i18n="aktual.newsletter.cta">Zapisz się</a>
-		</div>
-	</div>
-</section>
+<?php
+/*
+ * ======================= NEWSLETTER (ukryty) =======================
+ * Ukryty do czasu podpięcia realnego dostawcy/zapisu (audyt przedpublikacyjny:
+ * przycisk „Zapisz się" prowadził do „#" bez backendu). Po dodaniu integracji
+ * — odkomentować i podpiąć formularz zamiast martwego linku.
+ *
+ * <section class="aktual-newsletter">
+ *   ... Newsletter / „Bądźmy w kontakcie" / „Zapisz się" ...
+ * </section>
+ */
+?>
 
 <?php
 wp_reset_postdata();

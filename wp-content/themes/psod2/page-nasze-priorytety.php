@@ -37,7 +37,7 @@ $npri_items  = psod2_get_priorytety();
 		<?php foreach ( $npri_items as $i => $psod2_p ) : ?>
 			<?php
 			$psod2_link = get_post_meta( $psod2_p->ID, '_psod_prio_link', true );
-			$psod2_link = $psod2_link ? $psod2_link : '#';
+			$psod2_link = trim( (string) $psod2_link );
 			?>
 			<div class="npri-row<?php echo ( 1 === $i % 2 ) ? ' npri-row--rev' : ''; ?>">
 				<div class="npri-media">
@@ -53,7 +53,9 @@ $npri_items  = psod2_get_priorytety();
 					</div>
 					<h2><?php echo esc_html( get_the_title( $psod2_p ) ); ?></h2>
 					<div class="npri-body__desc"><?php echo apply_filters( 'the_content', $psod2_p->post_content ? $psod2_p->post_content : $npri_desc ); // phpcs:ignore ?></div>
-					<a class="arrow-link" href="<?php echo esc_url( 0 === strpos( $psod2_link, '/' ) ? home_url( $psod2_link ) : $psod2_link ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
+<?php if ( '' !== $psod2_link ) : ?>
+						<a class="arrow-link" href="<?php echo esc_url( 0 === strpos( $psod2_link, '/' ) ? home_url( $psod2_link ) : $psod2_link ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
+					<?php endif; ?>
 				</div>
 			</div>
 		<?php endforeach; ?>

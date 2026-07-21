@@ -55,10 +55,10 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 			<p data-i18n="wyzwania.p">Społeczeństwa się starzeją. Według szacunków WHO do 2030 roku jedna na sześć osób na świecie będzie miała co najmniej 60 lat. W 2021 roku 65 lat lub więcej miało już 21% ludności Europy.</p>
 		</div>
 		<div class="grid">
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></a>
-			<a class="tile" href="#"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></a>
+			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></div>
+			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></div>
+			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></div>
+			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></div>
 		</div>
 	</div>
 </section>
@@ -214,9 +214,9 @@ wp_reset_postdata();
 		</div>
 		<p class="lead2" data-i18n="dzialalnosc.lead2">W tym celu podejmujemy następujące działania:</p>
 		<div class="grid">
-			<a class="acttile" href="#"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-edukacja.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.edukacja">Edukacja</span></a>
-			<a class="acttile" href="#"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-doradztwo.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.doradztwo">Doradztwo</span></a>
-			<a class="acttile" href="#"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-reprezentowanie.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.reprezentowanie">Reprezentowanie</span></a>
+			<div class="acttile"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-edukacja.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.edukacja">Edukacja</span></div>
+			<div class="acttile"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-doradztwo.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.doradztwo">Doradztwo</span></div>
+			<div class="acttile"><span class="ico"><img src="<?php echo esc_url( $assets . '/ico-reprezentowanie.svg' ); ?>" alt=""></span><span data-i18n="dzialalnosc.act.reprezentowanie">Reprezentowanie</span></div>
 		</div>
 	</div>
 </section>
@@ -305,7 +305,7 @@ wp_reset_postdata();
 		<h2 data-i18n="join.h2">Zadbajmy o to razem.</h2>
 		<p data-i18n="join.p">PSOD zrzesza firmy opieki domowej, by wspólnie reprezentować branżę wobec decydentów i mediów — w Polsce i w Unii Europejskiej. Im więcej pracodawców z nami działa, tym skuteczniej chronimy interesy opiekunów i seniorów oraz budujemy standardy godnej opieki.</p>
 		<div class="join__cta">
-			<a class="fill" href="#" data-i18n="join.cta1">Dołącz do PSOD</a>
+			<a class="fill" href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>" data-i18n="join.cta1">Dołącz do PSOD</a>
 			<a class="ghost" href="#" data-i18n="join.cta2">Wesprzyj nasze działania</a>
 		</div>
 	</div>

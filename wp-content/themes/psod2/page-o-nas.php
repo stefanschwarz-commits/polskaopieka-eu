@@ -98,7 +98,7 @@ $assets = get_template_directory_uri() . '/assets';
 		<h2 data-i18n="join.h2">Zadbajmy o to razem.</h2>
 		<p data-i18n="join.p">PSOD zrzesza firmy opieki domowej, by wspólnie reprezentować branżę wobec decydentów i mediów — w Polsce i w Unii Europejskiej. Im więcej pracodawców z nami działa, tym skuteczniej chronimy interesy opiekunów i seniorów oraz budujemy standardy godnej opieki.</p>
 		<div class="join__cta">
-			<a class="fill" href="<?php echo esc_url( home_url( '/#dolacz' ) ); ?>" data-i18n="join.cta1">Dołącz do PSOD</a>
+			<a class="fill" href="<?php echo esc_url( home_url( '/kontakt/' ) ); ?>" data-i18n="join.cta1">Dołącz do PSOD</a>
 		</div>
 	</div>
 </section>

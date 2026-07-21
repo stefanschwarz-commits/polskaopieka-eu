@@ -32,7 +32,7 @@ $psod2_assets = get_template_directory_uri() . '/assets';
 			<a href="mailto:kontakt@polskaopieka.eu">kontakt@polskaopieka.eu</a>
 			<a href="tel:+48602194708">Ada Zaorska · +48 602 194 708</a>
 			<a href="tel:+48795586620">Anna Grodecka · +48 795 586 620</a>
-			<a href="#">LinkedIn</a>
+			<a href="https://www.linkedin.com/company/polskie-stowarzyszenie-opieki-domowej/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
 		</div>
 	</div>
 	<div class="bar">
