@@ -243,7 +243,7 @@ body.nav-open{overflow:hidden}
 .ptab[aria-selected="true"] .ptab__eyebrow .ln{width:26px}
 .ptab[aria-selected="true"] .ptab__name{color:var(--fiolet)}
 .pillars__panel{background:#fff;border-radius:var(--r-xl);box-shadow:var(--shadow-card);padding:clamp(28px,4vw,44px)}
-.pillars__panel img{width:56px;height:56px;display:block;margin-bottom:18px}
+.pillars__panel img{width:auto;height:56px;display:block;margin-bottom:18px}
 .pillars__panel h3{font-family:var(--font-serif);font-weight:500;font-size:clamp(22px,2.6vw,30px);color:var(--tekst);margin-bottom:16px}
 .pillars__panel .intro{font-size:16px;line-height:1.8;color:var(--tekst);margin-bottom:22px}
 .pillars__panel .bullet{display:flex;gap:12px;margin-bottom:12px}
