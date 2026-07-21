@@ -809,6 +809,22 @@ function psod2_polish_date( $post = null ) {
 }
 
 /**
+ * Preload krytycznych fontów (Fraunces 300 — nagłówki, m.in. LCP-owy H1 na hero).
+ * Skraca „swap" na najważniejszym tekście. Preloadujemy oba podzbiory: polskie znaki
+ * (ł, ą, ę, ś, ż, ń, ć, ź) są w latin-ext, a podstawowe litery i „ó" w latin.
+ */
+function psod2_preload_fonts() {
+	$base = get_template_directory_uri() . '/assets/fonts/';
+	foreach ( array( 'fraunces-300-latin.woff2', 'fraunces-300-ext.woff2' ) as $f ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( $base . $f )
+		);
+	}
+}
+add_action( 'wp_head', 'psod2_preload_fonts', 1 );
+
+/**
  * Kontekst SEO — jedno źródło dla meta description, Open Graph i Twitter Card.
  *
  * Na stagingu nie ma wtyczki SEO (Yoast/RankMath). Cała funkcja wyłącza się, jeśli

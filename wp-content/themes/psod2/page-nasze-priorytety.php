@@ -25,7 +25,7 @@ $npri_items  = psod2_get_priorytety();
 <!-- ======================= HERO TYTUŁOWY ======================= -->
 <section class="npri-hero">
 	<div class="wrap">
-		<img class="npri-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="" aria-hidden="true">
+		<img loading="lazy" decoding="async" class="npri-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="" aria-hidden="true">
 		<div class="npri-hero__over" data-i18n="npri.over">Polskie Stowarzyszenie Opieki Domowej</div>
 		<h1 data-i18n="npri.h1">Nasze priorytety</h1>
 	</div>
@@ -64,7 +64,7 @@ $npri_items  = psod2_get_priorytety();
 
 <!-- ======================= CTA „DOŁĄCZ DO NAS" ======================= -->
 <section class="npri-cta">
-	<div class="npri-cta__bg"><img src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="" aria-hidden="true"></div>
+	<div class="npri-cta__bg"><img width="1800" height="487" loading="lazy" decoding="async" src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="" aria-hidden="true"></div>
 	<div class="npri-cta__scrim" aria-hidden="true"></div>
 	<div class="npri-cta__card">
 		<h2 data-i18n="npri.cta.h2">Dołącz do nas</h2>

@@ -20,7 +20,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 
 <!-- ======================= HERO ======================= -->
 <section class="hero">
-	<img class="hero__img" src="<?php echo esc_url( $assets . '/photo-opieka-01.jpeg' ); ?>" alt="">
+	<img width="1920" height="1280" decoding="async" fetchpriority="high" class="hero__img" src="<?php echo esc_url( $assets . '/photo-opieka-01.jpeg' ); ?>" alt="">
 	<div class="hero__veil"></div>
 	<div class="hero__inner">
 		<div class="hero__over" data-i18n="hero.over">O starości, trosce i opiece</div>
@@ -55,10 +55,10 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 			<p data-i18n="wyzwania.p">Społeczeństwa się starzeją. Według szacunków WHO do 2030 roku jedna na sześć osób na świecie będzie miała co najmniej 60 lat. W 2021 roku 65 lat lub więcej miało już 21% ludności Europy.</p>
 		</div>
 		<div class="grid">
-			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></div>
-			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></div>
-			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></div>
-			<div class="tile"><img class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></div>
+			<div class="tile"><img width="900" height="900" loading="lazy" decoding="async" class="tile__img" src="<?php echo esc_url( $assets . '/wyz-starzenie.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.starzenie">Starzenie się społeczeństw</h3></div></div>
+			<div class="tile"><img width="900" height="900" loading="lazy" decoding="async" class="tile__img" src="<?php echo esc_url( $assets . '/wyz-demencja.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.demencja">Choroby demencyjne</h3></div></div>
+			<div class="tile"><img width="900" height="900" loading="lazy" decoding="async" class="tile__img" src="<?php echo esc_url( $assets . '/wyz-personel.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.personel">Brak personelu opiekuńczego</h3></div></div>
+			<div class="tile"><img width="900" height="900" loading="lazy" decoding="async" class="tile__img" src="<?php echo esc_url( $assets . '/wyz-koszty.jpg' ); ?>" alt=""><div class="tile__veil"></div><div class="tile__body"><div class="tile__accent"></div><h3 data-i18n="wyzwania.tile.koszty">Rosnące koszty opieki</h3></div></div>
 		</div>
 	</div>
 </section>
@@ -68,7 +68,7 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	<div class="wrap wrap--wide">
 		<div class="grid">
 			<a class="appeal__doc" href="<?php echo esc_url( home_url( '/stanowisko/' ) ); ?>" aria-label="<?php esc_attr_e( 'Otwórz pełną treść stanowiska', 'psod2' ); ?>">
-				<img src="<?php echo esc_url( $assets . '/stanowisko-crisp.png' ); ?>" alt="Wspólne stanowisko PSOD i KIDO z 15 czerwca 2026 roku">
+				<img width="1110" height="1600" loading="lazy" decoding="async" src="<?php echo esc_url( $assets . '/stanowisko-crisp.jpg' ); ?>" alt="Wspólne stanowisko PSOD i KIDO z 15 czerwca 2026 roku">
 				<span class="appeal__doc__hint" data-i18n="apel.hint">Otwórz pełną treść →</span>
 			</a>
 			<div>
@@ -108,7 +108,7 @@ if ( $psod2_news_feat ) :
 		<a class="news__feat" href="<?php echo esc_url( get_permalink( $psod2_news_feat ) ); ?>">
 			<div class="news__featimg">
 				<?php if ( has_post_thumbnail( $psod2_news_feat ) ) : ?>
-					<?php echo get_the_post_thumbnail( $psod2_news_feat, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_news_feat ) ) ) ); ?>
+					<?php echo get_the_post_thumbnail( $psod2_news_feat, 'large', array( 'alt' => esc_attr( get_the_title( $psod2_news_feat ) ), 'loading' => 'lazy' ) ); ?>
 				<?php endif; ?>
 			</div>
 			<div>
@@ -173,7 +173,7 @@ wp_reset_postdata();
 <!-- ======================= O NAS ======================= -->
 <section class="about">
 	<div class="wrap">
-		<img class="about__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
+		<img loading="lazy" decoding="async" class="about__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
 		<h2 data-i18n="about.h2">Polskie Stowarzyszenie Opieki Domowej</h2>
 		<p data-i18n-html="about.p1"><b>jest organizacją pracodawców</b> zrzeszającą polskie firmy świadczące profesjonalne usługi opieki domowej.</p>
 		<a class="about__toggle" href="<?php echo esc_url( home_url( '/o-nas/' ) ); ?>"><span data-i18n="about.more">czytaj więcej</span> <span>→</span></a>
@@ -193,7 +193,7 @@ wp_reset_postdata();
 			<?php foreach ( $psod2_prio_list as $psod2_p ) : ?>
 				<a class="tile" href="<?php echo esc_url( home_url( '/nasze-priorytety/' ) ); ?>">
 					<?php if ( has_post_thumbnail( $psod2_p ) ) : ?>
-						<?php echo get_the_post_thumbnail( $psod2_p, 'medium_large', array( 'class' => 'tile__img', 'alt' => '' ) ); ?>
+						<?php echo get_the_post_thumbnail( $psod2_p, 'medium_large', array( 'class' => 'tile__img', 'alt' => '', 'loading' => 'lazy' ) ); ?>
 					<?php endif; ?>
 					<div class="tile__veil"></div>
 					<div class="tile__body"><h3><?php echo esc_html( get_the_title( $psod2_p ) ); ?></h3></div>
@@ -243,7 +243,7 @@ wp_reset_postdata();
 <section class="pubs" id="publikacje">
 	<div class="wrap wrap--wide">
 		<div class="grid">
-			<div class="pubs__cover"><img src="<?php echo esc_url( $assets . '/report-cover.jpg' ); ?>" alt="Okładka raportu „Wyzwania branży opieki domowej 2024”"></div>
+			<div class="pubs__cover"><img width="551" height="781" loading="lazy" decoding="async" src="<?php echo esc_url( $assets . '/report-cover.jpg' ); ?>" alt="Okładka raportu „Wyzwania branży opieki domowej 2024”"></div>
 			<div>
 				<div class="pubs__meta">Polskie Stowarzyszenie Opieki Domowej · 13 marca 2024</div>
 				<h3 data-i18n="pubs.title">Raport „Senioralna opieka domowa — wczoraj, dziś i jutro”</h3>
@@ -299,7 +299,7 @@ wp_reset_postdata();
 
 <!-- ======================= DOŁĄCZ ======================= -->
 <section class="join" id="dolacz">
-	<img class="join__img" src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="">
+	<img width="1800" height="487" loading="lazy" decoding="async" class="join__img" src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="">
 	<div class="join__veil"></div>
 	<div class="join__box">
 		<h2 data-i18n="join.h2">Zadbajmy o to razem.</h2>

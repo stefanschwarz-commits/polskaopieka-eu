@@ -23,7 +23,7 @@ $assets = get_template_directory_uri() . '/assets';
 <section class="page-hero">
 	<div class="wrap">
 		<a class="page-hero__back" href="<?php echo esc_url( home_url( '/' ) ); ?>">← <span data-i18n="onas.back">Strona główna</span></a>
-		<img class="page-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
+		<img loading="lazy" decoding="async" class="page-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="">
 		<div class="overline" data-i18n="onas.overline">O NAS</div>
 		<h1 data-i18n="onas.h1">Czym jest PSOD?</h1>
 	</div>
@@ -92,7 +92,7 @@ $assets = get_template_directory_uri() . '/assets';
 
 <!-- ======================= DOŁĄCZ (wspólne z front-page.php) ======================= -->
 <section class="join" id="dolacz">
-	<img class="join__img" src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="">
+	<img width="1800" height="487" loading="lazy" decoding="async" class="join__img" src="<?php echo esc_url( $assets . '/photo-dolacz.jpg' ); ?>" alt="">
 	<div class="join__veil"></div>
 	<div class="join__box">
 		<h2 data-i18n="join.h2">Zadbajmy o to razem.</h2>
