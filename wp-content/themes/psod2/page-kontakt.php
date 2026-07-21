@@ -71,7 +71,7 @@ $assets = get_template_directory_uri() . '/assets';
 
 					<button type="submit" class="btn btn--primary" id="kontaktSubmit" data-i18n="kontakt.form.submit">Wyślij wiadomość</button>
 
-					<p class="kontakt-rodo" data-i18n="kontakt.form.rodo">Administratorem Twoich danych osobowych jest Polskie Stowarzyszenie Opieki Domowej z siedzibą przy ul. Nowy Świat 54/56 w Warszawie. Dane osobowe przetwarzane będą wyłącznie w celu udzielenia odpowiedzi na Twoją wiadomość. Podanie danych jest dobrowolne, a zgodę możesz wycofać w każdym czasie, pisząc na adres kontakt@polskaopieka.eu. Pełną informację o przetwarzaniu danych osobowych znajdziesz w naszej Polityce Prywatności.</p>
+					<p class="kontakt-rodo" data-i18n-html="kontakt.form.rodo">Administratorem Twoich danych osobowych jest Polskie Stowarzyszenie Opieki Domowej z siedzibą przy ul. Nowy Świat 54/56 w Warszawie. Dane osobowe przetwarzane będą wyłącznie w celu udzielenia odpowiedzi na Twoją wiadomość. Podanie danych jest dobrowolne, a zgodę możesz wycofać w każdym czasie, pisząc na adres kontakt@polskaopieka.eu. Pełną informację o przetwarzaniu danych osobowych znajdziesz w naszej <a href="<?php echo esc_url( home_url( '/polityka-prywatnosci/' ) ); ?>">Polityce Prywatności</a>.</p>
 				</form>
 
 				<div class="kontakt-thanks" id="kontaktThanks" hidden>

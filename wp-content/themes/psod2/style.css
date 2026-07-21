@@ -569,6 +569,8 @@ body.nav-open{overflow:hidden}
 .kontakt-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .kontakt-error{font-size:13.5px;color:var(--fiolet);margin:0 0 16px;font-weight:500}
 .kontakt-rodo{font-size:11.5px;line-height:1.55;color:var(--tekst-2);margin-top:26px}
+.kontakt-rodo a{color:var(--fiolet);text-decoration:underline;text-underline-offset:2px}
+.kontakt-rodo a:hover{color:var(--fiolet-press)}
 
 .kontakt-thanks{background:var(--opieka-tlo);border-radius:var(--r-lg);padding:48px 40px}
 .kontakt-thanks__over{font-family:var(--font-sans);font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--opieka);margin-bottom:14px}
@@ -615,6 +617,21 @@ body.nav-open{overflow:hidden}
   .kontakt-hero,.kontakt-main,.kontakt-press,.kontakt-reg{padding-top:56px;padding-bottom:56px}
 }
 
+/* ---------- Strona ogólna (page.php: Polityka Prywatności itp.) ---------- */
+.staticpage{padding:clamp(56px,8vw,96px) 0;background:#fff}
+.staticpage .wrap{max-width:760px}
+.staticpage__head{margin-bottom:32px}
+.staticpage__head h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(30px,4.6vw,48px);line-height:1.15;color:var(--tekst);margin:0}
+.staticpage__body{font-size:16.5px;line-height:1.8;color:var(--tekst-2)}
+.staticpage__body h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(20px,2.6vw,26px);color:var(--tekst);margin:36px 0 14px}
+.staticpage__body h3{font-family:var(--font-serif);font-weight:400;font-size:19px;color:var(--tekst);margin:26px 0 12px}
+.staticpage__body p{margin:0 0 16px}
+.staticpage__body ul,.staticpage__body ol{margin:0 0 16px;padding-left:22px}
+.staticpage__body li{margin-bottom:8px}
+.staticpage__body a{color:var(--fiolet);text-decoration:underline;text-underline-offset:2px}
+.staticpage__body a:hover{color:var(--fiolet-press)}
+.staticpage__body strong{color:var(--tekst);font-weight:600}
+
 /* ---------- 404 ---------- */
 .err404{padding:clamp(80px,12vw,140px) 0;text-align:center;background:#fff}
 .err404 .wrap{max-width:640px}
@@ -635,6 +652,8 @@ body.nav-open{overflow:hidden}
 .site-footer a{color:var(--stopka-tekst);text-decoration:none;display:block;margin-bottom:10px}
 .site-footer a:hover{color:#fff}
 .site-footer .bar{max-width:var(--wrap-wide);margin:52px auto 0;padding:26px 28px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--stopka-tekst-2)}
+.site-footer .bar a{color:var(--stopka-tekst-2);text-decoration:underline;text-underline-offset:2px}
+.site-footer .bar a:hover{color:#fff}
 
 /* ---------- Animacje ---------- */
 @keyframes psodFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

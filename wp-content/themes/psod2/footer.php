@@ -37,6 +37,7 @@ $psod2_assets = get_template_directory_uri() . '/assets';
 	</div>
 	<div class="bar">
 		<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> Polskie Stowarzyszenie Opieki Domowej</span>
+		<span><a href="<?php echo esc_url( home_url( '/polityka-prywatnosci/' ) ); ?>" data-i18n="footer.polityka"><?php esc_html_e( 'Polityka Prywatności', 'psod2' ); ?></a></span>
 		<span>KRS 0000992066 · NIP 5252926975 · REGON 523338263</span>
 	</div>
 </footer>
