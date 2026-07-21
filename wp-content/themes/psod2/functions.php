@@ -833,7 +833,7 @@ add_action( 'wp_head', 'psod2_preload_fonts', 1 );
  */
 function psod2_seo_context() {
 	$site_name = get_bloginfo( 'name' );
-	$default   = __( 'Polskie Stowarzyszenie Opieki Domowej reprezentuje sektor opieki domowej w Polsce — wspieramy seniorów i osoby zależne oraz działamy na rzecz godnej, profesjonalnej opieki w domu.', 'psod2' );
+	$default   = __( 'Polskie Stowarzyszenie Opieki Domowej reprezentuje sektor opieki domowej w Polsce — wspieramy seniorów i osoby zależne oraz godną, profesjonalną opiekę w domu.', 'psod2' );
 	$ctx = array(
 		'title'       => $site_name,
 		'description' => $default,
@@ -859,18 +859,52 @@ function psod2_seo_context() {
 		}
 	} elseif ( is_page() ) {
 		$id           = get_queried_object_id();
+		$slug         = get_post_field( 'post_name', $id );
 		$ctx['title'] = get_the_title( $id ) . ' — ' . $site_name;
-		$content      = get_post_field( 'post_content', $id );
-		if ( '' !== trim( wp_strip_all_tags( $content ) ) ) {
-			$ctx['description'] = wp_trim_words( wp_strip_all_tags( $content ), 40 );
+		// Unikalne opisy dla kluczowych podstron (te szablony nie mają post_content,
+		// więc bez tego wszystkie dostawałyby ten sam domyślny opis = duplikaty).
+		$page_desc = array(
+			'o-nas'                 => 'Poznaj Polskie Stowarzyszenie Opieki Domowej — kim jesteśmy, kogo zrzeszamy i jak działamy na rzecz godnej opieki domowej nad seniorami w Polsce.',
+			'nasze-priorytety'      => 'Priorytety PSOD w opiece domowej: ramy prawne, standardy jakości, ograniczenie szarej strefy i opieka transgraniczna — kluczowe obszary działań.',
+			'centrum-wiedzy'        => 'Centrum wiedzy o opiece domowej — odpowiedzi na najczęstsze pytania o opiekę nad seniorami oraz prawa opiekunów i osób zależnych.',
+			'kontakt'               => 'Skontaktuj się z Polskim Stowarzyszeniem Opieki Domowej — formularz kontaktowy, dane kontaktowe, kontakt prasowy i informacje o członkostwie.',
+			'polityka-prywatnosci'  => 'Polityka prywatności serwisu polskaopieka.eu — jak przetwarzamy dane osobowe zgodnie z RODO i jakie masz prawa.',
+		);
+		if ( isset( $page_desc[ $slug ] ) ) {
+			$ctx['description'] = $page_desc[ $slug ];
+		} else {
+			$content = get_post_field( 'post_content', $id );
+			if ( '' !== trim( wp_strip_all_tags( $content ) ) ) {
+				$ctx['description'] = wp_strip_all_tags( $content );
+			}
 		}
 		$ctx['url'] = get_permalink( $id );
 	} elseif ( is_post_type_archive( 'aktualnosci' ) ) {
-		$ctx['title'] = __( 'Aktualności', 'psod2' ) . ' — ' . $site_name;
-		$ctx['url']   = get_post_type_archive_link( 'aktualnosci' );
+		$ctx['title']       = __( 'Aktualności', 'psod2' ) . ' — ' . $site_name;
+		$ctx['description'] = 'Aktualności Polskiego Stowarzyszenia Opieki Domowej — stanowiska, komentarze i wydarzenia z branży opieki domowej nad seniorami.';
+		$ctx['url']         = get_post_type_archive_link( 'aktualnosci' );
 	}
 
+	// Meta description: jedna linia, przycięta do ~160 znaków na granicy słowa.
+	$ctx['description'] = psod2_seo_desc_cap( $ctx['description'] );
+
 	return $ctx;
+}
+
+/**
+ * Skraca tekst meta description do limitu (domyślnie 160 znaków) na granicy słowa.
+ */
+function psod2_seo_desc_cap( $text, $max = 160 ) {
+	$text = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $text ) ) );
+	if ( mb_strlen( $text ) <= $max ) {
+		return $text;
+	}
+	$cut = mb_substr( $text, 0, $max );
+	$sp  = mb_strrpos( $cut, ' ' );
+	if ( false !== $sp && $sp > 40 ) {
+		$cut = mb_substr( $cut, 0, $sp );
+	}
+	return rtrim( $cut, " \t\n.,;:—-" ) . '…';
 }
 
 /**
@@ -931,6 +965,17 @@ function psod2_jsonld() {
 		),
 		'sameAs'        => array( 'https://www.linkedin.com/company/polskie-stowarzyszenie-opieki-domowej/' ),
 	);
+
+	if ( is_front_page() ) {
+		$blocks[] = array(
+			'@context'      => 'https://schema.org',
+			'@type'         => 'WebSite',
+			'name'          => 'Polskie Stowarzyszenie Opieki Domowej',
+			'alternateName' => 'PSOD',
+			'url'           => home_url( '/' ),
+			'inLanguage'    => 'pl-PL',
+		);
+	}
 
 	if ( is_singular( 'aktualnosci' ) ) {
 		$id      = get_queried_object_id();
@@ -1165,3 +1210,48 @@ function psod2_graph_pre_wp_mail( $short, $atts ) {
 	return ( 202 === (int) wp_remote_retrieve_response_code( $resp ) );
 }
 add_filter( 'pre_wp_mail', 'psod2_graph_pre_wp_mail', 10, 2 );
+
+/**
+ * SEO — tytuł strony głównej. Domyślnie WP dałby tu samą nazwę witryny („PSOD"),
+ * co jest bezwartościowe dla wyszukiwarek. Ustawiamy opisowy, nasycony słowami
+ * kluczowymi tytuł. Pozostałe podstrony zostają przy domyślnym „Tytuł — PSOD".
+ */
+add_filter(
+	'pre_get_document_title',
+	function ( $title ) {
+		if ( is_front_page() ) {
+			return 'Polskie Stowarzyszenie Opieki Domowej — opieka nad seniorami';
+		}
+		return $title;
+	}
+);
+
+/**
+ * SEO/prywatność — wyłączenie mapy autorów w wp-sitemap.xml (nie chcemy indeksować
+ * cienkich archiwów autora ani ujawniać loginów; komplement do blokady ?author=N).
+ */
+add_filter(
+	'wp_sitemaps_add_provider',
+	function ( $provider, $name ) {
+		if ( 'users' === $name ) {
+			return false;
+		}
+		return $provider;
+	},
+	10,
+	2
+);
+
+/**
+ * SEO/prywatność — archiwa autora (/author/<login>/) przekierowane na stronę główną.
+ * Uzupełnia blokadę ?author=N (ta łapie tylko formę z parametrem, nie ładny URL).
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( is_author() ) {
+			wp_safe_redirect( home_url( '/' ), 301 );
+			exit;
+		}
+	}
+);
