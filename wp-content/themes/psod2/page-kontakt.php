@@ -113,8 +113,8 @@ $assets = get_template_directory_uri() . '/assets';
 		</div>
 		<div class="kontakt-press__card">
 			<h3>Joanna Robaszkiewicz</h3>
-			<p class="kontakt-press__role" data-i18n="kontakt.press.role">Kontakt z mediami</p>
-			<a href="tel:+48795586620">+48 795 586 620</a>
+			<p class="kontakt-press__role" data-i18n="kontakt.press.role">Biuro prasowe</p>
+			<a href="tel:+48602648223">+48 602 648 223</a>
 			<a href="mailto:kontakt@polskaopieka.eu">kontakt@polskaopieka.eu</a>
 		</div>
 	</div>
