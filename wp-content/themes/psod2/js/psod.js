@@ -151,45 +151,31 @@
     .catch(function(){ facts.innerHTML=''; });
 })();
 
-/* --- 2. Filary: zakładki (tablist) --- */
+/* --- 2. Filary: podstrona /filary-opieki-domowej/ — scrollspy nawigacji (progresywne
+   ulepszenie). Treść i linki działają bez JS; tu tylko podświetlamy aktywny filar
+   (aria-current + klasa .is-active = tło+waga+kolor, nie sam kolor). --- */
 (function(){
-  var FILARY=window.PSOD_FILARY||[];
-  var tabs=document.getElementById('pillarTabs');
-  var panel=document.getElementById('pillarPanel');
-  if(!tabs||!panel) return;
-  if(!FILARY.length) return;
-  var curIdx=0;
-  function pad(n){return String(n).padStart(2,'0');}
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-  function tt(f,field,fallback){return (window.psodT?psodT('filary.'+f.key+'.'+field,fallback):fallback);}
-  function buildTabs(){
-    tabs.innerHTML='';
-    FILARY.forEach(function(f,i){
-      var b=document.createElement('button');
-      b.className='ptab';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===curIdx?'true':'false');
-      b.innerHTML='<span class="ptab__icon" aria-hidden="true"><img src="'+f.icon+'" alt=""></span>'+
-        '<span class="ptab__eyebrow"><span class="ln"></span><span class="lbl">Filar '+pad(i+1)+'</span></span>'+
-        '<span class="ptab__name">'+esc(tt(f,'name',f.name))+'</span>';
-      b.addEventListener('click',function(){select(i);});
-      tabs.appendChild(b);
+  var nav=document.querySelector('.filary-nav');
+  if(!nav||!('IntersectionObserver' in window)) return;
+  var links=[].slice.call(nav.querySelectorAll('a[href^="#"]'));
+  if(!links.length) return;
+  var map={};
+  links.forEach(function(a){
+    var id=a.getAttribute('href').slice(1);
+    var sec=document.getElementById(id);
+    if(sec) map[id]=a;
+  });
+  function setActive(id){
+    links.forEach(function(a){
+      var on=a.getAttribute('href')==='#'+id;
+      a.classList.toggle('is-active',on);
+      if(on){a.setAttribute('aria-current','true');}else{a.removeAttribute('aria-current');}
     });
   }
-  function select(i){
-    curIdx=i;
-    var f=FILARY[i];
-    [].forEach.call(tabs.children,function(el,k){el.setAttribute('aria-selected',k===i?'true':'false');});
-    var intro=tt(f,'intro',f.intro);
-    var html='<h3>'+esc(tt(f,'name',f.name))+'</h3><p class="intro">'+esc(intro)+'</p><div>';
-    f.bullets.forEach(function(b,bi){
-      var bt=(window.psodT?psodT('filary.'+f.key+'.bullets.'+bi,b):b);
-      html+='<div class="bullet"><span class="dot">•</span><span>'+esc(bt)+'</span></div>';
-    });
-    html+='</div>';
-    panel.innerHTML=html;
-    panel.classList.remove('psod-fade');void panel.offsetWidth;panel.classList.add('psod-fade');
-  }
-  buildTabs();select(0);
-  document.addEventListener('psod:langchange',function(){buildTabs();select(curIdx);});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) setActive(e.target.id); });
+  },{rootMargin:'-40% 0px -55% 0px',threshold:0});
+  Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
 })();
 
 /* --- 4. Mity: gra „Prawda czy mit?" --- */
