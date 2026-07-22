@@ -332,7 +332,7 @@ body.nav-open{overflow:hidden}
    wiedzy". Półprzezroczysta (baza: najciemniejszy ton marki #4A4B52, zero czerni),
    więc widoczna na każdym tle: biel, „mgła" i błękit. Tylko border-top → pojedyncza
    linia na każdym styku, bez podwajania. Hero i „Dołącz" (kadry pełnoekranowe) bez linii. */
-.demo,.challenges,.appeal,.news,.seal,.pillars,.about,.priorities,.activity,.myths,.pubs,.kb-ribbon,.faq{border-top:1px solid rgba(74,75,82,.1)}
+.demo,.challenges,.appeal,.news,.seal,.pillars,.about,.priorities,.activity,.myths,.pubs,.kb-ribbon,.faq{border-top:1px solid rgba(74,75,82,.06)}
 
 /* ---------- Wstążka „Centrum wiedzy" ---------- */
 .kb-ribbon{background:var(--opieka-tlo)}
