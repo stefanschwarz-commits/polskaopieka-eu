@@ -539,7 +539,7 @@ function psod2_filary_data() {
 			'icon'      => 'filar-ciaglosc.svg',
 			'title'     => 'Ciągłość',
 			'card'      => 'Opieka powinna być planowana tak, aby nie dochodziło do niebezpiecznych przerw, a zastępstwa, dokumentacja i przekazywanie obowiązków były właściwie zorganizowane.',
-			'intro'     => 'Osoba zależna od pomocy innych może zostać narażona na poważne ryzyko, jeżeli opieka zostanie nagle przerwana. Ciągłość wymaga planowania, dokumentacji, zastępstw i właściwego przekazywania informacji.',
+			'intro'     => 'Ciągłość opieki domowej oznacza zdolność usługodawcy do zapewnienia osobie korzystającej z opieki nieprzerwanej realizacji uzgodnionego zakresu opieki, bez nieplanowanej luki, niezależnie od absencji, zmiany lub odejścia konkretnego opiekuna. Każda zmiana osoby sprawującej opiekę musi odbywać się poprzez bezpieczne przejęcie obowiązków, informacji i odpowiedzialności.',
 			'zasady'    => array(
 				'ustalenie zakresu usługi oraz planu opieki przed jej rozpoczęciem;',
 				'zapewnienie aktualnej, kompletnej i odpowiednio chronionej dokumentacji;',
