@@ -82,6 +82,22 @@ $psod2_checked = psod2_kb_fmt_date( psod2_kb_sources_checked() );
 						<span class="kb-srcreg__title"><?php echo esc_html( $s['title'] ); ?></span>
 						<span class="kb-srcreg__meta"><?php echo esc_html( $meta ); ?></span>
 						<p class="kb-srcreg__use"><?php echo esc_html( $s['usage'] ); ?></p>
+						<?php if ( ! empty( $s['note'] ) ) : ?>
+							<p class="kb-srcreg__note"><?php echo esc_html( $s['note'] ); ?></p>
+						<?php endif; ?>
+						<?php
+						$psod2_used = psod2_kb_articles_using_source( $sid );
+						if ( ! empty( $psod2_used ) ) :
+							?>
+							<div class="kb-srcreg__used">
+								<span class="kb-srcreg__used-label">Wykorzystane w odpowiedziach:</span>
+								<ul>
+									<?php foreach ( $psod2_used as $psod2_us => $psod2_ut ) : ?>
+										<li><a href="<?php echo esc_url( psod2_kb_article_url( $psod2_us ) ); ?>"><?php echo esc_html( $psod2_ut ); ?></a></li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+						<?php endif; ?>
 						<div class="kb-srcreg__foot">
 							<a class="kb-srcreg__link" href="<?php echo esc_url( $s['url'] ); ?>">Otwórz źródło</a>
 							<span class="kb-srcreg__checked">Sprawdzono: <?php echo esc_html( $psod2_checked ); ?></span>

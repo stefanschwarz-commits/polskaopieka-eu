@@ -303,3 +303,13 @@
     });
   });
 })();
+
+/* --- 8. Centrum wiedzy: przyciski drukowania (.kb-print) — progressive enhancement.
+   Checklista/plan są w HTML bez JS; ten skrypt tylko dodaje wygodne wywołanie druku. --- */
+(function(){
+  var btns=document.querySelectorAll('.kb-print');
+  if(!btns.length) return;
+  [].forEach.call(btns,function(btn){
+    btn.addEventListener('click',function(){ window.print(); });
+  });
+})();

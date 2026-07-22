@@ -556,6 +556,47 @@ body.nav-open{overflow:hidden}
 .kb-metric__grid dt{font-size:14px;font-weight:600;color:var(--tekst)}
 .kb-metric__grid dd{margin:0;font-size:14px;color:var(--tekst-3)}
 
+/* ---------- Filtr kategorii (indeks) ---------- */
+.kb-filters{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 clamp(28px,4vw,40px)}
+.kb-filter{font-family:var(--font-sans);font-size:13.5px;font-weight:500;color:var(--tekst-2);background:#fff;border:1px solid var(--linia);border-radius:var(--r-pill);padding:9px 16px;cursor:pointer;transition:border-color var(--dur-fast),background var(--dur-fast),color var(--dur-fast)}
+.kb-filter:hover{border-color:var(--fiolet);color:var(--fiolet)}
+.kb-filter.is-active{background:var(--fiolet);border-color:var(--fiolet);color:#fff;font-weight:600} /* aktywny: tło + waga + kolor + aria-pressed */
+
+/* ---------- Link wewnętrzny/zewnętrzny w treści ---------- */
+.kb-inlink{margin:4px 0 18px}
+.kb-inlink a{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--fiolet);text-decoration:none}
+.kb-inlink a:hover{text-decoration:underline}
+
+/* ---------- Checklista (do druku) ---------- */
+.kb-checklist,.kb-plan{margin:clamp(28px,4vw,40px) 0 0;padding:clamp(22px,3vw,30px);background:var(--mgla);border-radius:var(--r-lg)}
+.kb-checklist h2,.kb-plan h2{margin:0 0 16px;font-family:var(--font-serif);font-weight:300;font-size:clamp(22px,2.6vw,28px);color:var(--tekst)}
+.kb-checklist__list{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:10px}
+.kb-checklist__list label{display:flex;align-items:flex-start;gap:12px;font-size:15px;line-height:1.6;color:var(--tekst);cursor:pointer}
+.kb-checklist__list input[type=checkbox]{margin-top:3px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--fiolet)}
+
+/* ---------- Plan ciągłości (do druku) ---------- */
+.kb-plan__grid{margin:0 0 20px}
+.kb-plan__row{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px solid var(--linia)}
+.kb-plan__row dt{flex:0 0 auto;min-width:210px;font-size:14px;font-weight:600;color:var(--tekst)}
+.kb-plan__fill{flex:1 1 200px;min-height:1.5em;border-bottom:1px dashed var(--tekst-3);margin:0}
+
+/* ---------- Strona źródeł: notatka + użycie ---------- */
+.kb-srcreg__note{margin:6px 0 0;padding:10px 14px;background:rgba(187,22,163,.05);border-left:3px solid var(--fiolet);border-radius:6px;font-size:13px;line-height:1.55;color:var(--tekst-2)}
+.kb-srcreg__used{margin:10px 0 0}
+.kb-srcreg__used-label{font-size:12.5px;font-weight:600;color:var(--tekst-2)}
+.kb-srcreg__used ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.kb-srcreg__used a{font-size:13.5px;color:var(--fiolet);text-decoration:none}
+.kb-srcreg__used a:hover{text-decoration:underline}
+
+/* ---------- Wydruk (checklista / plan) ---------- */
+@media print{
+  .site-header,.site-footer,.kb-print,.kb-back,.breadcrumb,.kb-related,.kb-filters,.kb-search,.kb-popular,.kb-disclaimer,.filary-note{display:none!important}
+  body{background:#fff}
+  .prio-head{padding:12px 0 0!important}
+  .kb-checklist,.kb-plan{background:#fff;border:1px solid #bbb;break-inside:avoid}
+  .kb-answer__body,.filary-wrap{max-width:none}
+}
+
 .kb-panel{position:sticky;top:96px;display:flex;flex-direction:column;gap:16px}
 .kb-panel-card{background:var(--mgla);border-radius:var(--r-lg);padding:24px}
 .kb-panel-card--care{background:var(--opieka-tlo)}
