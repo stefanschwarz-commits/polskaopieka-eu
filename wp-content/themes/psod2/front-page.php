@@ -23,11 +23,22 @@ $stanowisko_pdf = $assets . '/stanowisko-PSOD-KIDO.pdf';
 	<img width="1920" height="1280" decoding="async" fetchpriority="high" class="hero__img" src="<?php echo esc_url( $assets . '/photo-opieka-01.jpeg' ); ?>" alt="">
 	<div class="hero__veil"></div>
 	<div class="hero__inner">
-		<div class="hero__over" data-i18n="hero.over">O starości, trosce i opiece</div>
-		<h1>
-			<span data-i18n-html="hero.h1.line1">Każdy z nas będzie kiedyś potrzebował <em>opieki</em>.</span>
-			<span data-i18n="hero.h1.line2">Albo będzie ją komuś zapewniał.</span>
-		</h1>
+		<div class="hero__swap" id="heroSwap">
+			<div class="hero__slide is-active">
+				<div class="hero__over" data-i18n="hero.over">O starości, trosce i opiece</div>
+				<h1>
+					<span data-i18n-html="hero.h1.line1">Każdy z nas będzie kiedyś potrzebował <em>opieki</em>.</span>
+					<span data-i18n="hero.h1.line2">Albo będzie ją komuś zapewniał.</span>
+				</h1>
+			</div>
+			<div class="hero__slide" aria-hidden="true">
+				<div class="hero__over" data-i18n="hero.over2">Polskie Stowarzyszenie Opieki Domowej</div>
+				<h1>
+					<span data-i18n-html="hero.h1b.line1">Godna opieka to <em>prawo</em>,</span>
+					<span data-i18n="hero.h1b.line2">nie przywilej.</span>
+				</h1>
+			</div>
+		</div>
 		<div class="hero__rule"></div>
 	</div>
 </section>

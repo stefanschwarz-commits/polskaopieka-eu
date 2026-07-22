@@ -275,6 +275,26 @@
   });
 })();
 
+/* --- 7. Hero: naprzemienne hasła (miękki crossfade, 8 s) --- */
+/* Slajdy stackowane przez grid (.hero__swap{display:grid} + .hero__slide{grid-area:1/1}),
+   więc wysokość = najwyższy slajd, bez skoków layoutu. Przy prefers-reduced-motion rotacja
+   wyłączona (zostaje pierwszy, is-active w HTML). Nieaktywny slajd: aria-hidden. */
+(function(){
+  var swap=document.getElementById('heroSwap');
+  if(!swap) return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var slides=swap.querySelectorAll('.hero__slide');
+  if(slides.length<2) return;
+  var i=0;
+  window.setInterval(function(){
+    slides[i].classList.remove('is-active');
+    slides[i].setAttribute('aria-hidden','true');
+    i=(i+1)%slides.length;
+    slides[i].classList.add('is-active');
+    slides[i].removeAttribute('aria-hidden');
+  },8000);
+})();
+
 /* --- 6. Artykul (wariant 1B): przycisk „Kopiuj link" --- */
 (function(){
   var btns=document.querySelectorAll('.js-copy-link');

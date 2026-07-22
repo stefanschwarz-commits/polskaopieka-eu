@@ -145,6 +145,9 @@ body.nav-open{overflow:hidden}
 .hero h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(30px,4.4vw,52px);line-height:1.35;color:var(--tekst)}
 .hero h1 span{display:block}
 .hero h1 em{font-style:italic;font-weight:400;color:var(--fiolet)}
+.hero__swap{display:grid}
+.hero__slide{grid-area:1/1;opacity:0;transform:translateY(6px);transition:opacity 1.4s cubic-bezier(.25,.8,.3,1),transform 1.4s cubic-bezier(.25,.8,.3,1);pointer-events:none}
+.hero__slide.is-active{opacity:1;transform:none;pointer-events:auto;transition-delay:.35s}
 .hero__rule{width:52px;height:1px;background:var(--tekst-2);opacity:.5;margin:30px auto 0}
 
 /* ---------- Demografia (suwak roku urodzenia) ---------- */
