@@ -834,7 +834,7 @@ function psod2_seo_context() {
 		'description' => $default,
 		'url'         => home_url( '/' ),
 		'type'        => 'website',
-		'image'       => get_template_directory_uri() . '/assets/og-share.jpg',
+		'image'       => get_template_directory_uri() . '/assets/og-share.png',
 		'image_w'     => 1200,
 		'image_h'     => 630,
 	);
