@@ -66,17 +66,208 @@ function psod2_kb_sources() {
 			'lang'        => 'PL',
 			'usage'       => 'Zakres pielęgniarskiej domowej opieki długoterminowej i przykłady czynności wykonywanych przez pielęgniarkę.',
 		),
+		'S5' => array(
+			'institution' => 'Komisja Europejska',
+			'inst_short'  => 'Komisja Europejska',
+			'title'       => 'Europejska strategia w dziedzinie opieki — COM(2022) 440 final',
+			'date'        => '2022-09-07',
+			'url'         => 'https://eur-lex.europa.eu/legal-content/PL/TXT/?uri=CELEX%3A52022DC0440',
+			'type'        => 'Oficjalny komunikat Komisji Europejskiej',
+			'lang'        => 'PL',
+			'usage'       => 'Jakość, dostępność i ciągłość opieki, prawa osób korzystających z opieki oraz znaczenie warunków pracy personelu.',
+		),
+		'S6' => array(
+			'institution' => 'Organizacja Narodów Zjednoczonych — Biuro Wysokiego Komisarza ONZ ds. Praw Człowieka',
+			'inst_short'  => 'ONZ — Biuro Wysokiego Komisarza ds. Praw Człowieka',
+			'title'       => 'Konwencja o prawach osób niepełnosprawnych',
+			'date'        => '2006-12-13',
+			'url'         => 'https://www.ohchr.org/en/instruments-mechanisms/instruments/convention-rights-persons-disabilities',
+			'type'        => 'Konwencja międzynarodowa',
+			'lang'        => 'EN',
+			'usage'       => 'Godność, autonomia, ochrona przed przemocą, prawo do życia w społeczności, prywatność oraz udział w podejmowaniu decyzji.',
+		),
+		'S7' => array(
+			'institution' => 'Ministerstwo Rozwoju i Technologii / Biznes.gov.pl',
+			'inst_short'  => 'Biznes.gov.pl',
+			'title'       => 'Wyszukiwarka firm — CEIDG i KRS',
+			'date'        => '',
+			'url'         => 'https://www.biznes.gov.pl/pl/wyszukiwarka-firm/',
+			'type'        => 'Oficjalny rejestr publiczny',
+			'lang'        => 'PL',
+			'usage'       => 'Weryfikowanie danych rejestrowych przedsiębiorcy lub organizacji świadczącej usługi.',
+		),
+		'S8' => array(
+			'institution' => 'Ministerstwo Zdrowia',
+			'inst_short'  => 'Ministerstwo Zdrowia',
+			'title'       => 'Rejestr podmiotów wykonujących działalność leczniczą',
+			'date'        => '',
+			'url'         => 'https://www.gov.pl/web/zdrowie/rejestr-podmiotow-wykonujacych-dzialalnosc-lecznicza',
+			'type'        => 'Oficjalny rejestr publiczny',
+			'lang'        => 'PL',
+			'usage'       => 'Weryfikowanie podmiotów deklarujących udzielanie świadczeń zdrowotnych.',
+		),
+		'S9' => array(
+			'institution' => 'Urząd Ochrony Konkurencji i Konsumentów',
+			'inst_short'  => 'UOKiK',
+			'title'       => 'Prawa konsumenta',
+			'date'        => '',
+			'url'         => 'https://prawakonsumenta.uokik.gov.pl/',
+			'type'        => 'Oficjalny portal informacyjny',
+			'lang'        => 'PL',
+			'usage'       => 'Ogólne informacje o ochronie konsumentów, pomocy w sporach z przedsiębiorcą i instytucjach udzielających wsparcia.',
+		),
+		'S10' => array(
+			'institution' => 'Międzynarodowa Organizacja Pracy',
+			'inst_short'  => 'Międzynarodowa Organizacja Pracy (MOP)',
+			'title'       => 'Domestic workers and working time',
+			'date'        => '',
+			'url'         => 'https://www.ilo.org/topics-and-sectors/domestic-workers/domestic-workers-and-working-time',
+			'type'        => 'Opracowanie instytucjonalne',
+			'lang'        => 'EN',
+			'usage'       => 'Ryzyko nadmiernie długiego i nieprzewidywalnego czasu pracy personelu pracującego w gospodarstwach domowych.',
+		),
+		'S11' => array(
+			'institution' => 'Międzynarodowa Organizacja Pracy',
+			'inst_short'  => 'Międzynarodowa Organizacja Pracy (MOP)',
+			'title'       => 'Konwencja MOP nr 189 dotycząca godnej pracy dla pracowników domowych',
+			'date'        => '2011-06-16',
+			'url'         => 'https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB%3A12100%3A0%3A%3ANO%3A%3AP12100_ILO_CODE%3AC189',
+			'type'        => 'Międzynarodowy standard pracy',
+			'lang'        => 'EN',
+			'usage'       => 'Przejrzyste warunki wykonywania pracy, opis obowiązków, czas pracy, odpoczynek, warunki zamieszkania, prywatność i ochrona przed nadużyciami.',
+			'note'        => 'Konwencja jest wykorzystywana jako międzynarodowy punkt odniesienia. Nie jest przedstawiana jako bezpośrednio obowiązujące w Polsce źródło prawa.',
+		),
+		'S12' => array(
+			'institution' => 'Międzynarodowa Organizacja Pracy — NORMLEX',
+			'inst_short'  => 'MOP — NORMLEX',
+			'title'       => 'Wykaz ratyfikacji Konwencji MOP nr 189',
+			'date'        => '',
+			'url'         => 'https://normlex.ilo.org/dyn/nrmlx_en/f?p=1000%3A11300%3A0%3A%3ANO%3A11300%3AP11300_INSTRUMENT_ID%3A2551460',
+			'type'        => 'Oficjalny rejestr ratyfikacji',
+			'lang'        => 'EN',
+			'usage'       => 'Weryfikacja statusu ratyfikacji Konwencji nr 189.',
+			'note'        => 'Rejestr sprawdzony 22 lipca 2026 r.',
+		),
+		'S13' => array(
+			'institution' => 'Europejska Agencja Bezpieczeństwa i Zdrowia w Pracy — EU-OSHA',
+			'inst_short'  => 'EU-OSHA',
+			'title'       => 'Home care workers — a comprehensive overview of occupational safety and health risks',
+			'date'        => '2025-11-27',
+			'url'         => 'https://osha.europa.eu/en/publications/home-care-workers-comprehensive-overview-occupational-safety-and-health-risks',
+			'type'        => 'Raport instytucjonalny',
+			'lang'        => 'EN',
+			'usage'       => 'Zagrożenia zawodowe w opiece domowej: obciążenia układu mięśniowo-szkieletowego, praca w odosobnieniu, przemoc, ryzyka psychospołeczne i niebezpieczne warunki domowe.',
+		),
+		'S14' => array(
+			'institution' => 'Światowa Organizacja Zdrowia',
+			'inst_short'  => 'Światowa Organizacja Zdrowia (WHO)',
+			'title'       => 'Integrated care for older people: guidance for person-centred assessment and pathways in primary care, 2nd edition',
+			'date'        => '2025-09-22',
+			'url'         => 'https://www.who.int/publications/i/item/9789240103726',
+			'type'        => 'Podręcznik WHO',
+			'lang'        => 'EN',
+			'usage'       => 'Ocena potrzeb, opracowanie spersonalizowanego planu opieki, wdrażanie planu oraz jego monitorowanie.',
+			'note'        => 'Dokument dotyczy zintegrowanej opieki nad osobami starszymi i nie powinien być automatycznie uogólniany na każdą grupę wieku.',
+		),
+		'S15' => array(
+			'institution' => 'Rzecznik Praw Pacjenta',
+			'inst_short'  => 'Rzecznik Praw Pacjenta',
+			'title'       => 'Prawa pacjenta',
+			'date'        => '',
+			'url'         => 'https://www.gov.pl/web/rpp/prawa-pacjenta',
+			'type'        => 'Oficjalna informacja administracji publicznej',
+			'lang'        => 'PL',
+			'usage'       => 'Prawa przysługujące osobie korzystającej ze świadczeń zdrowotnych: prawo do informacji, zgody, tajemnicy, dokumentacji, godności i intymności.',
+			'note'        => 'Źródło dotyczy świadczeń zdrowotnych i praw pacjenta, a nie automatycznie każdej niemedycznej usługi opieki domowej.',
+		),
 	);
 }
 
-/** Kategorie Centrum wiedzy (architektura skalowalna; wyświetlamy tylko niepuste). */
+/** Kategorie Centrum wiedzy (kolejność wyświetlania; wyświetlamy tylko niepuste). */
 function psod2_kb_categories() {
 	return array(
-		'podstawowe-pojecia' => array(
+		'podstawowe-pojecia'          => array(
 			'name' => 'Podstawowe pojęcia',
 			'desc' => 'Najważniejsze definicje potrzebne do zrozumienia opieki długoterminowej i domowej.',
 		),
+		'organizacja-i-bezpieczenstwo' => array(
+			'name' => 'Organizacja i bezpieczeństwo',
+			'desc' => 'Jak zorganizowana jest bezpieczna opieka domowa — zakres czynności, wybór usługodawcy oraz ciągłość i zastępstwo.',
+		),
+		'prawa-i-warunki-opieki'      => array(
+			'name' => 'Prawa i warunki opieki',
+			'desc' => 'Prawa osoby korzystającej z opieki oraz prawa i warunki pracy personelu opiekuńczego.',
+		),
 	);
+}
+
+/** Slug kategorii dla danej odpowiedzi (z jej nazwy kategorii). */
+function psod2_kb_cat_key( $article ) {
+	$map = array(
+		'Podstawowe pojęcia'          => 'podstawowe-pojecia',
+		'Organizacja i bezpieczeństwo' => 'organizacja-i-bezpieczenstwo',
+		'Prawa i warunki opieki'      => 'prawa-i-warunki-opieki',
+	);
+	$name = isset( $article['category'] ) ? $article['category'] : '';
+	return isset( $map[ $name ] ) ? $map[ $name ] : 'inne';
+}
+
+/**
+ * Kolejność wyświetlania odpowiedzi (indeks, grupowanie w kategoriach). Slug = klucz
+ * w psod2_kb_articles(). Nowe odpowiedzi dopisuj tutaj w wybranej pozycji.
+ */
+function psod2_kb_display_order() {
+	return array(
+		// Podstawowe pojęcia
+		'czym-jest-opieka-dlugoterminowa',
+		'czym-jest-opieka-domowa',
+		'czym-jest-opieka-domowa-z-zamieszkaniem',
+		'czym-jest-ciaglosc-opieki-domowej',
+		'opieka-formalna-i-nieformalna',
+		'pomoc-niemedyczna-a-opieka-medyczna',
+		// Organizacja i bezpieczeństwo
+		'jakich-czynnosci-moze-podejmowac-opiekun-domowy',
+		'jak-wybrac-bezpiecznego-uslugodawce',
+		'ciaglosc-opieki-i-zastepstwo',
+		// Prawa i warunki opieki
+		'prawa-osoby-korzystajacej-z-opieki',
+		'prawa-i-warunki-pracy-personelu-opiekunczego',
+	);
+}
+
+/**
+ * Odpowiedzi pogrupowane po kategoriach, w kolejności psod2_kb_categories() i wewnątrz
+ * w kolejności psod2_kb_display_order(). Zwraca [ catSlug => [ slug => article, ... ], ... ]
+ * — tylko niepuste kategorie. Liczniki = count() na tej strukturze (dane, nie ręcznie).
+ */
+function psod2_kb_articles_by_category() {
+	$articles = psod2_kb_articles();
+	$order    = psod2_kb_display_order();
+	$out      = array();
+	foreach ( psod2_kb_categories() as $cat_slug => $cat ) {
+		$group = array();
+		foreach ( $order as $slug ) {
+			if ( isset( $articles[ $slug ] ) && psod2_kb_cat_key( $articles[ $slug ] ) === $cat_slug ) {
+				$group[ $slug ] = $articles[ $slug ];
+			}
+		}
+		if ( ! empty( $group ) ) {
+			$out[ $cat_slug ] = $group;
+		}
+	}
+	return $out;
+}
+
+/** Slugi odpowiedzi, w których wykorzystano dane źródło (z pól sourceIds) — do strony źródeł. */
+function psod2_kb_articles_using_source( $sid ) {
+	$out = array();
+	foreach ( psod2_kb_display_order() as $slug ) {
+		$a = psod2_kb_get_article( $slug );
+		if ( $a && ! empty( $a['sourceIds'] ) && in_array( $sid, $a['sourceIds'], true ) ) {
+			$out[ $slug ] = $a['title'];
+		}
+	}
+	return $out;
 }
 
 /**
@@ -151,6 +342,8 @@ function psod2_kb_articles() {
 				array( 'kb' => 'czym-jest-opieka-dlugoterminowa' ),
 				array( 'kb' => 'czym-jest-opieka-domowa-z-zamieszkaniem' ),
 				array( 'kb' => 'pomoc-niemedyczna-a-opieka-medyczna' ),
+				array( 'kb' => 'jakich-czynnosci-moze-podejmowac-opiekun-domowy' ),
+				array( 'kb' => 'jak-wybrac-bezpiecznego-uslugodawce' ),
 			),
 			'seoTitle'       => 'Czym jest opieka domowa? Definicja i zakres | PSOD',
 			'seoDescription' => 'Sprawdź, czym jest profesjonalna opieka domowa, jakie formy może przyjmować i czym różni się od opieki medycznej oraz pielęgniarskiej.',
@@ -194,6 +387,8 @@ function psod2_kb_articles() {
 			'related'        => array(
 				array( 'kb' => 'czym-jest-opieka-domowa' ),
 				array( 'kb' => 'pomoc-niemedyczna-a-opieka-medyczna' ),
+				array( 'kb' => 'prawa-i-warunki-pracy-personelu-opiekunczego' ),
+				array( 'kb' => 'ciaglosc-opieki-i-zastepstwo' ),
 				array( 'url' => '/filary-opieki-domowej/', 'label' => 'Pięć filarów dobrej opieki domowej' ),
 			),
 			'seoTitle'       => 'Opieka domowa z zamieszkaniem — czym jest? | PSOD',
@@ -241,6 +436,7 @@ function psod2_kb_articles() {
 				array( 'kb' => 'czym-jest-opieka-dlugoterminowa' ),
 				array( 'kb' => 'czym-jest-opieka-domowa' ),
 				array( 'kb' => 'czym-jest-opieka-domowa-z-zamieszkaniem' ),
+				array( 'kb' => 'jak-wybrac-bezpiecznego-uslugodawce' ),
 			),
 			'seoTitle'       => 'Opieka formalna i nieformalna — różnice | PSOD',
 			'seoDescription' => 'Wyjaśniamy różnicę między profesjonalną opieką formalną a opieką zapewnianą przez rodzinę i inne osoby z otoczenia.',
@@ -293,6 +489,7 @@ function psod2_kb_articles() {
 			'related'        => array(
 				array( 'kb' => 'czym-jest-opieka-domowa' ),
 				array( 'kb' => 'czym-jest-opieka-dlugoterminowa' ),
+				array( 'kb' => 'jakich-czynnosci-moze-podejmowac-opiekun-domowy' ),
 				array( 'url' => '/filary-opieki-domowej/#bezpieczenstwo', 'label' => 'Bezpieczeństwo — jeden z filarów dobrej opieki domowej' ),
 			),
 			'seoTitle'       => 'Pomoc niemedyczna a opieka medyczna | PSOD',
@@ -386,6 +583,338 @@ function psod2_kb_articles() {
 				array( 'p'  => 'Osoba zależna od pomocy innych może zostać narażona na poważne ryzyko, jeżeli opieka zostanie nagle przerwana albo jeśli ważne informacje nie zostaną przekazane. Ciągłość ogranicza to ryzyko i pozwala utrzymać jakość oraz bezpieczeństwo wsparcia.' ),
 				array( 'h2' => 'Najczęstsze nieporozumienia' ),
 				array( 'ul' => array( 'ciągłość nie oznacza pracy jednej osoby przez całą dobę;', 'nie wyklucza zmiany opiekuna, jeśli odbywa się ona bezpiecznie;', 'nie polega wyłącznie na obecności, lecz na organizacji usługi i przepływie informacji;', 'nie jest tym samym co brak jakiegokolwiek kontaktu z przerwami — chodzi o brak nieplanowanych luk w uzgodnionej opiece.' ) ),
+			),
+		),
+
+		'jakich-czynnosci-moze-podejmowac-opiekun-domowy' => array(
+			'id'             => 'kb-czynnosci-opiekuna',
+			'title'          => 'Jakich czynności może podejmować opiekun domowy?',
+			'eyebrow'        => 'Informacja ekspercka',
+			'category'       => 'Organizacja i bezpieczeństwo',
+			'excerpt'        => 'Opiekun domowy wspiera codzienne funkcjonowanie — posiłki, higienę, przemieszczanie się, sprawy dnia. Zakres zależy od potrzeb, ryzyka, umowy i kompetencji; nie obejmuje świadczeń medycznych.',
+			'shortAnswer'    => 'Opiekun domowy może wspierać osobę w codziennym funkcjonowaniu, między innymi przy posiłkach, higienie, ubieraniu, przemieszczaniu się, zakupach, organizowaniu dnia i kontaktach społecznych. Dokładny zakres zależy jednak od potrzeb osoby, poziomu ryzyka, umowy, kompetencji opiekuna oraz podstawy prawnej usługi. Opiekun nie powinien wykonywać świadczeń medycznych lub pielęgniarskich, do których nie ma wymaganych kwalifikacji i uprawnień. {S1} {S3} {S4}',
+			'keywords'       => array( 'obowiązki opiekuna domowego', 'czynności opiekuna', 'zakres opieki domowej', 'czego nie może robić opiekun', 'pomoc przy higienie', 'pomoc przy lekach', 'opiekun a pielęgniarka', 'opieka nad seniorem w domu' ),
+			'sourceIds'      => array( 'S1', 'S3', 'S4' ),
+			'related'        => array(
+				array( 'kb' => 'czym-jest-opieka-domowa' ),
+				array( 'kb' => 'pomoc-niemedyczna-a-opieka-medyczna' ),
+				array( 'kb' => 'jak-wybrac-bezpiecznego-uslugodawce' ),
+				array( 'kb' => 'ciaglosc-opieki-i-zastepstwo' ),
+			),
+			'seoTitle'       => 'Zakres obowiązków opiekuna domowego | PSOD',
+			'seoDescription' => 'Sprawdź, jakie czynności może wykonywać opiekun domowy, które wymagają oceny ryzyka i które powinny być powierzane personelowi medycznemu.',
+			'dateAdded'      => '2026-07-22',
+			'dateModified'   => '2026-07-22',
+			'contentStatus'  => 'expert-information',
+			'disclaimerType' => 'general-info',
+			'body'           => array(
+				array( 'h2' => 'Nie istnieje jeden zamknięty katalog czynności' ),
+				array( 'p'  => 'Zakres pracy opiekuna domowego nie powinien wynikać wyłącznie z nazwy stanowiska albo ogólnego hasła „opieka nad seniorem”. Ta sama czynność może mieć różny poziom trudności i ryzyka w zależności od stanu konkretnej osoby.' ),
+				array( 'p'  => 'Pomoc przy wstawaniu osobie zachowującej znaczną sprawność jest czymś innym niż wykonywanie transferu osoby całkowicie zależnej, z wykorzystaniem specjalistycznego sprzętu. Podobnie przypomnienie o przygotowanym leku różni się od decydowania o jego dawce lub wykonywania zastrzyku.' ),
+				array( 'callout' => 'O możliwości wykonania czynności decydują łącznie: potrzeba osoby, ryzyko, kompetencje opiekuna, uzgodniony zakres usługi oraz obowiązujące przepisy.' ),
+				array( 'h2' => 'Typowe obszary niemedycznej pomocy' ),
+				array( 'h3' => 'Pomoc w podstawowych czynnościach życia codziennego' ),
+				array( 'ul' => array( 'przygotowanie miejsca i pomoc podczas jedzenia i picia;', 'pomoc przy ubieraniu i rozbieraniu;', 'wsparcie podczas mycia i innych codziennych czynności higienicznych;', 'pomoc przy korzystaniu z toalety;', 'pomoc przy wstawaniu, siadaniu i zmianie pozycji;', 'asekuracja podczas przemieszczania się;', 'przygotowanie bezpiecznego otoczenia do wykonywania codziennych czynności.' ) ),
+				array( 'p'  => 'Zakres bezpośredniej pomocy powinien być dostosowany do możliwości osoby. Opiekun nie powinien automatycznie wykonywać za nią czynności, które może ona bezpiecznie wykonać samodzielnie.' ),
+				array( 'h3' => 'Pomoc w prowadzeniu codziennego życia' ),
+				array( 'ul' => array( 'przygotowywanie zwykłych posiłków;', 'robienie zakupów;', 'pranie i lekkie prace domowe związane z potrzebami osoby korzystającej z opieki;', 'organizowanie codziennych spraw;', 'pomoc w umawianiu wizyt i kontaktowaniu się z usługami;', 'towarzyszenie podczas spaceru lub wyjścia;', 'pomoc w korzystaniu z telefonu i innych narzędzi komunikacji;', 'pomoc w porządkowaniu dokumentów i rachunków bez samodzielnego dysponowania pieniędzmi osoby bez jej wyraźnej zgody i odpowiedniej podstawy.' ) ),
+				array( 'h3' => 'Wsparcie społeczne i organizacja dnia' ),
+				array( 'ul' => array( 'towarzyszenie i rozmowa;', 'wspieranie kontaktów z rodziną i znajomymi;', 'zachęcanie do bezpiecznej aktywności;', 'wspieranie utrzymania codziennego rytmu;', 'przypominanie o uzgodnionych czynnościach;', 'pomoc w orientowaniu się w planie dnia;', 'obserwowanie zmian w codziennym funkcjonowaniu;', 'przekazywanie uzgodnionych informacji rodzinie, koordynatorowi lub właściwemu profesjonaliście.' ) ),
+				array( 'p'  => 'Opiekun może obserwować i zgłaszać zmianę, ale nie powinien samodzielnie stawiać diagnozy ani zmieniać sposobu leczenia.' ),
+				array( 'h2' => 'Czynności wymagające indywidualnej oceny ryzyka' ),
+				array( 'p'  => 'Niektóre czynności mogą mieścić się w pomocy domowej, ale ich bezpieczne wykonywanie wymaga wcześniejszej oceny sytuacji, instruktażu, odpowiedniego sprzętu albo dodatkowych kompetencji.' ),
+				array( 'ul' => array( 'transfer osoby z łóżka na krzesło lub wózek;', 'pomoc osobie, która często upada;', 'pomoc przy jedzeniu osobie mającej trudności z połykaniem;', 'intensywna pomoc przy higienie osoby obłożnie chorej;', 'obsługa podnośnika, łóżka specjalistycznego lub innego sprzętu;', 'pomoc przy lekach;', 'opieka nad osobą z zaawansowanymi zaburzeniami poznawczymi;', 'reagowanie na zachowania agresywne lub silne pobudzenie;', 'częste interwencje w nocy;', 'pomoc osobie, której stan zdrowia jest niestabilny.' ) ),
+				array( 'callout' => 'Jeżeli czynność może zagrozić osobie korzystającej z opieki albo opiekunowi, nie należy wykonywać jej wyłącznie na podstawie ustnej prośby rodziny. Trzeba ponownie ocenić potrzeby, ryzyko i właściwy sposób organizacji wsparcia.' ),
+				array( 'h2' => 'Czego opiekun bez odpowiednich kwalifikacji nie powinien robić?' ),
+				array( 'p'  => 'Opiekun domowy świadczący niemedyczną pomoc nie zastępuje lekarza, pielęgniarki, ratownika medycznego ani innego uprawnionego przedstawiciela zawodu medycznego. {S4}' ),
+				array( 'ul' => array( 'diagnozowanie chorób;', 'podejmowanie decyzji o rozpoczęciu lub zmianie leczenia;', 'samodzielna zmiana dawki lub rodzaju leku;', 'wykonywanie zastrzyków;', 'podłączanie kroplówek;', 'wymiana cewników;', 'leczenie ran i odleżyn;', 'wykonywanie procedur medycznych;', 'podejmowanie specjalistycznej oceny stanu klinicznego;', 'stosowanie przymusu lub środków ograniczających swobodę bez właściwej podstawy.' ) ),
+				array( 'p'  => 'Lista ma charakter przykładowy i nie stanowi kompletnego katalogu prawnego.' ),
+				array( 'link' => array( 'url' => '/centrum-wiedzy/pomoc-niemedyczna-a-opieka-medyczna/', 'label' => 'Czym różni się pomoc niemedyczna od opieki medycznej i pielęgniarskiej?' ) ),
+				array( 'h2' => 'Co powinien zawierać opis zakresu usługi?' ),
+				array( 'ul' => array( 'nazwę czynności;', 'cel pomocy;', 'sposób wykonywania;', 'częstotliwość lub porę;', 'osobę odpowiedzialną;', 'wymagane kompetencje;', 'znane ryzyka;', 'potrzebny sprzęt;', 'sytuacje, w których należy przerwać czynność;', 'sposób zgłoszenia problemu;', 'czynności wyraźnie wyłączone z usługi.' ) ),
+				array( 'example_metric' => array( 'title' => 'Przykładowa metryczka czynności (wzór — bez danych konkretnej osoby)', 'fields' => array( 'Czynność', 'Zakres pomocy', 'Kiedy jest wykonywana', 'Kto może ją wykonać', 'Znane ryzyka', 'Kiedy należy skontaktować się z koordynatorem', 'Czego nie obejmuje' ) ) ),
+				array( 'h2' => 'Co zrobić, gdy potrzeby się zmieniają?' ),
+				array( 'p'  => 'Zakres usługi powinien zostać ponownie oceniony po istotnej zmianie stanu zdrowia, sprawności, zachowania, warunków mieszkaniowych lub częstotliwości potrzebnej pomocy.' ),
+				array( 'p'  => 'Sygnały wymagające ponownej oceny:' ),
+				array( 'ul' => array( 'nowe lub częstsze upadki;', 'nagłe pogorszenie sprawności;', 'problemy z połykaniem;', 'powtarzające się błędy przy lekach;', 'częste wezwania opiekuna w nocy;', 'pojawienie się ran lub odleżyn;', 'nasilone zaburzenia zachowania;', 'utrata możliwości bezpiecznego pozostawania bez nadzoru;', 'konieczność wykonywania czynności spoza uzgodnionego zakresu;', 'przeciążenie fizyczne lub psychiczne opiekuna.' ) ),
+				array( 'callout' => 'Zmiana potrzeb osoby powinna prowadzić do zmiany planu opieki, a nie do nieformalnego dokładania kolejnych obowiązków opiekunowi.' ),
+			),
+		),
+
+		'jak-wybrac-bezpiecznego-uslugodawce' => array(
+			'id'             => 'kb-wybor-uslugodawcy',
+			'title'          => 'Jak wybrać bezpiecznego usługodawcę opieki domowej?',
+			'eyebrow'        => 'Informacja ekspercka',
+			'category'       => 'Organizacja i bezpieczeństwo',
+			'excerpt'        => 'Zanim wybierzesz firmę opieki domowej, sprawdź dane rejestrowe, umowę, zakres usługi, personel, zastępstwo, koszty i procedury bezpieczeństwa — nie tylko cenę.',
+			'shortAnswer'    => 'Przed wyborem usługodawcy sprawdź jego dane rejestrowe, zakres odpowiedzialności, sposób oceny potrzeb, kwalifikacje personelu, organizację zastępstw, procedury bezpieczeństwa, warunki umowy i możliwość składania skarg. Nie wybieraj wyłącznie na podstawie ceny, reklamy albo obietnicy „opieki 24 godziny na dobę” świadczonej przez jedną osobę. {S1} {S7}',
+			'keywords'       => array( 'jak wybrać firmę opiekuńczą', 'bezpieczna opieka domowa', 'firma opieki domowej', 'umowa na opiekę', 'sprawdzenie opiekunki', 'CEIDG opieka domowa', 'RPWDL', 'checklista opieki domowej' ),
+			'sourceIds'      => array( 'S1', 'S7', 'S8', 'S9' ),
+			'related'        => array(
+				array( 'kb' => 'jakich-czynnosci-moze-podejmowac-opiekun-domowy' ),
+				array( 'kb' => 'ciaglosc-opieki-i-zastepstwo' ),
+				array( 'kb' => 'prawa-osoby-korzystajacej-z-opieki' ),
+				array( 'kb' => 'czym-jest-opieka-domowa-z-zamieszkaniem' ),
+			),
+			'seoTitle'       => 'Jak wybrać firmę opieki domowej? Checklista | PSOD',
+			'seoDescription' => 'Sprawdź, jak zweryfikować firmę opieki domowej, umowę, zakres usługi, personel, zastępstwo, koszty i procedury bezpieczeństwa.',
+			'dateAdded'      => '2026-07-22',
+			'dateModified'   => '2026-07-22',
+			'contentStatus'  => 'expert-information',
+			'disclaimerType' => 'general-info',
+			'body'           => array(
+				array( 'h2' => '1. Sprawdź, z kim zawierasz umowę' ),
+				array( 'p'  => 'Usługodawca powinien jednoznacznie podać pełną nazwę, formę prawną, adres, NIP, dane kontaktowe oraz osobę odpowiedzialną za realizację usługi.' ),
+				array( 'ul' => array( 'sprawdź dane przedsiębiorcy w wyszukiwarce CEIDG lub KRS;', 'porównaj dane z rejestru z danymi na umowie i fakturze;', 'sprawdź, czy działalność nie jest zawieszona albo wykreślona;', 'upewnij się, kto faktycznie będzie stroną umowy;', 'ustal, kto odpowiada za personel i prawidłową realizację usługi.' ) ),
+				array( 'link' => array( 'url' => 'https://www.biznes.gov.pl/pl/wyszukiwarka-firm/', 'label' => 'Sprawdź firmę w CEIDG lub KRS', 'ext' => true ) ),
+				array( 'h2' => '2. Sprawdź charakter oferowanej usługi' ),
+				array( 'p'  => 'Samo użycie w nazwie słów „opieka”, „medyczna”, „pielęgnacyjna” lub „zdrowotna” nie przesądza o rzeczywistym zakresie uprawnień usługodawcy.' ),
+				array( 'p'  => 'Jeżeli podmiot deklaruje udzielanie świadczeń zdrowotnych, jego dane i zakres działalności należy zweryfikować w Rejestrze Podmiotów Wykonujących Działalność Leczniczą. {S8}' ),
+				array( 'link' => array( 'url' => 'https://www.gov.pl/web/zdrowie/rejestr-podmiotow-wykonujacych-dzialalnosc-lecznicza', 'label' => 'Sprawdź podmiot w RPWDL', 'ext' => true ) ),
+				array( 'callout' => 'Podmiot świadczący wyłącznie niemedyczną pomoc domową nie musi być wpisany do RPWDL tylko dlatego, że świadczy usługi opiekuńcze. Rejestr jest właściwy dla podmiotów wykonujących działalność leczniczą.' ),
+				array( 'h2' => '3. Oczekuj oceny potrzeb przed rozpoczęciem usługi' ),
+				array( 'p'  => 'Rzetelny usługodawca powinien przedstawić sposób oceny potrzeb, ryzyk i warunków domowych. Sama rozmowa o liczbie godzin i cenie nie wystarcza do bezpiecznego zorganizowania opieki.' ),
+				array( 'p'  => 'Ocena powinna obejmować między innymi:' ),
+				array( 'ul' => array( 'codzienną sprawność osoby;', 'potrzebną pomoc w dzień i w nocy;', 'mobilność i ryzyko upadków;', 'sposób odżywiania i ewentualne trudności z połykaniem;', 'potrzeby związane z higieną;', 'stan poznawczy i zachowanie;', 'stosowany sprzęt;', 'potrzeby medyczne i pielęgniarskie;', 'warunki mieszkaniowe;', 'dostępne wsparcie rodziny;', 'sytuacje nagłe;', 'oczekiwania i preferencje osoby korzystającej z opieki.' ) ),
+				array( 'callout' => 'Firma, która obiecuje odpowiednią opiekę bez poznania potrzeb osoby, nie ma podstaw do rzetelnego określenia zakresu usługi ani wymaganego personelu.' ),
+				array( 'h2' => '4. Przeczytaj umowę i załączniki' ),
+				array( 'p'  => 'Umowa powinna określać:' ),
+				array( 'ul' => array( 'strony umowy;', 'miejsce świadczenia usługi;', 'datę rozpoczęcia;', 'zakres czynności;', 'czynności wyłączone;', 'harmonogram;', 'sposób organizacji potrzeb nocnych;', 'zasady zastępstwa;', 'dane koordynatora;', 'sposób reagowania na sytuacje nagłe;', 'zasady dokumentowania usługi;', 'cenę i wszystkie możliwe opłaty dodatkowe;', 'terminy i sposób płatności;', 'zasady zmiany zakresu;', 'zasady wypowiedzenia;', 'procedurę składania skarg;', 'zakres odpowiedzialności;', 'sposób przetwarzania danych;', 'zasady przekazywania kluczy, dokumentów i dostępu do mieszkania.' ) ),
+				array( 'p'  => 'Nie podpisuj dokumentu zawierającego puste pola, ogólne sformułowania pozwalające dowolnie zmieniać cenę albo zobowiązanie opiekuna do wykonywania wszystkich poleceń rodziny.' ),
+				array( 'h2' => '5. Zapytaj, jak dobierany i wspierany jest personel' ),
+				array( 'ul' => array( 'Jak weryfikowana jest tożsamość osoby?', 'Jak sprawdzane są doświadczenie i przedstawione kwalifikacje?', 'Jak firma ocenia znajomość języka i zdolność komunikacji?', 'Jak dobiera osobę do konkretnych potrzeb?', 'Jak przygotowuje personel do rozpoczęcia usługi?', 'Kto udziela wsparcia podczas realizacji opieki?', 'Jak często aktualizowany jest plan?', 'Co dzieje się, gdy opiekun nie radzi sobie z powierzonymi czynnościami?', 'Jak firma reaguje na zgłoszenie przemocy lub naruszenia granic?', 'Jak organizuje zastępstwo?' ) ),
+				array( 'p'  => 'Usługodawca powinien wyjaśnić sposób weryfikacji personelu, ale nie powinien udostępniać rodzinie poufnych danych pracownika ani dokumentów, których przekazywanie nie ma odpowiedniej podstawy.' ),
+				array( 'h2' => '6. Sprawdź zasady ciągłości i zastępstwa' ),
+				array( 'p'  => 'Bezpieczna usługa nie może zależeć wyłącznie od dyspozycyjności jednej osoby. Usługodawca powinien wyjaśnić, co stanie się podczas choroby, urlopu, nagłej rezygnacji, opóźnienia w podróży albo konfliktu między stronami.' ),
+				array( 'ul' => array( 'kto przyjmuje zgłoszenie nieobecności;', 'w jakim czasie rodzina otrzyma informację;', 'kto wyszukuje zastępstwo;', 'jak sprawdzane są kompetencje zastępcy;', 'jak przekazywane są niezbędne informacje;', 'co dzieje się, jeżeli natychmiastowe zastępstwo jest niemożliwe;', 'kto odpowiada za rozwiązanie sytuacji.' ) ),
+				array( 'h2' => '7. Oceń organizację opieki domowej z zamieszkaniem' ),
+				array( 'p'  => 'W modelu z zamieszkaniem trzeba oddzielić obecność opiekuna w domu od czasu wykonywania obowiązków.' ),
+				array( 'ul' => array( 'zakres i czas pracy;', 'przerwy oraz odpoczynek;', 'sposób reagowania w nocy;', 'częstotliwość nocnych interwencji;', 'warunki zakwaterowania;', 'dostęp do prywatnej przestrzeni;', 'zasady korzystania z kuchni i łazienki;', 'zasady opuszczania domu w czasie wolnym;', 'zastępstwo;', 'czynności, których opiekun nie wykonuje.' ) ),
+				array( 'callout' => 'Obietnica, że jedna osoba będzie przez całą dobę pracować, czuwać i pozostawać w stałej gotowości, jest poważnym sygnałem ostrzegawczym.' ),
+				array( 'h2' => '8. Sprawdź sposób zgłaszania uwag i zdarzeń' ),
+				array( 'p'  => 'Usługodawca powinien wskazać:' ),
+				array( 'ul' => array( 'dane koordynatora;', 'kanał do pilnego kontaktu;', 'sposób zgłaszania zwykłych uwag;', 'sposób zgłaszania skarg;', 'procedurę reagowania na przemoc, zaniedbanie lub nadużycie;', 'sposób dokumentowania zdarzeń;', 'termin odpowiedzi;', 'sposób eskalacji nierozwiązanej sprawy.' ) ),
+				array( 'h2' => '9. Zapytaj o odpowiedzialność i ubezpieczenie' ),
+				array( 'p'  => 'Zapytaj, czy usługodawca posiada ubezpieczenie odpowiedzialności cywilnej, jaki jest jego zakres i jakie zdarzenia obejmuje. Samo posiadanie polisy nie zastępuje prawidłowej organizacji usługi, ale brak jasnej odpowiedzi powinien skłonić do dalszej weryfikacji.' ),
+				array( 'h2' => '10. Sprawdź pełną cenę' ),
+				array( 'p'  => 'Cena powinna wskazywać:' ),
+				array( 'ul' => array( 'podstawową stawkę;', 'podatki;', 'koszty podróży;', 'opłaty za święta lub szczególne terminy;', 'koszty zastępstwa;', 'koszty zmiany zakresu;', 'ewentualne koszty rozwiązania umowy;', 'zasady rozliczenia niepełnego okresu;', 'sposób dokumentowania płatności.' ) ),
+				array( 'p'  => 'Niska cena nie jest dowodem niskiej jakości, a wysoka cena nie gwarantuje bezpieczeństwa. Ważne jest to, co dokładnie obejmuje usługa i kto ponosi odpowiedzialność.' ),
+				array( 'h2' => 'Sygnały ostrzegawcze' ),
+				array( 'ul' => array( 'brak pełnych danych podmiotu;', 'niezgodność danych umowy z rejestrem;', 'wyłącznie gotówkowe rozliczenia bez potwierdzenia;', 'presja na natychmiastowe podpisanie umowy;', 'żądanie dużej przedpłaty bez jasnych zasad;', 'brak oceny potrzeb;', 'brak pisemnego zakresu czynności;', 'obietnica stałej opieki jednej osoby bez odpoczynku i zastępstwa;', 'powierzanie czynności medycznych osobie bez potwierdzonych uprawnień;', 'brak koordynatora;', 'brak procedury zastępstwa;', 'brak możliwości złożenia skargi;', 'odmowa wskazania, kto odpowiada za personel;', 'niejasne koszty dodatkowe;', 'żądanie przekazania dokumentów tożsamości lub danych wykraczających poza uzasadnioną potrzebę;', 'bagatelizowanie przemocy, przeciążenia albo naruszenia prywatności.' ) ),
+				array( 'h2' => 'Czy członkostwo w PSOD jest gwarancją?' ),
+				array( 'p'  => 'Członkostwo w PSOD może być dodatkową informacją o zaangażowaniu podmiotu w działalność branżową, ale nie jest państwową licencją, certyfikatem jakości ani gwarancją prawidłowej realizacji każdej usługi.' ),
+				array( 'p'  => 'Członkostwo nie zastępuje sprawdzenia danych firmy, umowy, zakresu odpowiedzialności, kwalifikacji personelu, organizacji zastępstwa i rzeczywistych warunków świadczenia opieki.' ),
+				array( 'h2' => 'Gdzie szukać pomocy w sporze?' ),
+				array( 'p'  => 'W pierwszej kolejności złóż udokumentowane zgłoszenie do usługodawcy zgodnie z umową. Zachowaj korespondencję, umowę, rachunki oraz opis zdarzeń.' ),
+				array( 'p'  => 'Jeżeli umowa została zawarta przez konsumenta z przedsiębiorcą, informacje o dostępnych formach pomocy i instytucjach zajmujących się ochroną konsumentów można znaleźć na portalu UOKiK. {S9}' ),
+				array( 'link' => array( 'url' => 'https://prawakonsumenta.uokik.gov.pl/', 'label' => 'Znajdź pomoc konsumencką', 'ext' => true ) ),
+				array( 'callout' => 'Jeżeli występuje bezpośrednie zagrożenie życia lub zdrowia, nie czekaj na rozpatrzenie reklamacji. Skontaktuj się z numerem alarmowym 112.' ),
+				array( 'checklist' => array( 'id' => 'kb-checklist-uslugodawca', 'title' => 'Checklista wyboru usługodawcy', 'print' => 'Drukuj checklistę', 'items' => array( 'Sprawdziłem dane w CEIDG lub KRS.', 'Wiem, z kim zawieram umowę.', 'Wiem, kto odpowiada za personel.', 'Przeprowadzono ocenę potrzeb.', 'Otrzymałem pisemny zakres usługi.', 'Wiem, których czynności usługa nie obejmuje.', 'Znam pełną cenę.', 'Znam zasady zastępstwa.', 'Mam dane koordynatora.', 'Znam procedurę sytuacji nagłych.', 'Znam procedurę skarg.', 'Sprawdziłem charakter ewentualnych świadczeń zdrowotnych.', 'Uzgodniłem warunki pracy i odpoczynku w modelu z zamieszkaniem.', 'Przeczytałem zasady wypowiedzenia.', 'Nie pozostawiono pustych pól w umowie.' ) ) ),
+			),
+		),
+
+		'prawa-osoby-korzystajacej-z-opieki' => array(
+			'id'             => 'kb-prawa-osoby',
+			'title'          => 'Jakie prawa ma osoba korzystająca z opieki domowej?',
+			'eyebrow'        => 'Informacja ekspercka',
+			'category'       => 'Prawa i warunki opieki',
+			'excerpt'        => 'Godność, autonomia, prywatność, bezpieczeństwo, zrozumiała informacja i udział w planowaniu wsparcia — podstawowe zasady, które powinna respektować dobra opieka domowa.',
+			'shortAnswer'    => 'Nie istnieje jeden identyczny katalog praw dla wszystkich form opieki domowej. Zakres praw zależy między innymi od rodzaju usługi, przepisów, umowy i tego, czy udzielane są świadczenia zdrowotne. Niezależnie od modelu dobra opieka powinna respektować godność, autonomię, prywatność, bezpieczeństwo, zakaz dyskryminacji, ochronę przed przemocą, prawo do zrozumiałej informacji, udziału w planowaniu wsparcia i ciągłości opieki. {S1} {S5} {S6}',
+			'keywords'       => array( 'prawa osoby korzystającej z opieki', 'prawa seniora', 'prawa w opiece domowej', 'godność w opiece', 'autonomia seniora', 'skarga na firmę opiekuńczą', 'przemoc w opiece', 'prywatność w opiece domowej' ),
+			'sourceIds'      => array( 'S1', 'S5', 'S6', 'S9', 'S15' ),
+			'related'        => array(
+				array( 'kb' => 'jak-wybrac-bezpiecznego-uslugodawce' ),
+				array( 'kb' => 'ciaglosc-opieki-i-zastepstwo' ),
+				array( 'kb' => 'opieka-formalna-i-nieformalna' ),
+				array( 'url' => '/filary-opieki-domowej/', 'label' => 'Pięć filarów dobrej opieki domowej' ),
+			),
+			'seoTitle'       => 'Prawa osoby korzystającej z opieki domowej | PSOD',
+			'seoDescription' => 'Poznaj podstawowe zasady ochrony godności, autonomii, prywatności, bezpieczeństwa i prawa do informacji w opiece domowej.',
+			'dateAdded'      => '2026-07-22',
+			'dateModified'   => '2026-07-22',
+			'contentStatus'  => 'expert-information',
+			'disclaimerType' => 'general-info',
+			'body'           => array(
+				array( 'h2' => 'Prawa, przepisy i zasady jakości to nie to samo' ),
+				array( 'p'  => 'Część uprawnień wynika z praw podstawowych i obowiązujących przepisów. Część wynika z umowy zawartej z usługodawcą. Pozostałe są zasadami dobrej jakości rekomendowanymi przez instytucje europejskie i międzynarodowe.' ),
+				array( 'p'  => 'Dlatego nie należy przedstawiać poniższej listy jako jednego kompletnego katalogu roszczeń prawnych obowiązujących w każdej sytuacji. Jest to zestaw podstawowych zasad, które powinny być widoczne w profesjonalnej opiece domowej.' ),
+				array( 'h2' => 'Prawo do godności i szacunku' ),
+				array( 'p'  => 'Osoba korzystająca z opieki powinna być:' ),
+				array( 'ul' => array( 'traktowana jak osoba dorosła;', 'wysłuchiwana;', 'chroniona przed poniżaniem;', 'traktowana bez dyskryminacji;', 'chroniona przed uprzedmiotowieniem;', 'wspierana bez niepotrzebnego odbierania samodzielności;', 'nazywana w sposób, który akceptuje.' ) ),
+				array( 'p'  => 'Wiek, choroba, niepełnosprawność lub zależność od pomocy innych osób nie odbierają człowiekowi godności ani prawa do wpływu na własne życie. {S1} {S6}' ),
+				array( 'h2' => 'Prawo do autonomii i udziału w decyzjach' ),
+				array( 'ul' => array( 'udział w ocenie potrzeb;', 'udział w ustalaniu celów opieki;', 'wpływ na codzienny rytm;', 'możliwość wyrażania preferencji;', 'zrozumiała informacja o dostępnych możliwościach;', 'możliwość zgłoszenia, że dana osoba lub sposób wykonywania czynności nie odpowiada potrzebom;', 'uzyskiwanie zgody przed podejmowaniem czynności dotyczących ciała, prywatności i mienia;', 'wspieranie samodzielności zamiast automatycznego wykonywania wszystkiego za osobę.' ) ),
+				array( 'callout' => 'Osoba korzystająca z opieki powinna pozostawać w centrum planowania usługi, nawet wtedy, gdy rodzina finansuje opiekę lub uczestniczy w organizowaniu wsparcia.' ),
+				array( 'h2' => 'Prawo do zrozumiałej informacji' ),
+				array( 'p'  => 'Osoba powinna otrzymać informacje o:' ),
+				array( 'ul' => array( 'podmiocie świadczącym usługę;', 'osobach realizujących wsparcie;', 'zakresie czynności;', 'czynnościach wyłączonych;', 'kosztach;', 'harmonogramie;', 'zasadach zastępstwa;', 'sposobie reagowania w sytuacji nagłej;', 'sposobie składania uwag i skarg;', 'przetwarzaniu danych;', 'możliwości zmiany albo zakończenia usługi.' ) ),
+				array( 'p'  => 'Informacje powinny być przekazane prostym językiem, w formie dostosowanej do możliwości osoby, bez nieuzasadnionej presji, z możliwością zadania pytań i z odpowiednim czasem na podjęcie decyzji.' ),
+				array( 'h2' => 'Prawo do prywatności i intymności' ),
+				array( 'ul' => array( 'zamykanie drzwi podczas czynności osobistych, jeżeli jest to bezpieczne;', 'osłanianie ciała w zakresie, w jakim nie jest potrzebne jego odsłonięcie;', 'pytanie o zgodę przed wejściem do prywatnej przestrzeni;', 'respektowanie własności i rzeczy osobistych;', 'nieprzeglądanie korespondencji, dokumentów i telefonu bez zgody;', 'nieujawnianie informacji osobom nieuprawnionym;', 'niewykonywanie zdjęć i nagrań bez odpowiedniej zgody i podstawy;', 'ograniczenie dostępu do danych wyłącznie do osób, które rzeczywiście ich potrzebują.' ) ),
+				array( 'p'  => 'Dom pozostaje prywatną przestrzenią osoby korzystającej z opieki, nawet gdy jest jednocześnie miejscem wykonywania usługi.' ),
+				array( 'h2' => 'Prawo do bezpieczeństwa i ochrony przed nadużyciami' ),
+				array( 'p'  => 'Osoba powinna być chroniona przed:' ),
+				array( 'ul' => array( 'przemocą fizyczną;', 'przemocą psychiczną;', 'przemocą seksualną;', 'przemocą ekonomiczną;', 'zaniedbaniem;', 'poniżaniem;', 'groźbami;', 'dyskryminacją;', 'nieuzasadnionym ograniczaniem swobody;', 'wykorzystywaniem zależności;', 'nieuprawnionym dysponowaniem pieniędzmi lub mieniem;', 'wykonywaniem ryzykownych czynności przez osoby bez odpowiednich kompetencji.' ) ),
+				array( 'callout' => 'Żadna trudność organizacyjna, konflikt rodzinny ani choroba osoby nie usprawiedliwia przemocy, poniżania lub nadużywania zależności.' ),
+				array( 'h2' => 'Prawo do indywidualnego planu wsparcia' ),
+				array( 'p'  => 'Zakres opieki powinien wynikać z rzeczywistych potrzeb, możliwości, preferencji i celów konkretnej osoby, a nie wyłącznie z jej wieku, rozpoznania medycznego lub gotowego pakietu usług.' ),
+				array( 'p'  => 'Plan powinien wskazywać:' ),
+				array( 'ul' => array( 'potrzeby;', 'cele;', 'zakres czynności;', 'preferowany sposób wykonywania;', 'znane ryzyka;', 'osoby odpowiedzialne;', 'częstotliwość wsparcia;', 'zasady kontaktu;', 'sytuacje wymagające ponownej oceny.' ) ),
+				array( 'h2' => 'Prawo do ciągłości i bezpiecznej zmiany' ),
+				array( 'p'  => 'Osoba zależna od pomocy nie powinna pozostawać bez niezbędnego wsparcia wyłącznie dlatego, że konkretny opiekun zachorował, zrezygnował albo zakończył zmianę.' ),
+				array( 'p'  => 'Ciągłość nie oznacza prawa do stałej obecności jednej wybranej osoby. Oznacza odpowiednią organizację harmonogramu, zastępstwa, dokumentacji i przekazywania informacji. {S1}' ),
+				array( 'h2' => 'Prawo do zgłaszania uwag i skarg' ),
+				array( 'p'  => 'Osoba powinna móc:' ),
+				array( 'ul' => array( 'zgłosić problem bez obawy przed odwetem;', 'otrzymać informację, do kogo kierować zgłoszenie;', 'uzyskać potwierdzenie przyjęcia;', 'otrzymać odpowiedź w określonym terminie;', 'poprosić o udział zaufanej osoby;', 'zgłosić podejrzenie przemocy lub zaniedbania;', 'zakwestionować sposób realizacji usługi;', 'otrzymać informację o dostępnej dalszej drodze postępowania.' ) ),
+				array( 'h2' => 'Co w sytuacji trudności z podejmowaniem decyzji?' ),
+				array( 'p'  => 'Trudności poznawcze, komunikacyjne albo niepełnosprawność nie powinny automatycznie prowadzić do wyłączenia osoby z rozmowy o jej własnej opiece.' ),
+				array( 'p'  => 'Należy:' ),
+				array( 'ul' => array( 'dostosować język i sposób komunikacji;', 'zapewnić więcej czasu;', 'używać prostych pytań;', 'sprawdzać, czy informacja została zrozumiana;', 'uwzględniać wcześniej wyrażone preferencje;', 'angażować osobę uprawnioną do reprezentacji, gdy jest to konieczne;', 'nadal zwracać się bezpośrednio do osoby korzystającej z opieki;', 'stosować rozwiązania możliwie najmniej ograniczające autonomię.' ) ),
+				array( 'p'  => 'Jeżeli nie jest jasne, kto może podejmować formalne decyzje w imieniu osoby, należy uzyskać indywidualną poradę prawną. Personel opiekuńczy nie powinien samodzielnie rozstrzygać kwestii reprezentacji prawnej.' ),
+				array( 'h2' => 'Prawa pacjenta dotyczą świadczeń zdrowotnych' ),
+				array( 'p'  => 'Jeżeli w domu udzielane są świadczenia zdrowotne, osoba korzystająca z nich jest pacjentem i przysługują jej prawa pacjenta, między innymi prawo do informacji, zgody, tajemnicy, dokumentacji oraz poszanowania intymności i godności. {S15}' ),
+				array( 'p'  => 'Nie należy jednak automatycznie stosować całego katalogu praw pacjenta do każdej prywatnej, niemedycznej usługi opiekuńczej. Trzeba najpierw ustalić charakter świadczenia.' ),
+				array( 'link' => array( 'url' => 'https://www.gov.pl/web/rpp/prawa-pacjenta', 'label' => 'Sprawdź oficjalny katalog praw pacjenta', 'ext' => true ) ),
+				array( 'h2' => 'Co zrobić w przypadku naruszenia?' ),
+				array( 'ul' => array( 'Jeżeli jest to bezpieczne, przerwij niepożądaną czynność.', 'Zapisz datę, miejsce, osoby i przebieg zdarzenia.', 'Zachowaj wiadomości, dokumenty i inne materiały.', 'Zgłoś sprawę koordynatorowi lub usługodawcy.', 'Skorzystaj z procedury skarg.', 'Jeżeli sprawa dotyczy świadczenia zdrowotnego, sprawdź możliwość zwrócenia się do Rzecznika Praw Pacjenta.', 'Jeżeli sprawa dotyczy umowy konsumenckiej, sprawdź pomoc konsumencką UOKiK.', 'W przypadku bezpośredniego zagrożenia życia lub zdrowia skontaktuj się z numerem alarmowym 112.' ) ),
+			),
+		),
+
+		'prawa-i-warunki-pracy-personelu-opiekunczego' => array(
+			'id'             => 'kb-prawa-personelu',
+			'title'          => 'Jakie prawa i warunki pracy powinien mieć personel opiekuńczy?',
+			'eyebrow'        => 'Informacja ekspercka',
+			'category'       => 'Prawa i warunki opieki',
+			'excerpt'        => 'Jasny zakres obowiązków, wynagrodzenie, czas pracy i odpoczynek, bezpieczne warunki, prywatność i ochrona przed nadużyciami — warunki, które są też częścią jakości opieki.',
+			'shortAnswer'    => 'Personel opiekuńczy powinien znać zakres obowiązków, zasady wynagradzania, czas wykonywania pracy, sposób organizacji odpoczynku oraz osobę odpowiedzialną za wsparcie. Powinien pracować w bezpiecznych warunkach, mieć dostęp do odpowiedniego przygotowania, być chroniony przed przemocą i mieć zapewnioną prywatność. Dokładne uprawnienia prawne zależą od podstawy zatrudnienia, rodzaju umowy, miejsca wykonywania pracy i właściwego prawa. {S1} {S13}',
+			'keywords'       => array( 'prawa opiekuna', 'warunki pracy opiekunki', 'czas pracy opiekuna', 'opiekun z zamieszkaniem', 'odpoczynek opiekuna', 'bezpieczeństwo personelu', 'praca w opiece domowej', 'Konwencja MOP 189' ),
+			'sourceIds'      => array( 'S1', 'S10', 'S11', 'S12', 'S13' ),
+			'related'        => array(
+				array( 'kb' => 'czym-jest-opieka-domowa-z-zamieszkaniem' ),
+				array( 'kb' => 'jakich-czynnosci-moze-podejmowac-opiekun-domowy' ),
+				array( 'kb' => 'ciaglosc-opieki-i-zastepstwo' ),
+				array( 'url' => '/filary-opieki-domowej/#szacunek-i-godnosc', 'label' => 'Szacunek i godność — filar dobrej opieki domowej' ),
+			),
+			'seoTitle'       => 'Prawa i warunki pracy personelu opiekuńczego | PSOD',
+			'seoDescription' => 'Sprawdź, jakie zasady powinny chronić personel opiekuńczy: jasny zakres obowiązków, odpoczynek, bezpieczeństwo, prywatność i wsparcie.',
+			'dateAdded'      => '2026-07-22',
+			'dateModified'   => '2026-07-22',
+			'contentStatus'  => 'expert-information',
+			'disclaimerType' => 'general-info',
+			'body'           => array(
+				array( 'h2' => 'Dobre warunki pracy są częścią jakości opieki' ),
+				array( 'p'  => 'Bezpieczeństwa osoby korzystającej z opieki nie można budować na przeciążeniu, niewyspaniu, braku przygotowania lub stałej dyspozycyjności personelu.' ),
+				array( 'p'  => 'Rada UE wskazuje, że wysokiej jakości opieka powinna być świadczona przez kompetentnych pracowników mających godne wynagrodzenie, uczciwe warunki pracy, ochronę przed przemocą i dostęp do ciągłego uczenia się. {S1}' ),
+				array( 'callout' => 'Dobre warunki pracy personelu nie są przeciwieństwem dobra osoby korzystającej z opieki. Są jednym z warunków bezpiecznej i stabilnej usługi.' ),
+				array( 'h2' => 'Prawo a standard jakości' ),
+				array( 'p'  => 'Nie można określić jednego katalogu praw właściwego dla każdej osoby pracującej w opiece. Znaczenie mają między innymi: umowa o pracę lub inna podstawa współpracy, państwo wykonywania pracy, delegowanie, samozatrudnienie, układ zbiorowy i charakter faktycznie wykonywanych obowiązków.' ),
+				array( 'p'  => 'Poniższa odpowiedź opisuje podstawowe zasady bezpiecznej organizacji pracy. Nie rozstrzyga, jaki stosunek prawny występuje w konkretnym przypadku.' ),
+				array( 'h2' => 'Jasne i zrozumiałe warunki' ),
+				array( 'p'  => 'Personel powinien znać:' ),
+				array( 'ul' => array( 'podmiot odpowiedzialny za organizację pracy;', 'miejsce świadczenia usługi;', 'datę rozpoczęcia i przewidywany okres;', 'zakres obowiązków;', 'czynności wyłączone;', 'harmonogram;', 'zasady pracy w nocy;', 'zasady przerw i odpoczynku;', 'wysokość i sposób obliczania wynagrodzenia;', 'terminy płatności;', 'zasady pokrywania kosztów;', 'warunki zakwaterowania i wyżywienia, jeśli są zapewniane;', 'zasady zastępstwa;', 'dane koordynatora;', 'sposób zgłaszania problemów;', 'zasady zakończenia współpracy.' ) ),
+				array( 'p'  => 'Warunki nie powinny być przekazywane wyłącznie ustnie albo zmieniane dopiero po przyjeździe do miejsca świadczenia usługi.' ),
+				array( 'h2' => 'Określony zakres obowiązków' ),
+				array( 'p'  => 'Personel nie powinien być zobowiązywany do wykonywania dowolnych poleceń rodziny. Zakres pracy powinien wynikać z oceny potrzeb, umowy i planu opieki.' ),
+				array( 'p'  => 'Personel nie powinien być nakłaniany do:' ),
+				array( 'ul' => array( 'czynności przekraczających kwalifikacje;', 'świadczeń medycznych bez wymaganych uprawnień;', 'niebezpiecznego podnoszenia bez sprzętu lub pomocy;', 'wykonywania pracy w warunkach bezpośredniego zagrożenia;', 'nieuzgodnionej opieki nad kolejnymi osobami;', 'prac domowych niezwiązanych z potrzebami osoby korzystającej z opieki;', 'stałego pozostawania w gotowości bez odpoczynku;', 'rezygnacji z prywatności;', 'udostępniania osobistych dokumentów rodzinie bez podstawy;', 'tolerowania przemocy, molestowania lub poniżania.' ) ),
+				array( 'h2' => 'Czas pracy i odpoczynek' ),
+				array( 'p'  => 'Zamieszkanie w domu osoby korzystającej z opieki nie oznacza, że cały czas pobytu jest automatycznie czasem pracy. Jednocześnie sama nazwa „czas wolny” nie rozstrzyga sprawy, jeżeli opiekun musi pozostawać w gotowości i regularnie reagować na potrzeby.' ),
+				array( 'p'  => 'Dokładne zasady czasu pracy i odpoczynku zależą od właściwego prawa oraz podstawy wykonywania pracy. Strona PSOD nie powinna publikować jednej uniwersalnej liczby godzin jako właściwej dla wszystkich modeli. {S10}' ),
+				array( 'p'  => 'Organizacja usługi powinna określać:' ),
+				array( 'ul' => array( 'czas wykonywania zwykłych obowiązków;', 'przerwy;', 'odpoczynek dobowy i tygodniowy zgodny z właściwymi przepisami;', 'sposób ewidencjonowania pracy, jeżeli jest wymagany;', 'zasady gotowości;', 'sposób rozliczania dodatkowej pracy;', 'sposób reagowania w nocy;', 'moment uruchomienia dodatkowego personelu;', 'zastępstwo podczas odpoczynku i nieobecności.' ) ),
+				array( 'callout' => 'Regularne nocne interwencje i brak nieprzerwanego odpoczynku mogą oznaczać, że usługi nie da się bezpiecznie zapewnić przez jedną osobę.' ),
+				array( 'h2' => 'Bezpieczne środowisko pracy' ),
+				array( 'p'  => 'Dom osoby korzystającej z opieki jest jednocześnie miejscem życia i miejscem wykonywania pracy. Może zawierać zagrożenia trudniejsze do kontrolowania niż w placówce. {S13}' ),
+				array( 'p'  => 'Ocena bezpieczeństwa powinna obejmować:' ),
+				array( 'ul' => array( 'ryzyko upadku i poślizgnięcia;', 'schody i wąskie przejścia;', 'sposób transferu osoby;', 'dostępność potrzebnego sprzętu;', 'stan łóżka, wózka, podnośnika i innych urządzeń;', 'kontakt z materiałem biologicznym;', 'środki chemiczne;', 'dym tytoniowy;', 'zwierzęta;', 'temperaturę i wentylację;', 'ryzyko agresji;', 'pracę w odosobnieniu;', 'możliwość wezwania pomocy;', 'przeciążenie fizyczne;', 'przeciążenie psychiczne.' ) ),
+				array( 'p'  => 'Personel powinien otrzymać instruktaż i sprzęt odpowiedni do realnych zadań. Samo doświadczenie nie eliminuje ryzyka.' ),
+				array( 'h2' => 'Ochrona przed przemocą i nadużyciami' ),
+				array( 'p'  => 'Personel powinien być chroniony przed:' ),
+				array( 'ul' => array( 'przemocą fizyczną;', 'groźbami;', 'wyzwiskami;', 'molestowaniem;', 'dyskryminacją;', 'przemocą seksualną;', 'nieuprawnionym nagrywaniem;', 'bezpodstawnym przeszukiwaniem rzeczy;', 'zatrzymywaniem dokumentów;', 'ograniczaniem możliwości opuszczenia miejsca pracy w czasie wolnym;', 'odwetem za zgłoszenie zagrożenia.' ) ),
+				array( 'p'  => 'Usługodawca powinien wskazać: komu zgłosić problem, jak uzyskać pilne wsparcie, kiedy przerwać wykonywanie czynności, jak dokumentować zdarzenie, jak organizowana jest zmiana miejsca lub zastępstwo oraz jak chroniona jest osoba zgłaszająca.' ),
+				array( 'h2' => 'Prywatność w opiece domowej z zamieszkaniem' ),
+				array( 'p'  => 'W modelu z zamieszkaniem należy ustalić:' ),
+				array( 'ul' => array( 'prywatne miejsce do spania;', 'możliwość zamknięcia lub bezpiecznego przechowywania rzeczy;', 'dostęp do łazienki;', 'warunki przygotowywania lub otrzymywania posiłków;', 'dostęp do prania;', 'zasady korzystania z internetu;', 'możliwość kontaktu z bliskimi;', 'czas wolny poza domem;', 'zasady wchodzenia do przestrzeni opiekuna;', 'zakaz instalowania urządzeń nagrywających w prywatnej przestrzeni;', 'sposób rozwiązania problemu nieodpowiednich warunków.' ) ),
+				array( 'callout' => 'Zapewnienie noclegu nie jest formą wynagrodzenia za stałą dostępność. Opiekun mieszkający w domu nadal ma prawo do prywatności i odpoczynku.' ),
+				array( 'h2' => 'Przygotowanie, szkolenie i wsparcie' ),
+				array( 'p'  => 'Personel powinien mieć dostęp do:' ),
+				array( 'ul' => array( 'informacji o potrzebach osoby;', 'instruktażu dotyczącego powierzonych czynności;', 'zasad reagowania na sytuacje nagłe;', 'szkolenia z bezpieczeństwa;', 'zasad ochrony danych i poufności;', 'sposobu zgłaszania zmiany stanu osoby;', 'konsultacji z koordynatorem;', 'aktualizacji wiedzy;', 'wsparcia po trudnym zdarzeniu;', 'możliwości poinformowania, że potrzeby przekroczyły jego kompetencje.' ) ),
+				array( 'h2' => 'Międzynarodowy standard MOP' ),
+				array( 'p'  => 'Konwencja MOP nr 189 opisuje międzynarodowe standardy dotyczące pracowników domowych, między innymi przejrzystych warunków, czasu pracy, odpoczynku, wynagrodzenia, zakwaterowania, bezpieczeństwa i ochrony przed nadużyciami. {S11}' ),
+				array( 'callout' => 'Konwencja MOP nr 189 jest na tej stronie wykorzystywana jako międzynarodowy punkt odniesienia. Według oficjalnego rejestru NORMLEX sprawdzonego 22 lipca 2026 r. Polska nie figuruje wśród państw, które ją ratyfikowały. Nie należy przedstawiać jej jako bezpośrednio obowiązującego w Polsce źródła prawa.' ),
+				array( 'p'  => 'Status ratyfikacji można sprawdzić w oficjalnym wykazie MOP. {S12}' ),
+				array( 'h2' => 'Personel ma również obowiązki' ),
+				array( 'p'  => 'Ochrona personelu nie znosi jego odpowiedzialności za właściwe wykonywanie uzgodnionych czynności.' ),
+				array( 'p'  => 'Personel powinien:' ),
+				array( 'ul' => array( 'szanować godność i autonomię osoby;', 'chronić prywatność;', 'zachowywać poufność;', 'wykonywać wyłącznie uzgodnione czynności;', 'nie przekraczać kompetencji;', 'zgłaszać istotne zmiany;', 'dokumentować usługę zgodnie z zasadami;', 'nie wykorzystywać zależności osoby;', 'nie przyjmować nieuzgodnionych korzyści;', 'przestrzegać zasad bezpieczeństwa;', 'informować, gdy nie może bezpiecznie wykonać zadania.' ) ),
+			),
+		),
+
+		'ciaglosc-opieki-i-zastepstwo' => array(
+			'id'             => 'kb-ciaglosc-zastepstwo',
+			'title'          => 'Jak zapewnić ciągłość opieki i zastępstwo?',
+			'eyebrow'        => 'Informacja ekspercka',
+			'category'       => 'Organizacja i bezpieczeństwo',
+			'excerpt'        => 'Ciągłość wymaga planu, a nie obecności jednej osoby: koordynator, dokumentacja, przekazywanie informacji, zastępstwo i procedury na wypadek nagłej zmiany.',
+			'shortAnswer'    => 'Ciągłość opieki wymaga planu, a nie wyłącznie obecności jednej osoby. Należy określić potrzeby, harmonogram, osobę koordynującą, zasady dokumentowania, sposób przekazywania informacji, plan zastępstwa i procedury na wypadek nagłej zmiany. Zmiana opiekuna nie musi oznaczać utraty ciągłości, jeżeli usługa została właściwie zorganizowana. {S1} {S5}',
+			'keywords'       => array( 'ciągłość opieki', 'zastępstwo opiekuna', 'plan opieki', 'zmiana opiekunki', 'koordynator opieki', 'dokumentacja opieki', 'plan awaryjny', 'organizacja opieki domowej' ),
+			'sourceIds'      => array( 'S1', 'S5', 'S14' ),
+			'related'        => array(
+				array( 'kb' => 'jak-wybrac-bezpiecznego-uslugodawce' ),
+				array( 'kb' => 'jakich-czynnosci-moze-podejmowac-opiekun-domowy' ),
+				array( 'kb' => 'czym-jest-opieka-domowa-z-zamieszkaniem' ),
+				array( 'url' => '/filary-opieki-domowej/#ciaglosc', 'label' => 'Ciągłość — filar dobrej opieki domowej' ),
+			),
+			'seoTitle'       => 'Ciągłość opieki i zastępstwo — jak je zaplanować? | PSOD',
+			'seoDescription' => 'Sprawdź, jak zaplanować ciągłość opieki, zastępstwo, dokumentację, przekazanie obowiązków i bezpieczną zmianę opiekuna.',
+			'dateAdded'      => '2026-07-22',
+			'dateModified'   => '2026-07-22',
+			'contentStatus'  => 'expert-information',
+			'disclaimerType' => 'general-info',
+			'body'           => array(
+				array( 'h2' => 'Czym jest ciągłość opieki?' ),
+				array( 'p'  => 'Ciągłość oznacza, że osoba może otrzymywać potrzebne wsparcie w odpowiednim czasie i przez potrzebny okres, również podczas zmian personelu, przejścia między usługami albo nagłej nieobecności. {S1}' ),
+				array( 'p'  => 'Nie oznacza ona, że jedna osoba ma pozostawać bez przerwy w domu albo wykonywać pracę przez całą dobę.' ),
+				array( 'callout' => 'Ciągłość dotyczy usługi i zaspokojenia potrzeb. Nie oznacza stałej dyspozycyjności jednego opiekuna.' ),
+				array( 'h2' => 'Podstawą jest aktualna ocena potrzeb' ),
+				array( 'p'  => 'Plan ciągłości powinien wynikać z informacji o:' ),
+				array( 'ul' => array( 'codziennej sprawności;', 'potrzebnej pomocy;', 'rytmie dnia;', 'potrzebach nocnych;', 'sposobie komunikacji;', 'mobilności;', 'ryzyku upadków;', 'potrzebach związanych z żywieniem;', 'stanie poznawczym;', 'potrzebach medycznych i pielęgniarskich;', 'stosowanym sprzęcie;', 'sytuacjach nagłych;', 'osobach wspierających;', 'preferencjach osoby.' ) ),
+				array( 'p'  => 'WHO wskazuje ocenę potrzeb, opracowanie spersonalizowanego planu, jego wdrażanie i monitorowanie jako kolejne elementy opieki skoncentrowanej na osobie starszej. {S14}' ),
+				array( 'h2' => 'Co powinien zawierać plan ciągłości?' ),
+				array( 'ul' => array( 'nazwę usługodawcy;', 'dane koordynatora;', 'zakres usługi;', 'harmonogram;', 'priorytetowe potrzeby;', 'czynności, których nie można pominąć;', 'preferowany sposób wykonywania;', 'znane ryzyka;', 'aktualne kontakty awaryjne;', 'sposób kontaktu z rodziną;', 'zasady współpracy z usługami medycznymi;', 'miejsce przechowywania dokumentacji;', 'zasady przekazywania informacji;', 'plan zastępstwa;', 'sposób postępowania podczas przerwy w usłudze;', 'zasady aktualizacji planu;', 'plan zakończenia lub zmiany usługi.' ) ),
+				array( 'h2' => 'Jak przygotować zastępstwo?' ),
+				array( 'p'  => 'Usługodawca powinien określić:' ),
+				array( 'ul' => array( 'kto przyjmuje zgłoszenie nieobecności;', 'kto podejmuje decyzję o zastępstwie;', 'jak szybko informowana jest osoba i rodzina;', 'jakie kompetencje musi mieć zastępca;', 'jak przekazywane są informacje;', 'kto potwierdza gotowość zastępcy;', 'co dzieje się, gdy nie można zapewnić identycznego zakresu;', 'jak zabezpieczane są najważniejsze potrzeby;', 'jak wygląda powrót poprzedniego opiekuna;', 'kto ocenia jakość zastępstwa.' ) ),
+				array( 'p'  => 'Zastępstwo nie powinno polegać wyłącznie na wysłaniu dowolnej dostępnej osoby. Kompetencje i możliwość komunikacji muszą odpowiadać rzeczywistym potrzebom.' ),
+				array( 'h2' => 'Bezpieczne przekazanie obowiązków' ),
+				array( 'p'  => 'Przekazanie powinno obejmować wyłącznie informacje niezbędne do bezpiecznej realizacji usługi, w szczególności:' ),
+				array( 'ul' => array( 'preferowany sposób zwracania się do osoby;', 'codzienny rytm;', 'zakres potrzebnej pomocy;', 'sposób bezpiecznego przemieszczania;', 'zasady korzystania ze sprzętu;', 'potrzeby żywieniowe;', 'sposób komunikacji;', 'istotne ryzyka;', 'procedury nagłe;', 'dane koordynatora;', 'niedawne zmiany;', 'czynności wymagające zaangażowania personelu medycznego;', 'kwestie, których opiekun nie powinien wykonywać.' ) ),
+				array( 'callout' => 'Przekazanie obowiązków nie uzasadnia udostępniania całej dokumentacji każdej osobie. Należy przekazywać informacje potrzebne do realizacji usługi i chronić prywatność osoby korzystającej z opieki.' ),
+				array( 'h2' => 'Dokumentacja' ),
+				array( 'p'  => 'Dokumentacja powinna umożliwiać:' ),
+				array( 'ul' => array( 'ustalenie aktualnego planu;', 'sprawdzenie wykonanych czynności;', 'zapisanie istotnej zmiany;', 'zgłoszenie zdarzenia;', 'przekazanie informacji kolejnej osobie;', 'sprawdzenie, kto podjął decyzję;', 'aktualizację zakresu;', 'zachowanie ciągłości podczas nieobecności koordynatora.' ) ),
+				array( 'p'  => 'Nie należy wymuszać gromadzenia danych medycznych, które nie są potrzebne do realizacji niemedycznej usługi.' ),
+				array( 'h2' => 'Weekend, noc i święta' ),
+				array( 'p'  => 'Plan powinien uwzględniać okresy, w których zwykły kontakt z biurem, rodziną lub usługami jest utrudniony.' ),
+				array( 'p'  => 'Należy ustalić:' ),
+				array( 'ul' => array( 'kto przyjmuje pilne zgłoszenia;', 'kiedy kontaktować się z numerem alarmowym;', 'kto zastępuje koordynatora;', 'jakie potrzeby mogą wystąpić w nocy;', 'jaki poziom nocnych potrzeb przekracza możliwości jednej osoby;', 'jak zapewniany jest odpoczynek;', 'jakie usługi są dostępne w weekend i święta;', 'co zrobić, gdy nie można zrealizować zaplanowanej wizyty.' ) ),
+				array( 'h2' => 'Zmiana opiekuna' ),
+				array( 'p'  => 'Zmiana osoby może być trudna, szczególnie dla człowieka z zaburzeniami poznawczymi, trudnościami komunikacyjnymi lub silnym przywiązaniem do codziennego rytmu.' ),
+				array( 'p'  => 'Dobra zmiana powinna obejmować:' ),
+				array( 'ul' => array( 'wcześniejszą informację, gdy jest to możliwe;', 'wyjaśnienie przyczyny w zakresie, który nie narusza prywatności personelu;', 'przedstawienie nowej osoby;', 'przekazanie preferencji;', 'możliwość zgłoszenia istotnych zastrzeżeń;', 'okresowe sprawdzenie, czy dopasowanie jest właściwe;', 'aktualizację planu;', 'możliwość korekty organizacji.' ) ),
+				array( 'p'  => 'Rodzina nie ma bezwzględnego prawa do poznania prywatnych przyczyn nieobecności pracownika.' ),
+				array( 'h2' => 'Hospitalizacja i powrót do domu' ),
+				array( 'p'  => 'Pobyt w szpitalu albo nagłe pogorszenie stanu może istotnie zmienić potrzeby. Powrót do poprzedniego planu bez ponownej oceny może być niebezpieczny.' ),
+				array( 'p'  => 'Przed wznowieniem usługi należy ustalić:' ),
+				array( 'ul' => array( 'aktualną sprawność;', 'nowe zalecenia;', 'zmienione potrzeby;', 'potrzebny sprzęt;', 'możliwość bezpiecznego transferu;', 'zakres świadczeń pielęgniarskich;', 'nowe ryzyka;', 'dostępność personelu o odpowiednich kompetencjach;', 'konieczność zmiany harmonogramu.' ) ),
+				array( 'h2' => 'Zmiana usługodawcy albo zakończenie usługi' ),
+				array( 'p'  => 'Plan zakończenia powinien uwzględniać:' ),
+				array( 'ul' => array( 'termin;', 'zakres wsparcia do ostatniego dnia;', 'przekazanie potrzebnych informacji za zgodą i na właściwej podstawie;', 'zwrot kluczy;', 'zwrot dokumentów i sprzętu;', 'rozliczenie;', 'zamknięcie dostępów do systemów;', 'poinformowanie właściwych osób;', 'ograniczenie ryzyka nagłej przerwy;', 'sposób zgłoszenia ostatnich uwag.' ) ),
+				array( 'p'  => 'Nie należy obiecywać, że usługodawca ma w każdej sytuacji prawny obowiązek bezterminowego kontynuowania usługi. Zasady zakończenia wynikają z umowy i przepisów. Profesjonalna organizacja powinna jednak ograniczać możliwe do przewidzenia zagrożenia wynikające z nagłego przerwania pomocy.' ),
+				array( 'h2' => 'Sygnały, że plan jest niewystarczający' ),
+				array( 'ul' => array( 'brak wyznaczonego koordynatora;', 'brak aktualnego planu;', 'brak zastępstwa;', 'wiedza dostępna wyłącznie w pamięci jednej osoby;', 'nieaktualne numery kontaktowe;', 'niejasne zasady reagowania w nocy;', 'regularne wykonywanie czynności spoza umowy;', 'częste upadki lub pogorszenie stanu bez aktualizacji planu;', 'brak sposobu bezpiecznego przekazywania informacji;', 'rodzina musi samodzielnie szukać zastępcy w każdej sytuacji;', 'nikt nie monitoruje realizacji usługi;', 'ciągłość zależy od rezygnacji opiekuna z odpoczynku.' ) ),
+				array( 'plan' => array( 'id' => 'kb-plan-ciaglosci', 'title' => 'Minimalny plan ciągłości opieki', 'print' => 'Drukuj plan', 'fields' => array( 'Osoba koordynująca', 'Dane kontaktowe', 'Najważniejsze potrzeby', 'Czynności, których nie można pominąć', 'Główne ryzyka', 'Harmonogram', 'Plan potrzeb nocnych', 'Osoba lub zespół zastępujący', 'Sposób przekazania obowiązków', 'Kontakt awaryjny', 'Sposób zgłoszenia zmiany', 'Data ostatniej aktualizacji', 'Data kolejnego przeglądu' ) ) ),
 			),
 		),
 	);
@@ -515,6 +1044,39 @@ function psod2_kb_render_body( $article, $map, $sources, &$first_seen ) {
 				echo '</tr>';
 			}
 			echo '</tbody></table></div>';
+		} elseif ( isset( $b['link'] ) ) {
+			$href = ! empty( $b['link']['ext'] ) ? $b['link']['url'] : home_url( $b['link']['url'] );
+			echo '<p class="kb-inlink"><a href="' . esc_url( $href ) . '">' . esc_html( $b['link']['label'] ) . ' <span aria-hidden="true">&rarr;</span></a></p>';
+		} elseif ( isset( $b['checklist'] ) ) {
+			$cl = $b['checklist'];
+			echo '<section class="kb-checklist" aria-labelledby="' . esc_attr( $cl['id'] ) . '-h">';
+			echo '<h2 id="' . esc_attr( $cl['id'] ) . '-h">' . esc_html( $cl['title'] ) . '</h2>';
+			echo '<ul class="kb-checklist__list">';
+			foreach ( $cl['items'] as $it ) {
+				echo '<li><label><input type="checkbox"> <span>' . esc_html( $it ) . '</span></label></li>';
+			}
+			echo '</ul>';
+			echo '<button type="button" class="kb-print btn btn--secondary">' . esc_html( $cl['print'] ) . '</button>';
+			echo '</section>';
+		} elseif ( isset( $b['plan'] ) ) {
+			$pl = $b['plan'];
+			echo '<section class="kb-plan" aria-labelledby="' . esc_attr( $pl['id'] ) . '-h">';
+			echo '<h2 id="' . esc_attr( $pl['id'] ) . '-h">' . esc_html( $pl['title'] ) . '</h2>';
+			echo '<dl class="kb-plan__grid">';
+			foreach ( $pl['fields'] as $f ) {
+				echo '<div class="kb-plan__row"><dt>' . esc_html( $f ) . '</dt><dd class="kb-plan__fill"></dd></div>';
+			}
+			echo '</dl>';
+			echo '<button type="button" class="kb-print btn btn--secondary">' . esc_html( $pl['print'] ) . '</button>';
+			echo '</section>';
+		} elseif ( isset( $b['example_metric'] ) ) {
+			$em = $b['example_metric'];
+			echo '<div class="kb-metric" role="group" aria-label="' . esc_attr( $em['title'] ) . '">';
+			echo '<p class="kb-metric__label">' . esc_html( $em['title'] ) . '</p><dl class="kb-metric__grid">';
+			foreach ( $em['fields'] as $f ) {
+				echo '<dt>' . esc_html( $f ) . '</dt><dd>—</dd>';
+			}
+			echo '</dl></div>';
 		}
 	}
 }
