@@ -167,7 +167,7 @@
     FILARY.forEach(function(f,i){
       var b=document.createElement('button');
       b.className='ptab';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===curIdx?'true':'false');
-      b.innerHTML='<span class="ptab__ghost" aria-hidden="true">'+pad(i+1)+'</span>'+
+      b.innerHTML='<span class="ptab__icon" aria-hidden="true"><img src="'+f.icon+'" alt=""></span>'+
         '<span class="ptab__eyebrow"><span class="ln"></span><span class="lbl">Filar '+pad(i+1)+'</span></span>'+
         '<span class="ptab__name">'+esc(tt(f,'name',f.name))+'</span>';
       b.addEventListener('click',function(){select(i);});
@@ -179,7 +179,7 @@
     var f=FILARY[i];
     [].forEach.call(tabs.children,function(el,k){el.setAttribute('aria-selected',k===i?'true':'false');});
     var intro=tt(f,'intro',f.intro);
-    var html='<img src="'+f.icon+'" alt=""><h3>'+esc(tt(f,'name',f.name))+'</h3><p class="intro">'+esc(intro)+'</p><div>';
+    var html='<h3>'+esc(tt(f,'name',f.name))+'</h3><p class="intro">'+esc(intro)+'</p><div>';
     f.bullets.forEach(function(b,bi){
       var bt=(window.psodT?psodT('filary.'+f.key+'.bullets.'+bi,b):b);
       html+='<div class="bullet"><span class="dot">•</span><span>'+esc(bt)+'</span></div>';

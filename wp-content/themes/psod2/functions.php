@@ -535,7 +535,7 @@ function psod2_frontpage_data() {
 		$filary[] = array(
 			'key'     => $p->post_name, // slug — klucz i18n (filary.<slug>.*), patrz js/i18n.js.
 			'name'    => get_the_title( $p ),
-			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon : '',
+			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon . '?v=' . (int) @filemtime( get_template_directory() . '/assets/' . $icon ) : '',
 			'intro'   => (string) get_post_meta( $p->ID, '_psod_filar_intro', true ),
 			'bullets' => $bullets,
 		);

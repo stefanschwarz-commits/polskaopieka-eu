@@ -238,17 +238,17 @@ body.nav-open{overflow:hidden}
 .pillars__cols{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:start;margin-top:52px}
 .pillars__tabs{display:flex;flex-direction:column;gap:12px}
 .ptab{position:relative;text-align:left;width:100%;cursor:pointer;overflow:hidden;background:transparent;border:1px solid var(--linia);border-radius:var(--r-lg);padding:18px 20px;transition:box-shadow var(--dur-med) var(--ease),background var(--dur-fast)}
-.ptab__ghost{position:absolute;top:-6px;right:8px;font-family:var(--font-serif);font-weight:300;font-size:62px;line-height:1;color:var(--mgla);pointer-events:none}
+.ptab__icon{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:44px;height:44px;pointer-events:none;opacity:.85;transition:opacity var(--dur-fast)}
+.ptab__icon img{width:100%;height:100%;display:block}
 .ptab__eyebrow{position:relative;display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .ptab__eyebrow .ln{width:16px;height:2px;background:var(--fiolet);transition:width var(--dur-med) var(--ease)}
 .ptab__eyebrow .lbl{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tekst-3)}
-.ptab__name{position:relative;display:block;font-family:var(--font-serif);font-weight:500;font-size:18px;color:var(--tekst)}
+.ptab__name{position:relative;display:block;font-family:var(--font-serif);font-weight:500;font-size:18px;color:var(--tekst);padding-right:62px}
 .ptab[aria-selected="true"]{background:#fff;border-color:transparent;box-shadow:var(--shadow-card)}
-.ptab[aria-selected="true"] .ptab__ghost{color:rgba(187,22,163,.10)}
+.ptab[aria-selected="true"] .ptab__icon{opacity:1}
 .ptab[aria-selected="true"] .ptab__eyebrow .ln{width:26px}
 .ptab[aria-selected="true"] .ptab__name{color:var(--fiolet)}
 .pillars__panel{background:#fff;border-radius:var(--r-xl);box-shadow:var(--shadow-card);padding:clamp(28px,4vw,44px)}
-.pillars__panel img{width:auto;height:56px;display:block;margin-bottom:18px}
 .pillars__panel h3{font-family:var(--font-serif);font-weight:500;font-size:clamp(22px,2.6vw,30px);color:var(--tekst);margin-bottom:16px}
 .pillars__panel .intro{font-size:16px;line-height:1.8;color:var(--tekst);margin-bottom:22px}
 .pillars__panel .bullet{display:flex;gap:12px;margin-bottom:12px}
@@ -701,6 +701,8 @@ summary:focus-visible{outline-offset:1px}
   .pillars__cols{grid-template-columns:1fr;gap:20px}
   .pillars__tabs{flex-direction:row;flex-wrap:wrap}
   .ptab{flex:1 1 140px}
+  .ptab__icon{display:none} /* waskie kafle w rzedzie — ikona by sie tloczyla */
+  .ptab__name{padding-right:0} /* ikona ukryta — nie rezerwujemy miejsca na wask. kaflach */
 }
 @media(max-width:560px){
   :root{--wrap-pad:20px}
