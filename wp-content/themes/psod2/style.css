@@ -178,7 +178,12 @@ body.nav-open{overflow:hidden}
 
 /* ---------- Apel do rządu ---------- */
 .appeal{background:var(--opieka-tlo);padding:104px 0}
-.appeal .grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:64px;align-items:start}
+.appeal .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start}
+/* Sekcja „Apel": dokument (portret) po lewej, tekst po prawej. Zeby tekst nie byl
+   wyzszy niz screen dokumentu, uklad 2-kolumnowy jest tylko na szerokim ekranie
+   (>=1120px, gdzie proporcja 1fr/1.05fr daje dokument troche wyzszy od tekstu).
+   Ponizej 1120px skladamy do 1 kolumny (dokument nad tekstem) — wtedy problem znika. */
+@media(max-width:1119px){.appeal .grid{grid-template-columns:1fr;gap:36px}}
 .appeal__doc{display:block;padding:0;overflow:hidden;border-radius:var(--r-md);box-shadow:var(--shadow-doc);position:relative;cursor:pointer;text-decoration:none;transition:box-shadow var(--dur-fast),transform var(--dur-fast)}
 .appeal__doc:hover{transform:translateY(-3px);box-shadow:0 26px 60px -22px rgba(74,75,82,.5)}
 .appeal__doc img{width:100%;height:auto;display:block}
@@ -686,7 +691,6 @@ summary:focus-visible{outline-offset:1px}
    ============================================================ */
 @media(max-width:960px){
   .challenges .grid,.priorities .grid{grid-template-columns:repeat(2,1fr)}
-  .appeal .grid{grid-template-columns:1fr;gap:36px}
   .news__feat{grid-template-columns:1fr;gap:28px}
   .news__grid{grid-template-columns:1fr;gap:36px}
   .pubs .grid{grid-template-columns:1fr;gap:32px}
