@@ -834,7 +834,9 @@ function psod2_seo_context() {
 		'description' => $default,
 		'url'         => home_url( '/' ),
 		'type'        => 'website',
-		'image'       => get_template_directory_uri() . '/assets/logo-psod-lockup.jpg',
+		'image'       => get_template_directory_uri() . '/assets/og-share.jpg',
+		'image_w'     => 1200,
+		'image_h'     => 630,
 	);
 
 	if ( is_front_page() ) {
@@ -850,7 +852,12 @@ function psod2_seo_context() {
 		$ctx['url']  = get_permalink( $id );
 		$ctx['type'] = 'article';
 		if ( has_post_thumbnail( $id ) ) {
-			$ctx['image'] = get_the_post_thumbnail_url( $id, 'large' );
+			$psod2_img = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
+			if ( $psod2_img ) {
+				$ctx['image']   = $psod2_img[0];
+				$ctx['image_w'] = $psod2_img[1];
+				$ctx['image_h'] = $psod2_img[2];
+			}
 		}
 	} elseif ( is_singular( 'priorytet' ) ) {
 		$id                 = get_queried_object_id();
@@ -862,7 +869,12 @@ function psod2_seo_context() {
 		$ctx['url']         = get_permalink( $id );
 		$ctx['type']        = 'article';
 		if ( has_post_thumbnail( $id ) ) {
-			$ctx['image'] = get_the_post_thumbnail_url( $id, 'large' );
+			$psod2_img = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
+			if ( $psod2_img ) {
+				$ctx['image']   = $psod2_img[0];
+				$ctx['image_w'] = $psod2_img[1];
+				$ctx['image_h'] = $psod2_img[2];
+			}
 		}
 	} elseif ( is_page() ) {
 		$id           = get_queried_object_id();
@@ -962,6 +974,12 @@ function psod2_head_meta() {
 
 	if ( '' !== $c['image'] ) {
 		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $c['image'] ) );
+		printf( '<meta property="og:image:secure_url" content="%s">' . "\n", esc_url( $c['image'] ) );
+		if ( ! empty( $c['image_w'] ) && ! empty( $c['image_h'] ) ) {
+			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $c['image_w'] );
+			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $c['image_h'] );
+		}
+		printf( '<meta property="og:image:alt" content="%s">' . "\n", esc_attr( $c['title'] ) );
 		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
 		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $c['image'] ) );
 	} else {
