@@ -1,6 +1,12 @@
 # Mapa przekierowan 301 — polskaopieka.eu (psod -> psod2)
 
-Wygenerowano 2026-07-21. 26 regul przekierowan.
+Wygenerowano 2026-07-21. 22 reguly przekierowan.
+
+**Aktualizacja 2026-07-22:** 4 URL-e priorytetow `/artykuly/…/` (transgraniczna, szara strefa,
+ramy prawne, standardy) NIE sa juz przekierowaniami — to teraz pelnoprawne podstrony (CPT
+`priorytet` routowalny pod `artykuly/<slug>`, szablon `single-priorytet.php`), zwracaja 200 i sa
+kanoniczne. Ich 4 reguly `RewriteRule … /nasze-priorytety/` usunieto z `.htaccess`
+(backup `.htaccess.bak_prio_20260722`). Pozostale 4 reguly `/artykuly/…` (wyzwania) zostaja.
 
 | Stary URL | -> | Nowy cel | Uwaga |
 |---|---|---|---|
@@ -8,10 +14,6 @@ Wygenerowano 2026-07-21. 26 regul przekierowan.
 | `/artykuly/choroby-demencyjne/` | -> | `/#wyzwania` | wyzwanie: demencja |
 | `/artykuly/brak-personelu-opiekunczeg/` | -> | `/#wyzwania` | wyzwanie: personel |
 | `/artykuly/rosnace-koszty-opieki/` | -> | `/#wyzwania` | wyzwanie: koszty |
-| `/artykuly/likwidacja-barier-w-opiece-transgranicznej/` | -> | `/nasze-priorytety/` | priorytet: transgraniczna |
-| `/artykuly/ograniczenie-szarej-strefy-w-opiece-domowej/` | -> | `/nasze-priorytety/` | priorytet: szara strefa |
-| `/artykuly/stworzenie-ram-prawnych-dla-opieki-domowej/` | -> | `/nasze-priorytety/` | priorytet: ramy prawne |
-| `/artykuly/ustanowienie-standardow-w-opiece-domowej/` | -> | `/nasze-priorytety/` | priorytet: standardy |
 | `/doradztwo/` | -> | `/#dzialalnosc` | dzialalnosc: doradztwo |
 | `/edukacja/` | -> | `/#dzialalnosc` | dzialalnosc: edukacja |
 | `/reprezentowanie/` | -> | `/#dzialalnosc` | dzialalnosc: reprezentowanie |
@@ -56,14 +58,7 @@ RewriteEngine On
     RewriteRule ^artykuly/brak-personelu-opiekunczeg/?$ /#wyzwania [R=301,NE,L]
     # wyzwanie: koszty
     RewriteRule ^artykuly/rosnace-koszty-opieki/?$ /#wyzwania [R=301,NE,L]
-    # priorytet: transgraniczna
-    RewriteRule ^artykuly/likwidacja-barier-w-opiece-transgranicznej/?$ /nasze-priorytety/ [R=301,NE,L]
-    # priorytet: szara strefa
-    RewriteRule ^artykuly/ograniczenie-szarej-strefy-w-opiece-domowej/?$ /nasze-priorytety/ [R=301,NE,L]
-    # priorytet: ramy prawne
-    RewriteRule ^artykuly/stworzenie-ram-prawnych-dla-opieki-domowej/?$ /nasze-priorytety/ [R=301,NE,L]
-    # priorytet: standardy
-    RewriteRule ^artykuly/ustanowienie-standardow-w-opiece-domowej/?$ /nasze-priorytety/ [R=301,NE,L]
+    # (4 reguly priorytetow /artykuly/… usuniete 2026-07-22 — to teraz pelnoprawne podstrony 200)
     # dzialalnosc: doradztwo
     RewriteRule ^doradztwo/?$ /#dzialalnosc [R=301,NE,L]
     # dzialalnosc: edukacja

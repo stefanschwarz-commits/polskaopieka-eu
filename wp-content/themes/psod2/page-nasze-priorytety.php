@@ -28,6 +28,7 @@ $npri_items  = psod2_get_priorytety();
 		<img decoding="async" class="npri-hero__mark" src="<?php echo esc_url( $assets . '/sygnet.svg' ); ?>" alt="" aria-hidden="true">
 		<div class="npri-hero__over" data-i18n="npri.over">Polskie Stowarzyszenie Opieki Domowej</div>
 		<h1 data-i18n="npri.h1">Nasze priorytety</h1>
+		<p class="npri-hero__intro" data-i18n="npri.intro">PSOD działa na rzecz profesjonalnej, bezpiecznej i dostępnej opieki domowej. Poniższe priorytety stanowią agendę rzeczniczą Stowarzyszenia — opisują problemy, które chcemy rozwiązać, oraz kierunki zmian, które postulujemy.</p>
 	</div>
 </section>
 
@@ -35,10 +36,7 @@ $npri_items  = psod2_get_priorytety();
 <section class="npri-list">
 	<div class="wrap">
 		<?php foreach ( $npri_items as $i => $psod2_p ) : ?>
-			<?php
-			$psod2_link = get_post_meta( $psod2_p->ID, '_psod_prio_link', true );
-			$psod2_link = trim( (string) $psod2_link );
-			?>
+			<?php $psod2_link = get_permalink( $psod2_p->ID ); ?>
 			<div class="npri-row<?php echo ( 1 === $i % 2 ) ? ' npri-row--rev' : ''; ?>">
 				<div class="npri-media">
 					<?php if ( has_post_thumbnail( $psod2_p ) ) : ?>
@@ -52,10 +50,8 @@ $npri_items  = psod2_get_priorytety();
 						<span class="npri-num__label" data-i18n="npri.label">Priorytet</span>
 					</div>
 					<h2><?php echo esc_html( get_the_title( $psod2_p ) ); ?></h2>
-					<div class="npri-body__desc"><?php echo apply_filters( 'the_content', $psod2_p->post_content ? $psod2_p->post_content : $npri_desc ); // phpcs:ignore ?></div>
-<?php if ( '' !== $psod2_link ) : ?>
-						<a class="arrow-link" href="<?php echo esc_url( 0 === strpos( $psod2_link, '/' ) ? home_url( $psod2_link ) : $psod2_link ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
-					<?php endif; ?>
+					<div class="npri-body__desc"><p><?php echo esc_html( '' !== $psod2_p->post_excerpt ? $psod2_p->post_excerpt : $npri_desc ); ?></p></div>
+						<a class="arrow-link" href="<?php echo esc_url( $psod2_link ); ?>"><span data-i18n="npri.readmore">Czytaj więcej</span> <span class="arw" aria-hidden="true">→</span></a>
 				</div>
 			</div>
 		<?php endforeach; ?>

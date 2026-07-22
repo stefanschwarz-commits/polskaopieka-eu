@@ -432,10 +432,17 @@ function psod2_filar_save( $post_id ) {
 add_action( 'save_post_filar', 'psod2_filar_save' );
 
 /**
- * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu, treść = opis,
- * zdjęcie wyróżniające = kadr, meta link = adres artykułu „Czytaj więcej".
- * Używany na stronie głównej (kafle) i podstronie /nasze-priorytety/.
- * Kolejność: menu_order.
+ * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu (H1), zajawka
+ * (excerpt) = krótki opis karty, treść = pełny lead + sekcje H2 podstrony,
+ * zdjęcie wyróżniające = kadr.
+ *
+ * Routowalny pod /artykuly/<slug>/ (rewrite slug „artykuly") — te URL-e pochodzą
+ * ze starej strony i muszą pozostać kanonicznymi adresami podstron priorytetów
+ * (patrz single-priorytet.php + MAPA-PRZEKIEROWAN-301.md). Ten sam CPT zasila też
+ * kafle na stronie głównej i wiersze na /nasze-priorytety/. Kolejność: menu_order.
+ *
+ * UWAGA: zmiana rewrite wymaga jednorazowego flush_rewrite_rules — robione skryptem
+ * wdrożeniowym (delete_option('rewrite_rules')), nie na init.
  */
 function psod2_register_priorytet() {
 	register_post_type(
@@ -450,18 +457,31 @@ function psod2_register_priorytet() {
 				'edit_item'     => __( 'Edytuj priorytet', 'psod2' ),
 				'all_items'     => __( 'Wszystkie priorytety', 'psod2' ),
 			),
-			'public'        => false,
-			'show_ui'       => true,
-			'show_in_rest'  => true,
-			'menu_icon'     => 'dashicons-flag',
-			'menu_position' => 9,
-			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
-			'has_archive'   => false,
-			'rewrite'       => false,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'exclude_from_search' => false,
+			'show_ui'            => true,
+			'show_in_rest'       => true,
+			'menu_icon'          => 'dashicons-flag',
+			'menu_position'      => 9,
+			'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
+			'has_archive'        => false,
+			'rewrite'            => array( 'slug' => 'artykuly', 'with_front' => false ),
 		)
 	);
 }
 add_action( 'init', 'psod2_register_priorytet' );
+
+/** 1-based pozycja priorytetu w kolejności menu_order (do numeru „Priorytet 0X"). */
+function psod2_priorytet_index( $post_id ) {
+	$all = psod2_get_priorytety();
+	foreach ( $all as $i => $p ) {
+		if ( (int) $p->ID === (int) $post_id ) {
+			return $i + 1;
+		}
+	}
+	return 0;
+}
 
 /** Meta box priorytetu: link „Czytaj więcej". */
 function psod2_priorytet_metabox() {
@@ -471,9 +491,11 @@ add_action( 'add_meta_boxes', 'psod2_priorytet_metabox' );
 
 function psod2_priorytet_metabox_cb( $post ) {
 	wp_nonce_field( 'psod2_priorytet_save', 'psod2_priorytet_nonce' );
-	$link = get_post_meta( $post->ID, '_psod_prio_link', true );
-	echo '<p><label>' . esc_html__( 'Adres artykułu (URL):', 'psod2' ) . '<br><input type="text" name="psod2_prio_link" value="' . esc_attr( $link ) . '" style="width:100%" placeholder="/artykuly/…/"></label></p>';
-	echo '<p class="description">' . esc_html__( 'Dokąd prowadzi „Czytaj więcej" na podstronie Nasze priorytety.', 'psod2' ) . '</p>';
+	$seo_title = get_post_meta( $post->ID, '_psod_prio_seo_title', true );
+	$seo_desc  = get_post_meta( $post->ID, '_psod_prio_seo_desc', true );
+	echo '<p><label>' . esc_html__( 'Meta title (SEO):', 'psod2' ) . '<br><input type="text" name="psod2_prio_seo_title" value="' . esc_attr( $seo_title ) . '" style="width:100%"></label></p>';
+	echo '<p><label>' . esc_html__( 'Meta description (SEO):', 'psod2' ) . '<br><textarea name="psod2_prio_seo_desc" rows="3" style="width:100%">' . esc_textarea( $seo_desc ) . '</textarea></label></p>';
+	echo '<p class="description">' . esc_html__( 'Zajawka (excerpt) = krótki opis karty. Treść = lead + sekcje H2 podstrony. Adres podstrony powstaje ze sluga (/artykuly/…/).', 'psod2' ) . '</p>';
 }
 
 function psod2_priorytet_save( $post_id ) {
@@ -488,6 +510,12 @@ function psod2_priorytet_save( $post_id ) {
 	}
 	if ( isset( $_POST['psod2_prio_link'] ) ) {
 		update_post_meta( $post_id, '_psod_prio_link', esc_url_raw( wp_unslash( $_POST['psod2_prio_link'] ) ) );
+	}
+	if ( isset( $_POST['psod2_prio_seo_title'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_seo_title', sanitize_text_field( wp_unslash( $_POST['psod2_prio_seo_title'] ) ) );
+	}
+	if ( isset( $_POST['psod2_prio_seo_desc'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_seo_desc', sanitize_textarea_field( wp_unslash( $_POST['psod2_prio_seo_desc'] ) ) );
 	}
 }
 add_action( 'save_post_priorytet', 'psod2_priorytet_save' );
@@ -857,6 +885,18 @@ function psod2_seo_context() {
 		if ( has_post_thumbnail( $id ) ) {
 			$ctx['image'] = get_the_post_thumbnail_url( $id, 'large' );
 		}
+	} elseif ( is_singular( 'priorytet' ) ) {
+		$id                 = get_queried_object_id();
+		$seo_title          = get_post_meta( $id, '_psod_prio_seo_title', true );
+		$seo_desc           = get_post_meta( $id, '_psod_prio_seo_desc', true );
+		// Meta title priorytetu jest w pełni własny (format „… | PSOD"), bez doklejania nazwy witryny.
+		$ctx['title']       = '' !== $seo_title ? $seo_title : get_the_title( $id ) . ' — ' . $site_name;
+		$ctx['description'] = '' !== $seo_desc ? $seo_desc : get_the_excerpt( $id );
+		$ctx['url']         = get_permalink( $id );
+		$ctx['type']        = 'article';
+		if ( has_post_thumbnail( $id ) ) {
+			$ctx['image'] = get_the_post_thumbnail_url( $id, 'large' );
+		}
 	} elseif ( is_page() ) {
 		$id           = get_queried_object_id();
 		$slug         = get_post_field( 'post_name', $id );
@@ -1004,6 +1044,32 @@ function psod2_jsonld() {
 			$article['image'] = get_the_post_thumbnail_url( $id, 'large' );
 		}
 		$blocks[] = $article;
+	}
+
+	if ( is_singular( 'priorytet' ) ) {
+		$id = get_queried_object_id();
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Nasze priorytety', 'item' => home_url( '/nasze-priorytety/' ) ),
+				array( '@type' => 'ListItem', 'position' => 3, 'name' => wp_strip_all_tags( get_the_title( $id ) ), 'item' => get_permalink( $id ) ),
+			),
+		);
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => wp_strip_all_tags( get_the_title( $id ) ),
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
 	}
 
 	if ( is_front_page() ) {
@@ -1230,6 +1296,10 @@ add_filter(
 	function ( $title ) {
 		if ( is_front_page() ) {
 			return 'Polskie Stowarzyszenie Opieki Domowej — opieka nad seniorami';
+		}
+		if ( is_singular( 'priorytet' ) ) {
+			$c = psod2_seo_context();
+			return $c['title'];
 		}
 		return $title;
 	}
