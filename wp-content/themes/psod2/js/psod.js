@@ -275,7 +275,7 @@
   });
 })();
 
-/* --- 7. Hero: naprzemienne hasła (miękki crossfade, 8 s) --- */
+/* --- 7. Hero: naprzemienne hasła (miękki crossfade, 5 s) --- */
 /* Slajdy stackowane przez grid (.hero__swap{display:grid} + .hero__slide{grid-area:1/1}),
    więc wysokość = najwyższy slajd, bez skoków layoutu. Przy prefers-reduced-motion rotacja
    wyłączona (zostaje pierwszy, is-active w HTML). Nieaktywny slajd: aria-hidden. */
@@ -292,7 +292,7 @@
     i=(i+1)%slides.length;
     slides[i].classList.add('is-active');
     slides[i].removeAttribute('aria-hidden');
-  },8000);
+  },5000);
 })();
 
 /* --- 6. Artykul (wariant 1B): przycisk „Kopiuj link" --- */
