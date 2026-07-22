@@ -770,6 +770,11 @@ summary:focus-visible{outline-offset:1px}
 .site-footer .bar{max-width:var(--wrap-wide);margin:56px auto 0;padding:28px 28px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--stopka-tekst-2)}
 .site-footer .bar a{color:var(--stopka-tekst-2);text-decoration:underline;text-underline-offset:2px}
 .site-footer .bar a:hover{color:#fff}
+/* Na dotyku (<=760px) grubszy obszar klikalny linkow stopki (Na skroty + e-mail);
+   pill LinkedIn ma juz wlasny rozmiar, wiec wykluczony. */
+@media(max-width:760px){
+  .site-footer .cols a:not(.li-pill){padding:9px 0;margin-bottom:2px}
+}
 
 /* ---------- Animacje ---------- */
 @keyframes psodFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
