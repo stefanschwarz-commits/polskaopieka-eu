@@ -267,6 +267,17 @@ wp_reset_postdata();
 	</div>
 </section>
 
+<!-- ======================= WSTĄŻKA CENTRUM WIEDZY ======================= -->
+<section class="kb-ribbon" aria-label="Centrum wiedzy o opiece domowej">
+	<div class="wrap">
+		<div class="kb-ribbon__txt">
+			<span class="kb-ribbon__over" data-i18n="kb.over">Centrum wiedzy o opiece domowej</span>
+			<div class="kb-ribbon__line" data-i18n-html="kb.line">Masz pytania o opiekę długoterminową? Znajdź <em>rzetelne odpowiedzi</em> — o kosztach, prawach podopiecznych i bezpiecznych usługodawcach.</div>
+		</div>
+		<a class="btn btn--primary" href="<?php echo esc_url( home_url( '/centrum-wiedzy/' ) ); ?>" data-i18n="kb.cta">Przejdź do Centrum wiedzy</a>
+	</div>
+</section>
+
 <!-- ======================= Q&A ======================= -->
 <?php
 // Dynamicznie z CPT „faq" (edytowalne w wp-adminie, menu „Q&A"). Pytanie = tytuł,

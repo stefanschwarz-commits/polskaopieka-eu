@@ -324,6 +324,15 @@ body.nav-open{overflow:hidden}
 .pubs p{font-size:15.5px;line-height:1.85;color:var(--tekst-2);margin-bottom:16px}
 .pubs p:last-of-type{margin-bottom:32px}
 
+/* ---------- Wstążka „Centrum wiedzy" ---------- */
+.kb-ribbon{background:var(--opieka-tlo);border-top:1px solid #D7E3EA;border-bottom:1px solid #D7E3EA}
+.kb-ribbon .wrap{display:flex;align-items:center;justify-content:space-between;gap:44px;padding-top:56px;padding-bottom:56px}
+.kb-ribbon__txt{flex:1 1 auto;min-width:0;max-width:720px}
+.kb-ribbon__over{display:block;font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--opieka);margin-bottom:14px}
+.kb-ribbon__line{font-family:var(--font-serif);font-weight:300;font-size:clamp(19px,2.2vw,25px);line-height:1.55;color:var(--tekst);text-wrap:pretty}
+.kb-ribbon__line em{font-style:italic;font-weight:400;color:var(--opieka)}
+.kb-ribbon .btn{flex:0 0 auto;white-space:nowrap}
+
 /* ---------- Q&A ---------- */
 .faq{padding:88px 0;background:#fff}
 .faq__head{text-align:center;margin-bottom:48px}
@@ -701,6 +710,7 @@ summary:focus-visible{outline-offset:1px}
   .opsod-goals__grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:760px){
+  .kb-ribbon .wrap{flex-direction:column;align-items:flex-start;gap:26px;padding-top:44px;padding-bottom:44px}
   .pillars__cols{grid-template-columns:1fr;gap:20px}
   .pillars__tabs{flex-direction:row;flex-wrap:wrap}
   .ptab{flex:1 1 140px}
