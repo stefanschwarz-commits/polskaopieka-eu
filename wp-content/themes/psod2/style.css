@@ -568,7 +568,7 @@ body.nav-open{overflow:hidden}
 
 /* ---------- Podstrona: pojedynczy priorytet (/artykuly/…/) ---------- */
 .prio-head{background:#fff;padding:clamp(28px,5vw,52px) 0 0}
-.prio-head .wrap{max-width:820px}
+.prio-head .wrap{max-width:720px}
 .breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--font-sans);font-size:13px;color:var(--tekst-2);margin-bottom:30px}
 .breadcrumb a{color:var(--tekst-2);text-decoration:none}
 .breadcrumb a:hover{color:var(--fiolet)}
@@ -580,7 +580,7 @@ body.nav-open{overflow:hidden}
 .prio-num__line{width:22px;height:2px;background:var(--fiolet)}
 .prio-head h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(30px,4.6vw,48px);line-height:1.16;letter-spacing:-.01em;color:var(--tekst);margin:0}
 .prio-updated{font-family:var(--font-sans);font-size:12.5px;color:var(--tekst-3);margin:14px 0 0}
-.prio-body{padding-top:clamp(28px,4vw,40px)}
+.artykul-body.prio-body{padding-top:clamp(24px,3vw,36px);padding-left:var(--wrap-pad);padding-right:var(--wrap-pad)}
 .prio-body .prio-callout{background:var(--opieka-tlo);border-left:3px solid var(--opieka);border-radius:var(--r-md);padding:20px 26px;margin:30px 0}
 .prio-body .prio-callout p{margin:0;font-size:16.5px;line-height:1.7;color:var(--tekst)}
 .prio-body .prio-callout__label{display:block;font-family:var(--font-sans);font-weight:600;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--opieka);margin-bottom:8px}
@@ -724,14 +724,17 @@ summary:focus-visible{outline-offset:1px}
 .err404__links a:hover{color:var(--fiolet-press)}
 
 /* ---------- Footer ---------- */
-.site-footer{background:var(--stopka-tlo);color:var(--stopka-tekst);padding:64px 0 40px;font-size:13.5px}
-.site-footer .cols{max-width:var(--wrap-wide);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px}
-.site-footer img{height:44px;display:block;margin-bottom:16px}
-.site-footer p{line-height:1.8}
-.site-footer h4{font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--stopka-tekst-2);margin-bottom:16px}
-.site-footer a{color:var(--stopka-tekst);text-decoration:none;display:block;margin-bottom:10px}
+.site-footer{background:var(--stopka-tlo);color:var(--stopka-tekst);padding:80px 0 40px;font-size:13.5px}
+.site-footer .cols{max-width:var(--wrap-wide);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:48px}
+.site-footer p{line-height:1.9}
+.site-footer .addr{margin:0 0 18px}
+.site-footer .reg{color:var(--stopka-tekst-2);font-size:12.5px;line-height:1.9;margin:0}
+.site-footer h4{font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--stopka-tekst-2);margin-bottom:18px}
+.site-footer a{color:var(--stopka-tekst);text-decoration:none;display:block;margin-bottom:11px;transition:color var(--dur-fast) var(--ease)}
 .site-footer a:hover{color:#fff}
-.site-footer .bar{max-width:var(--wrap-wide);margin:52px auto 0;padding:26px 28px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--stopka-tekst-2)}
+.site-footer .li-pill{display:inline-flex;align-items:center;gap:9px;margin-top:22px;margin-bottom:0;padding:9px 16px 9px 13px;border:1px solid rgba(255,255,255,.16);border-radius:999px;font-weight:500}
+.site-footer .li-pill svg{flex:0 0 auto}
+.site-footer .bar{max-width:var(--wrap-wide);margin:56px auto 0;padding:28px 28px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--stopka-tekst-2)}
 .site-footer .bar a{color:var(--stopka-tekst-2);text-decoration:underline;text-underline-offset:2px}
 .site-footer .bar a:hover{color:#fff}
 
