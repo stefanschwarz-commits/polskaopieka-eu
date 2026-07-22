@@ -1,0 +1,25 @@
+PSOD — fonty self-hostowane
+===========================
+
+Fraunces oraz Poppins są udostępniane na licencji SIL Open Font License, wersja 1.1
+(OFL-1.1). Licencja pozwala na swobodne używanie, osadzanie, hostowanie i
+rozpowszechnianie plików fontów, w tym w ramach niniejszego motywu WordPress.
+
+Pełny tekst licencji: https://openfontlicense.org/open-font-license-official-text/
+
+Fraunces
+  Copyright The Fraunces Project Authors
+  https://github.com/undercasetype/Fraunces
+  Reserved Font Name: „Fraunces"
+
+Poppins
+  Copyright The Poppins Project Authors
+  https://github.com/itfoundry/Poppins
+  Reserved Font Name: „Poppins"
+
+Pliki .woff2 w tym katalogu zostały wygenerowane z Google Fonts (podzbiory znaków
+latin + latin-ext, obejmujące polskie znaki diakrytyczne oraz niemieckie umlauty).
+Odpowiadające im reguły @font-face znajdują się w pliku fonts.css.
+
+Uwaga: font logotypu PSOD (Aktiv Grotesk Ex XBold) jest komercyjny i NIE jest tu
+dołączony — występuje wyłącznie w gotowych plikach logo, nie w treści strony.

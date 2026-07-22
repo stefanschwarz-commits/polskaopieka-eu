@@ -16,6 +16,23 @@ if ( ! defined( 'PSOD2_VERSION' ) ) {
 	define( 'PSOD2_VERSION', '0.1.0' );
 }
 
+// Centrum wiedzy — model danych (odpowiedzi + źródła) + silnik cytowań/renderowania.
+require_once get_template_directory() . '/inc/centrum-wiedzy-data.php';
+
+/**
+ * URL do kotwicy sekcji strony głównej (Wyzwania, Priorytety, Działalność, Apel,
+ * Publikacje, Q&A) — używane w menu głównym i stopce, widocznych na KAŻDEJ
+ * podstronie. Na stronie głównej: czysta kotwica „#id" (płynny scroll obsługuje
+ * psod.js, sekcja 0b). Na pozostałych podstronach: „/#id" — bo tych sekcji tam
+ * nie ma (są tylko na home), więc trzeba najpierw wrócić na stronę główną.
+ *
+ * @param string $id ID sekcji (bez „#").
+ * @return string
+ */
+function psod2_anchor_url( $id ) {
+	return is_front_page() ? '#' . $id : home_url( '/#' . $id );
+}
+
 /**
  * Podstawowa konfiguracja motywu.
  */
@@ -43,16 +60,19 @@ add_action( 'after_setup_theme', 'psod2_setup' );
 /**
  * Wczytanie stylów i skryptów.
  *
- * Fonty: Fraunces (serif) + Poppins (sans) z Google Fonts — zgodnie z projektem.
- * TODO (RODO/wydajność): rozważyć self-hosting fontów zamiast Google Fonts.
+ * Fonty: Fraunces (serif) + Poppins (sans) — self-hostowane (@font-face, SIL OFL),
+ * bez Google Fonts (RODO/prywatność + wydajność). Pliki woff2 w assets/fonts/.
  */
 function psod2_assets() {
-	// Google Fonts.
+	// Fonty self-hostowane (Fraunces + Poppins, SIL OFL 1.1) — bez Google Fonts.
+	// Powód: RODO/prywatność (Google Fonts na żywo wysyła IP odwiedzającego do
+	// Google) + wydajność. Pliki woff2 + @font-face w assets/fonts/.
+	$psod2_fonts_css = get_template_directory() . '/assets/fonts/fonts.css';
 	wp_enqueue_style(
 		'psod2-fonts',
-		'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Poppins:wght@400;500;600;700&display=swap',
+		get_template_directory_uri() . '/assets/fonts/fonts.css',
 		array(),
-		null
+		file_exists( $psod2_fonts_css ) ? filemtime( $psod2_fonts_css ) : PSOD2_VERSION
 	);
 
 	// Główny arkusz stylów motywu (zawiera tokeny + cały layout).
@@ -66,12 +86,23 @@ function psod2_assets() {
 		file_exists( get_stylesheet_directory() . '/style.css' ) ? filemtime( get_stylesheet_directory() . '/style.css' ) : PSOD2_VERSION
 	);
 
-	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ).
+	// Silnik i18n (PL/DE/EN) — wczytywany przed psod.js, który z niego korzysta
+	// (tłumaczenie treści budowanych w JS: Filary, Prawda czy mit?).
+	$psod2_i18n_path = get_template_directory() . '/js/i18n.js';
+	wp_enqueue_script(
+		'psod2-i18n',
+		get_template_directory_uri() . '/js/i18n.js',
+		array(),
+		file_exists( $psod2_i18n_path ) ? filemtime( $psod2_i18n_path ) : PSOD2_VERSION,
+		true
+	);
+
+	// Interakcje (suwak demograficzny, zakładki filarów, gra „mity”, FAQ, menu, i18n DOM).
 	$psod2_js_path = get_template_directory() . '/js/psod.js';
 	wp_enqueue_script(
 		'psod2-script',
 		get_template_directory_uri() . '/js/psod.js',
-		array(),
+		array( 'psod2-i18n' ),
 		file_exists( $psod2_js_path ) ? filemtime( $psod2_js_path ) : PSOD2_VERSION,
 		true
 	);
@@ -82,20 +113,1296 @@ function psod2_assets() {
 		'var PSOD_ASSETS=' . wp_json_encode( get_template_directory_uri() . '/assets' ) . ';',
 		'before'
 	);
+
+	// Centrum wiedzy — spory, samodzielny skrypt (fetch + render 47 pytań),
+	// wczytywany tylko na tej jednej podstronie, nie globalnie.
+	if ( is_page( 'centrum-wiedzy' ) ) {
+		$psod2_kb_path = get_template_directory() . '/js/centrum-wiedzy.js';
+		wp_enqueue_script(
+			'psod2-centrum-wiedzy',
+			get_template_directory_uri() . '/js/centrum-wiedzy.js',
+			array( 'psod2-i18n' ),
+			file_exists( $psod2_kb_path ) ? filemtime( $psod2_kb_path ) : PSOD2_VERSION,
+			true
+		);
+	}
+
+	// Kontakt — walidacja + wysyłka formularza przez admin-ajax.php, tylko na
+	// tej podstronie. Nonce chroni akcję psod2_kontakt_send (patrz niżej).
+	if ( is_page( 'kontakt' ) ) {
+		$psod2_kontakt_path = get_template_directory() . '/js/kontakt.js';
+		wp_enqueue_script(
+			'psod2-kontakt',
+			get_template_directory_uri() . '/js/kontakt.js',
+			array(),
+			file_exists( $psod2_kontakt_path ) ? filemtime( $psod2_kontakt_path ) : PSOD2_VERSION,
+			true
+		);
+		wp_localize_script(
+			'psod2-kontakt',
+			'PSOD_KONTAKT',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'psod2_kontakt_nonce' ),
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'psod2_assets' );
 
 /**
- * Preconnect do Google Fonts (drobna optymalizacja ładowania fontów).
+ * Obsługa formularza kontaktowego (/kontakt/) — wysyła e-mail przez wp_mail().
+ *
+ * Natywna implementacja bez wtyczek (na stagingu nie ma Contact Form 7 ani
+ * żadnej wtyczki SMTP). Bezpieczeństwo: nonce, honeypot (pole „website" —
+ * bot wypełni, człowiek nie widzi go i nie wypełnia), pełna walidacja PO
+ * STRONIE SERWERA (JS w kontakt.js to tylko UX, nigdy źródło prawdy),
+ * sanitizacja wszystkich pól przed użyciem w treści/nagłówkach maila.
+ *
+ * Komunikaty błędów muszą być identyczne z prototypem design_handoff_kontakt
+ * (README „Interactions & Behavior").
  */
-function psod2_resource_hints( $urls, $relation_type ) {
-	if ( 'preconnect' === $relation_type ) {
-		$urls[] = array( 'href' => 'https://fonts.googleapis.com' );
-		$urls[] = array(
-			'href'        => 'https://fonts.gstatic.com',
-			'crossorigin' => 'anonymous',
+function psod2_kontakt_send() {
+	check_ajax_referer( 'psod2_kontakt_nonce', 'nonce' );
+
+	// Honeypot: bot wypełnia niewidoczne pole — udajemy sukces, nic nie wysyłamy.
+	if ( ! empty( $_POST['website'] ) ) {
+		wp_send_json_success();
+	}
+
+	// Anty-spam: maks. 5 zgłoszeń z jednego IP na godzinę (transient jako licznik).
+	$ip       = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$rl_key   = 'psod2_kontakt_rl_' . md5( $ip );
+	$rl_hits  = (int) get_transient( $rl_key );
+	if ( $rl_hits >= 5 ) {
+		wp_send_json_error( array( 'message' => __( 'Zbyt wiele wiadomości z tego urządzenia. Spróbuj ponownie za godzinę lub napisz bezpośrednio na kontakt@polskaopieka.eu.', 'psod2' ) ) );
+	}
+
+	$name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+	$email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+	$message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+	$consent = ! empty( $_POST['consent'] ) && '1' === $_POST['consent'];
+
+	if ( '' === $name || '' === $email || '' === $message ) {
+		wp_send_json_error( array( 'message' => __( 'Uzupełnij imię, adres e-mail i treść wiadomości.', 'psod2' ) ) );
+	}
+	if ( ! $consent ) {
+		wp_send_json_error( array( 'message' => __( 'Zaznacz zgodę na przetwarzanie danych osobowych.', 'psod2' ) ) );
+	}
+	if ( ! is_email( $email ) ) {
+		wp_send_json_error( array( 'message' => __( 'Podaj prawidłowy adres e-mail.', 'psod2' ) ) );
+	}
+
+	$to      = 'kontakt@polskaopieka.eu';
+	$subject = 'Nowa wiadomość ze strony — formularz kontaktowy';
+	$body    = "Imię i nazwisko: {$name}\n"
+		. "E-mail: {$email}\n"
+		. 'Telefon: ' . ( '' !== $phone ? $phone : '—' ) . "\n\n"
+		. "Treść wiadomości:\n{$message}\n";
+	$headers = array(
+		'Content-Type: text/plain; charset=UTF-8',
+		// From na domenie strony (SPF/DKIM), odpowiedź trafia do nadawcy przez Reply-To.
+		'From: Polskie Stowarzyszenie Opieki Domowej <kontakt@polskaopieka.eu>',
+		'Reply-To: ' . $name . ' <' . $email . '>',
+	);
+
+	// Zlicz zaakceptowane zgłoszenie do limitu anty-spam (okno godzinne).
+	set_transient( $rl_key, $rl_hits + 1, HOUR_IN_SECONDS );
+
+	$sent = wp_mail( $to, $subject, $body, $headers );
+
+	if ( ! $sent ) {
+		wp_send_json_error( array( 'message' => __( 'Nie udało się wysłać wiadomości. Spróbuj ponownie później.', 'psod2' ) ) );
+	}
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_psod2_kontakt_send', 'psod2_kontakt_send' );
+add_action( 'wp_ajax_nopriv_psod2_kontakt_send', 'psod2_kontakt_send' );
+
+/**
+ * Szablon „Pismo A4" (page-stanowisko.php) to samodzielny dokument — wyłączamy
+ * główny arkusz stylów i skrypty motywu, żeby nie kolidowały z layoutem A4.
+ * Fonty (Poppins) zostają.
+ */
+function psod2_stanowisko_assets() {
+	if ( is_page( 'stanowisko' ) ) {
+		wp_dequeue_style( 'psod2-style' );
+		wp_dequeue_script( 'psod2-script' );
+		wp_dequeue_script( 'psod2-i18n' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'psod2_stanowisko_assets', 100 );
+
+/**
+ * Rejestracja custom post type „Aktualności" (klucz: aktualnosci).
+ *
+ * Odwzorowuje CPT z produkcji polskaopieka.eu: URL-e /aktualnosci/{slug}/,
+ * archiwum pod /aktualnosci/. Dzięki temu redaktor zarządza wpisami w wp-adminie
+ * (menu „Aktualności"), a motyw renderuje je przez archive-aktualnosci.php
+ * (lista) i single-aktualnosci.php (pojedynczy wpis).
+ *
+ * UWAGA: po zmianie rejestracji CPT trzeba raz przeładować reguły przepisań
+ * (flush_rewrite_rules) — robione jednorazowo skryptem wdrożeniowym, nie na init.
+ */
+function psod2_register_aktualnosci() {
+	$labels = array(
+		'name'               => __( 'Aktualności', 'psod2' ),
+		'singular_name'      => __( 'Aktualność', 'psod2' ),
+		'menu_name'          => __( 'Aktualności', 'psod2' ),
+		'add_new'            => __( 'Dodaj nową', 'psod2' ),
+		'add_new_item'       => __( 'Dodaj nową aktualność', 'psod2' ),
+		'edit_item'          => __( 'Edytuj aktualność', 'psod2' ),
+		'new_item'           => __( 'Nowa aktualność', 'psod2' ),
+		'view_item'          => __( 'Zobacz aktualność', 'psod2' ),
+		'search_items'       => __( 'Szukaj aktualności', 'psod2' ),
+		'not_found'          => __( 'Nie znaleziono aktualności', 'psod2' ),
+		'all_items'          => __( 'Wszystkie aktualności', 'psod2' ),
+	);
+
+	register_post_type(
+		'aktualnosci',
+		array(
+			'labels'       => $labels,
+			'public'       => true,
+			'has_archive'  => true,
+			'menu_icon'    => 'dashicons-megaphone',
+			'menu_position' => 5,
+			'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt', 'revisions' ),
+			'rewrite'      => array(
+				'slug'       => 'aktualnosci',
+				'with_front' => false,
+			),
+			'show_in_rest' => true,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_aktualnosci' );
+
+/**
+ * Rejestracja custom post type „Q&A" (klucz: faq) — pytania i odpowiedzi.
+ *
+ * Pytanie = tytuł wpisu, odpowiedź = treść (edytor). Bez ACF — sam wbudowany
+ * mechanizm WordPressa. Redaktor zarządza w wp-adminie (menu „Q&A"), kolejność
+ * ustawia polem „Kolejność" (page-attributes → menu_order). Sekcja Q&A na
+ * stronie głównej renderuje te wpisy (front-page.php). CPT nie ma własnego URL
+ * (public=false) — to treść strony głównej, nie osobna podstrona.
+ */
+function psod2_register_faq() {
+	register_post_type(
+		'faq',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Q&A (Pytania)', 'psod2' ),
+				'singular_name' => __( 'Pytanie', 'psod2' ),
+				'menu_name'     => __( 'Q&A', 'psod2' ),
+				'add_new'       => __( 'Dodaj pytanie', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowe pytanie', 'psod2' ),
+				'edit_item'     => __( 'Edytuj pytanie', 'psod2' ),
+				'new_item'      => __( 'Nowe pytanie', 'psod2' ),
+				'search_items'  => __( 'Szukaj pytań', 'psod2' ),
+				'not_found'     => __( 'Nie znaleziono pytań', 'psod2' ),
+				'all_items'     => __( 'Wszystkie pytania', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-editor-help',
+			'menu_position' => 6,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_faq' );
+
+/**
+ * CPT „Mity" (klucz: mit) — gra „Prawda czy mit?". Twierdzenie = tytuł,
+ * treść „faktu" = edytor. Dane trafiają do JS (psod.js) — patrz
+ * psod2_frontpage_data(). Kolejność: page-attributes (menu_order).
+ */
+function psod2_register_mit() {
+	register_post_type(
+		'mit',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Mity', 'psod2' ),
+				'singular_name' => __( 'Mit', 'psod2' ),
+				'menu_name'     => __( 'Mity', 'psod2' ),
+				'add_new'       => __( 'Dodaj mit', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy mit', 'psod2' ),
+				'edit_item'     => __( 'Edytuj mit', 'psod2' ),
+				'all_items'     => __( 'Wszystkie mity', 'psod2' ),
+			),
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_rest'  => true,
+			'menu_icon'     => 'dashicons-lightbulb',
+			'menu_position' => 7,
+			'supports'      => array( 'title', 'editor', 'page-attributes' ),
+			'has_archive'   => false,
+			'rewrite'       => false,
+		)
+	);
+}
+add_action( 'init', 'psod2_register_mit' );
+
+// CPT „Filary" (filar) USUNIĘTY 2026-07-22 — treść filarów jest teraz w kodzie
+// (psod2_filary_data(), renderowana serwerowo na home i /filary-opieki-domowej/).
+// Rejestracja CPT, metabox, zapis i seed filarów zostały usunięte; osierocone wpisy
+// „filar" skasowane z bazy (staging + produkcja).
+
+/**
+ * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu (H1), zajawka
+ * (excerpt) = krótki opis karty, treść = pełny lead + sekcje H2 podstrony,
+ * zdjęcie wyróżniające = kadr.
+ *
+ * Routowalny pod /artykuly/<slug>/ (rewrite slug „artykuly") — te URL-e pochodzą
+ * ze starej strony i muszą pozostać kanonicznymi adresami podstron priorytetów
+ * (patrz single-priorytet.php + MAPA-PRZEKIEROWAN-301.md). Ten sam CPT zasila też
+ * kafle na stronie głównej i wiersze na /nasze-priorytety/. Kolejność: menu_order.
+ *
+ * UWAGA: zmiana rewrite wymaga jednorazowego flush_rewrite_rules — robione skryptem
+ * wdrożeniowym (delete_option('rewrite_rules')), nie na init.
+ */
+function psod2_register_priorytet() {
+	register_post_type(
+		'priorytet',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Priorytety', 'psod2' ),
+				'singular_name' => __( 'Priorytet', 'psod2' ),
+				'menu_name'     => __( 'Priorytety', 'psod2' ),
+				'add_new'       => __( 'Dodaj priorytet', 'psod2' ),
+				'add_new_item'  => __( 'Dodaj nowy priorytet', 'psod2' ),
+				'edit_item'     => __( 'Edytuj priorytet', 'psod2' ),
+				'all_items'     => __( 'Wszystkie priorytety', 'psod2' ),
+			),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'exclude_from_search' => false,
+			'show_ui'            => true,
+			'show_in_rest'       => true,
+			'menu_icon'          => 'dashicons-flag',
+			'menu_position'      => 9,
+			'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
+			'has_archive'        => false,
+			'rewrite'            => array( 'slug' => 'artykuly', 'with_front' => false ),
+		)
+	);
+}
+add_action( 'init', 'psod2_register_priorytet' );
+
+/** 1-based pozycja priorytetu w kolejności menu_order (do numeru „Priorytet 0X"). */
+function psod2_priorytet_index( $post_id ) {
+	$all = psod2_get_priorytety();
+	foreach ( $all as $i => $p ) {
+		if ( (int) $p->ID === (int) $post_id ) {
+			return $i + 1;
+		}
+	}
+	return 0;
+}
+
+/** Meta box priorytetu: link „Czytaj więcej". */
+function psod2_priorytet_metabox() {
+	add_meta_box( 'psod2_priorytet', __( 'Link „Czytaj więcej"', 'psod2' ), 'psod2_priorytet_metabox_cb', 'priorytet', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_priorytet_metabox' );
+
+function psod2_priorytet_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_priorytet_save', 'psod2_priorytet_nonce' );
+	$seo_title = get_post_meta( $post->ID, '_psod_prio_seo_title', true );
+	$seo_desc  = get_post_meta( $post->ID, '_psod_prio_seo_desc', true );
+	echo '<p><label>' . esc_html__( 'Meta title (SEO):', 'psod2' ) . '<br><input type="text" name="psod2_prio_seo_title" value="' . esc_attr( $seo_title ) . '" style="width:100%"></label></p>';
+	echo '<p><label>' . esc_html__( 'Meta description (SEO):', 'psod2' ) . '<br><textarea name="psod2_prio_seo_desc" rows="3" style="width:100%">' . esc_textarea( $seo_desc ) . '</textarea></label></p>';
+	echo '<p class="description">' . esc_html__( 'Zajawka (excerpt) = krótki opis karty. Treść = lead + sekcje H2 podstrony. Adres podstrony powstaje ze sluga (/artykuly/…/).', 'psod2' ) . '</p>';
+}
+
+function psod2_priorytet_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_priorytet_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_priorytet_nonce'] ) ), 'psod2_priorytet_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_prio_link'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_link', esc_url_raw( wp_unslash( $_POST['psod2_prio_link'] ) ) );
+	}
+	if ( isset( $_POST['psod2_prio_seo_title'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_seo_title', sanitize_text_field( wp_unslash( $_POST['psod2_prio_seo_title'] ) ) );
+	}
+	if ( isset( $_POST['psod2_prio_seo_desc'] ) ) {
+		update_post_meta( $post_id, '_psod_prio_seo_desc', sanitize_textarea_field( wp_unslash( $_POST['psod2_prio_seo_desc'] ) ) );
+	}
+}
+add_action( 'save_post_priorytet', 'psod2_priorytet_save' );
+
+/** Priorytety (CPT) w kolejności menu_order — wspólne dla strony głównej i /nasze-priorytety/. */
+function psod2_get_priorytety() {
+	return get_posts(
+		array(
+			'post_type'   => 'priorytet',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'menu_order',
+			'order'       => 'ASC',
+		)
+	);
+}
+
+/**
+ * Filary opieki domowej — JEDEN wspólny model danych dla pięciu filarów.
+ *
+ * Renderowane z tego samego źródła (SSR, treść w HTML): karty na stronie głównej
+ * (front-page.php) oraz pełne sekcje na podstronie (page-filary-opieki-domowej.php).
+ * Treść jest po stronie serwera — nie w JS przeglądarki. Każdy filar ma:
+ *   num       — numer „0X",
+ *   slug      — anchor ID sekcji na podstronie (i cel linku z karty),
+ *   icon      — plik ikony w assets/ (dekoracyjna, alt=""),
+ *   title     — tytuł filaru,
+ *   card      — krótki opis na kartę na stronie głównej,
+ *   intro     — tekst wprowadzający sekcji na podstronie,
+ *   zasady    — lista zasad,
+ *   after     — akapit po liście (opcjonalny; '' = brak),
+ *   highlight — wyróżniony komunikat / callout (opcjonalny; '' = brak).
+ *
+ * Ikony pozostają wyłącznie dekoracją wspierającą — żadna treść nie jest zaszyta
+ * w grafice (wymóg dostępności).
+ */
+function psod2_filary_data() {
+	// Definicje filarów kluczowane SLUGIEM (= anchor ID). Slug NIE zmienia się przy zmianie
+	// kolejności — dzięki temu linki/kotwice (np. /filary-opieki-domowej/#bezpieczenstwo)
+	// pozostają stabilne. Numer „Filar 0X" i slug dokładane niżej wg listy $order.
+	$def = array(
+		'wybor-i-autonomia' => array(
+			'icon'      => 'filar-wybor.svg',
+			'title'     => 'Wybór i autonomia',
+			'card'      => 'Osoba korzystająca z opieki ma realny wpływ na zakres, sposób i cele wsparcia. Powinna otrzymywać zrozumiałe informacje, móc wyrażać swoje preferencje oraz zachowywać możliwie największą samodzielność.',
+			'intro'     => 'Osoba korzystająca z opieki powinna mieć rzeczywisty wpływ na sposób organizowania własnego życia i otrzymywanego wsparcia. Opieka powinna wzmacniać jej sprawczość i samodzielność, a nie bez potrzeby przejmować kontrolę nad codziennymi decyzjami.',
+			'zasady'    => array(
+				'udział osoby korzystającej z opieki w ocenie potrzeb, ustalaniu celów oraz tworzeniu planu wsparcia;',
+				'przekazywanie zrozumiałych informacji o zakresie usługi, kosztach, ograniczeniach, osobach realizujących wsparcie i możliwych alternatywach;',
+				'uzyskiwanie zgody na podejmowane czynności oraz respektowanie prawa do wyrażania i zmiany preferencji;',
+				'wspieranie samodzielnego wykonywania czynności w takim zakresie, w jakim jest to możliwe i bezpieczne;',
+				'uwzględnianie codziennych zwyczajów, relacji społecznych, języka, kultury, światopoglądu i innych istotnych preferencji;',
+				'angażowanie osoby korzystającej z opieki w ocenę jakości otrzymywanego wsparcia.',
+			),
+			'after'     => 'Jeżeli osoba nie może samodzielnie uczestniczyć w podejmowaniu określonych decyzji, działania powinny być prowadzone zgodnie z prawem, z udziałem osób do tego uprawnionych oraz z poszanowaniem wcześniej wyrażonej woli osoby korzystającej z opieki.',
+			'highlight' => '',
+		),
+		'bezpieczenstwo' => array(
+			'icon'      => 'filar-bezpieczenstwo.svg',
+			'title'     => 'Bezpieczeństwo',
+			'card'      => 'Usługa powinna być poprzedzona oceną potrzeb i ryzyk, powierzana osobom o odpowiednich kompetencjach oraz organizowana z jasnymi zasadami reagowania na sytuacje nagłe.',
+			'intro'     => 'Bezpieczna opieka wymaga rozpoznania potrzeb, ryzyk oraz granic kompetencji osób realizujących usługę. Ryzyka nie można całkowicie wyeliminować, ale powinno się je świadomie identyfikować, ograniczać i monitorować.',
+			'zasady'    => array(
+				'przeprowadzenie oceny potrzeb i ryzyk przed rozpoczęciem usługi oraz jej aktualizowanie po istotnej zmianie sytuacji;',
+				'dopasowanie kompetencji, przygotowania i doświadczenia personelu do powierzonych czynności;',
+				'jasne rozróżnienie niemedycznej pomocy w codziennym funkcjonowaniu od świadczeń medycznych i pielęgniarskich;',
+				'niewykonywanie przez personel opiekuńczy czynności wykraczających poza jego kwalifikacje, uprawnienia lub uzgodniony zakres usługi;',
+				'ocena bezpieczeństwa poruszania się, transferu, wyposażenia domu i sprzętu używanego podczas opieki;',
+				'uwzględnienie potrzeb związanych z żywieniem, nawodnieniem, higieną oraz pomocą przy przyjmowaniu leków, bez przekraczania granic niemedycznej usługi;',
+				'ustalenie sposobu reagowania na upadek, nagłe pogorszenie stanu zdrowia, zaginięcie, pożar, zakażenie lub inne zdarzenie nagłe;',
+				'zapewnienie dostępności aktualnych numerów kontaktowych i informacji niezbędnych w sytuacji kryzysowej;',
+				'dokumentowanie zdarzeń niepożądanych i wykorzystywanie ich do poprawy organizacji opieki.',
+			),
+			'after'     => '',
+			'highlight' => 'Opiekun domowy nie zastępuje lekarza, pielęgniarki ani ratownika medycznego. Wystąpienie potrzeb medycznych wymaga zaangażowania właściwie uprawnionego personelu.',
+		),
+		'szacunek-i-godnosc' => array(
+			'icon'      => 'filar-szacunek.svg',
+			'title'     => 'Szacunek i godność',
+			'card'      => 'Prywatność, granice i prawa osoby korzystającej z opieki oraz personelu opiekuńczego muszą być chronione. Niedopuszczalne są przemoc, dyskryminacja, poniżanie i nadużywanie zależności.',
+			'intro'     => 'Relacja opieki opiera się na zaufaniu i często dotyczy najbardziej osobistych obszarów życia. Zarówno osoba korzystająca z opieki, jak i personel opiekuńczy muszą być traktowani z godnością, bezpiecznie i bez nadużywania zależności.',
+			'zasady'    => array(
+				'zakaz przemocy fizycznej, psychicznej, seksualnej i ekonomicznej;',
+				'zakaz dyskryminacji, poniżania, lekceważenia i uprzedmiotowienia;',
+				'poszanowanie prywatności, intymności, przestrzeni osobistej oraz poufności informacji;',
+				'komunikowanie się w sposób zrozumiały, cierpliwy i dostosowany do możliwości konkretnej osoby;',
+				'poszanowanie relacji rodzinnych, społecznych, kulturowych i religijnych;',
+				'ograniczanie autonomii wyłącznie w sytuacjach przewidzianych prawem i w zakresie niezbędnym do ochrony przed realnym zagrożeniem;',
+				'zapewnienie możliwości bezpiecznego zgłaszania skarg, uwag, naruszeń i podejrzeń nadużyć;',
+				'ochrona personelu opiekuńczego przed przemocą, molestowaniem, dyskryminacją i nieuzasadnionym naruszaniem prywatności;',
+				'zapewnienie personelowi jasnego zakresu obowiązków, bezpiecznych warunków, czasu odpoczynku oraz dostępu do wsparcia organizacyjnego.',
+			),
+			'after'     => '',
+			'highlight' => 'Opieka domowa z zamieszkaniem nie oznacza całodobowej pracy ani stałej gotowości jednej osoby. Zamieszkanie w gospodarstwie domowym nie znosi prawa personelu do odpoczynku, prywatności i bezpiecznych warunków pracy.',
+		),
+		'ciaglosc' => array(
+			'icon'      => 'filar-ciaglosc.svg',
+			'title'     => 'Ciągłość',
+			'card'      => 'Opieka powinna być planowana tak, aby nie dochodziło do niebezpiecznych przerw, a zastępstwa, dokumentacja i przekazywanie obowiązków były właściwie zorganizowane.',
+			'intro'     => 'Ciągłość opieki domowej oznacza zdolność usługodawcy do zapewnienia osobie korzystającej z opieki nieprzerwanej realizacji uzgodnionego zakresu opieki, bez nieplanowanej luki, niezależnie od absencji, zmiany lub odejścia konkretnego opiekuna. Każda zmiana osoby sprawującej opiekę musi odbywać się poprzez bezpieczne przejęcie obowiązków, informacji i odpowiedzialności.',
+			'zasady'    => array(
+				'ustalenie zakresu usługi oraz planu opieki przed jej rozpoczęciem;',
+				'zapewnienie aktualnej, kompletnej i odpowiednio chronionej dokumentacji;',
+				'określenie zasad organizowania zastępstwa podczas choroby, urlopu, rezygnacji lub innej nieobecności;',
+				'przekazywanie obowiązków i niezbędnych informacji między osobami realizującymi opiekę;',
+				'regularne aktualizowanie planu po zmianie stanu zdrowia, sprawności, sytuacji rodzinnej lub warunków mieszkaniowych;',
+				'wskazanie osób i instytucji, z którymi należy kontaktować się w sytuacjach nagłych;',
+				'koordynowanie wsparcia z rodziną, personelem medycznym i usługami społecznymi, gdy jest to potrzebne i odbywa się z poszanowaniem zasad poufności;',
+				'przygotowanie planu postępowania na wypadek czasowego lub trwałego zakończenia usługi.',
+			),
+			'after'     => 'Ciągłość opieki nie oznacza obowiązku stałego pozostawania jednej osoby w gotowości. Powinna być zapewniana przez właściwą organizację usługi, harmonogramy, przekazanie obowiązków i zastępstwa.',
+			'highlight' => '',
+		),
+		'indywidualne-podejscie' => array(
+			'icon'      => 'filar-indywidualne.svg',
+			'title'     => 'Indywidualne podejście',
+			'card'      => 'Zakres wsparcia powinien wynikać z potrzeb, możliwości, stylu życia i celów konkretnej osoby, a plan opieki powinien być regularnie aktualizowany.',
+			'intro'     => 'Dwie osoby o podobnym wieku lub rozpoznaniu medycznym mogą potrzebować zupełnie innego wsparcia. Plan opieki powinien wynikać z rzeczywistej sytuacji konkretnego człowieka, a nie wyłącznie z nazwy choroby, wieku lub gotowego pakietu usług.',
+			'zasady'    => array(
+				'całościowa ocena sprawności, potrzeb, zasobów, warunków mieszkaniowych i dostępnego wsparcia społecznego;',
+				'uwzględnianie tego, co dla osoby korzystającej z opieki jest ważne z perspektywy jakości życia;',
+				'ustalanie konkretnych celów wsparcia wspólnie z osobą korzystającą z opieki i — gdy jest to uzasadnione — jej bliskimi;',
+				'dostosowanie zakresu i częstotliwości pomocy do aktualnych potrzeb;',
+				'uwzględnienie rytmu dnia, preferowanych posiłków, zainteresowań, relacji, języka, kultury i światopoglądu;',
+				'regularna ocena skuteczności wsparcia i aktualizowanie planu opieki;',
+				'reagowanie na uwagi osoby korzystającej z opieki, rodziny i personelu;',
+				'angażowanie właściwych usług medycznych, pielęgniarskich, rehabilitacyjnych lub społecznych, gdy potrzeby wykraczają poza zakres niemedycznej opieki domowej.',
+			),
+			'after'     => '',
+			'highlight' => '',
+		),
+	);
+
+	// KOLEJNOŚĆ wyświetlania (strona główna + podstrona) ORAZ numeracja „Filar 0X"
+	// (wynika z pozycji na tej liście). Aby zmienić kolejność filarów — edytuj TYLKO tę listę.
+	$order = array(
+		'szacunek-i-godnosc',
+		'bezpieczenstwo',
+		'ciaglosc',
+		'wybor-i-autonomia',
+		'indywidualne-podejscie',
+	);
+
+	$out = array();
+	$i   = 1;
+	foreach ( $order as $psod2_slug ) {
+		if ( ! isset( $def[ $psod2_slug ] ) ) {
+			continue;
+		}
+		$f         = $def[ $psod2_slug ];
+		$f['slug'] = $psod2_slug;
+		$f['num']  = str_pad( (string) $i, 2, '0', STR_PAD_LEFT );
+		$out[]     = $f;
+		$i++;
+	}
+	return $out;
+}
+
+/**
+ * Dane sekcji strony głównej budowanych w JS (Mity) → globalne zmienne JS (odczyt
+ * w psod.js). Tylko na stronie głównej. Filary NIE są już budowane w JS — patrz
+ * psod2_filary_data() (renderowane serwerowo w HTML na home i na podstronie).
+ */
+function psod2_frontpage_data() {
+	if ( ! is_front_page() ) {
+		return;
+	}
+	$mity = array();
+	$mq = new WP_Query( array( 'post_type' => 'mit', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
+	foreach ( $mq->posts as $p ) {
+		// Pomijamy mity z placeholderem faktu (np. Agencje Pracy Tymczasowej —
+		// oryginał nie zawiera treści). Nie pokazujemy notatki roboczej publicznie;
+		// po uzupełnieniu w wp-adminie mit sam wróci do gry.
+		if ( false !== strpos( $p->post_content, '[Do uzupełnienia' ) ) {
+			continue;
+		}
+		$mity[] = array(
+			't' => get_the_title( $p ),
+			'f' => trim( apply_filters( 'the_content', $p->post_content ) ),
 		);
 	}
-	return $urls;
+	wp_reset_postdata();
+	wp_add_inline_script(
+		'psod2-script',
+		'window.PSOD_MITY=' . wp_json_encode( $mity ) . ';',
+		'before'
+	);
 }
-add_filter( 'wp_resource_hints', 'psod2_resource_hints', 10, 2 );
+add_action( 'wp_enqueue_scripts', 'psod2_frontpage_data', 20 );
+
+/** Czy CPT ma już jakiekolwiek wpisy (dowolny status poza koszem/auto-draft)? */
+function psod2_cpt_has_posts( $type ) {
+	$ids = get_posts(
+		array(
+			'post_type'      => $type,
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	return ! empty( $ids );
+}
+
+/**
+ * Jednorazowy seed treści CPT „mit" (gra „Prawda czy mit?") — odtwarza wartości
+ * zaszyte wcześniej w js/psod.js (treść 1:1 z oryginału PSOD), aby po ręcznym
+ * wdrożeniu motywu (SFTP — brak zdarzenia aktywacji) sekcja nie była pusta.
+ *
+ * Idempotentny: flaga w opcji `psod2_seeded_filar_mit` (nazwa historyczna) gwarantuje
+ * jednorazowe uruchomienie; dodatkowo seeduje tylko gdy CPT „mit" jest pusty — nie
+ * duplikuje ani nie nadpisuje wpisów redaktora. Mit #2 celowo zawiera placeholder
+ * faktu (oryginał nie zawiera treści).
+ *
+ * Filary NIE są już seedowane — treść filarów jest w kodzie (psod2_filary_data()),
+ * CPT „filar" został usunięty 2026-07-22.
+ */
+function psod2_seed_mit() {
+	if ( get_option( 'psod2_seeded_filar_mit' ) ) {
+		return;
+	}
+
+	$mity = array(
+		array(
+			'title'   => 'Opiekunowie domowi pracują 24h na dobę',
+			'content' => 'Faktem jest, że opiekunowie domowi mają zapewnione zakwaterowanie w domu podopiecznego, więc w zasadzie przebywają w miejscu pracy 24h na dobę. Nie jest jednak prawdą, że przez cały ten czas wykonują pracę. Profesjonalna firma opiekuńcza powinna ustalić z opiekunem zakres czynności i obowiązków, który obejmuje wyłącznie czynności, których bezpośrednim beneficjentem jest osoba podopieczna. Zlecenia nie mogą zakładać pomocy choremu „non stop”.',
+		),
+		array(
+			'title'   => 'Usługi opieki domowej świadczą Agencje Pracy Tymczasowej',
+			'content' => '<em>[Do uzupełnienia — oryginalna strona nie zawiera tekstu faktu dla tego mitu. Treść do dostarczenia przez PSOD.]</em>',
+		),
+		array(
+			'title'   => 'Opiekunowie domowi nie muszą mieć kompetencji',
+			'content' => 'Takie stwierdzenie jest krzywdzące dla opiekunów i może być niebezpieczne dla podopiecznych. Nie każdy może zostać opiekunem domowym — profesjonalne firmy zwracają uwagę na szereg cech, kompetencji i predyspozycji. Kluczowe są umiejętności praktyczne obejmujące codzienną opiekę i pielęgnację, wiedza o procesie starzenia i demencji, a także empatia, cierpliwość, komunikatywność i szacunek do drugiego człowieka.',
+		),
+		array(
+			'title'   => 'Opieka nad osobą starszą to dobre zajęcie tylko dla kobiet 50+',
+			'content' => 'Prawdą jest, że wśród opiekunów zdecydowaną większość stanowią kobiety, często w grupie wiekowej 50+. Jednak wśród opiekunów coraz więcej jest mężczyzn (ok. 10%) i osób młodych, które przyciąga misyjność tego zawodu. Biorąc pod uwagę tempo starzenia się społeczeństwa, opiekuna osoby starszej można nazwać zawodem przyszłości.',
+		),
+	);
+
+	if ( ! psod2_cpt_has_posts( 'mit' ) ) {
+		$order = 1;
+		foreach ( $mity as $m ) {
+			wp_insert_post(
+				array(
+					'post_type'    => 'mit',
+					'post_status'  => 'publish',
+					'post_title'   => $m['title'],
+					'post_content' => $m['content'],
+					'menu_order'   => $order,
+				),
+				true
+			);
+			$order++;
+		}
+	}
+
+	update_option( 'psod2_seeded_filar_mit', 1 );
+}
+add_action( 'init', 'psod2_seed_mit', 20 );
+
+/**
+ * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
+ *
+ * Wyróżnione wpisy (meta _psod_wyrozniony=1) pojawiają się na górze listy
+ * /aktualnosci/ jako duże bloki (do 2). Redaktor zarządza tym w wp-adminie.
+ */
+function psod2_wyrozniony_metabox() {
+	add_meta_box( 'psod2_wyrozniony', __( 'Wyróżnienie', 'psod2' ), 'psod2_wyrozniony_metabox_cb', 'aktualnosci', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'psod2_wyrozniony_metabox' );
+
+function psod2_wyrozniony_metabox_cb( $post ) {
+	wp_nonce_field( 'psod2_wyrozniony_save', 'psod2_wyrozniony_nonce' );
+	$val = get_post_meta( $post->ID, '_psod_wyrozniony', true );
+	echo '<label><input type="checkbox" name="psod2_wyrozniony" value="1" ' . checked( $val, '1', false ) . '> '
+		. esc_html__( 'Pokaż jako wyróżniony na liście aktualności', 'psod2' ) . '</label>';
+	echo '<p class="description">' . esc_html__( 'Wyróżnione wpisy pojawiają się na górze /aktualnosci/ (do 2 naraz).', 'psod2' ) . '</p>';
+}
+
+function psod2_wyrozniony_save( $post_id ) {
+	if ( ! isset( $_POST['psod2_wyrozniony_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_wyrozniony_nonce'] ) ), 'psod2_wyrozniony_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['psod2_wyrozniony'] ) ) {
+		update_post_meta( $post_id, '_psod_wyrozniony', '1' );
+	} else {
+		delete_post_meta( $post_id, '_psod_wyrozniony' );
+	}
+}
+add_action( 'save_post_aktualnosci', 'psod2_wyrozniony_save' );
+
+/**
+ * ID wyróżnionych wpisów aktualności (meta), najnowsze pierwsze.
+ * Gdy żaden nie jest oznaczony — fallback: najnowszy wpis (jak dotychczas).
+ *
+ * @param int $limit maksymalna liczba wyróżnionych.
+ * @return int[] lista ID.
+ */
+function psod2_featured_ids( $limit = 2 ) {
+	$q = new WP_Query(
+		array(
+			'post_type'      => 'aktualnosci',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_key'       => '_psod_wyrozniony',
+			'meta_value'     => '1',
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		)
+	);
+	$ids = $q->posts;
+	if ( empty( $ids ) ) {
+		$q2 = new WP_Query(
+			array(
+				'post_type'      => 'aktualnosci',
+				'post_status'    => 'publish',
+				'posts_per_page' => 1,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+		$ids = $q2->posts;
+	}
+	return $ids;
+}
+
+/**
+ * Data po polsku w dopełniaczu, np. „16 lipca 2026".
+ *
+ * WordPress get_the_date('j F Y') przy polskiej lokalizacji potrafi zwrócić
+ * mianownik („16 lipiec"); tu wymuszamy dopełniacz zgodny z projektem makiet.
+ *
+ * @param int|WP_Post|null $post ID lub obiekt wpisu (domyślnie bieżący).
+ * @return string
+ */
+function psod2_polish_date( $post = null ) {
+	$ts = get_post_time( 'U', false, $post );
+	if ( ! $ts ) {
+		return '';
+	}
+	$months = array(
+		1 => 'stycznia', 2 => 'lutego', 3 => 'marca', 4 => 'kwietnia',
+		5 => 'maja', 6 => 'czerwca', 7 => 'lipca', 8 => 'sierpnia',
+		9 => 'września', 10 => 'października', 11 => 'listopada', 12 => 'grudnia',
+	);
+	$d = (int) wp_date( 'j', $ts );
+	$m = (int) wp_date( 'n', $ts );
+	$y = wp_date( 'Y', $ts );
+	return $d . ' ' . $months[ $m ] . ' ' . $y;
+}
+
+/**
+ * Preload krytycznych fontów (Fraunces 300 — nagłówki, m.in. LCP-owy H1 na hero).
+ * Skraca „swap" na najważniejszym tekście. Preloadujemy oba podzbiory: polskie znaki
+ * (ł, ą, ę, ś, ż, ń, ć, ź) są w latin-ext, a podstawowe litery i „ó" w latin.
+ */
+function psod2_preload_fonts() {
+	$base = get_template_directory_uri() . '/assets/fonts/';
+	foreach ( array( 'fraunces-300-latin.woff2', 'fraunces-300-ext.woff2' ) as $f ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( $base . $f )
+		);
+	}
+}
+add_action( 'wp_head', 'psod2_preload_fonts', 1 );
+
+/**
+ * Kontekst SEO — jedno źródło dla meta description, Open Graph i Twitter Card.
+ *
+ * Na stagingu nie ma wtyczki SEO (Yoast/RankMath). Cała funkcja wyłącza się, jeśli
+ * kiedyś pojawi się Yoast (guard `WPSEO_VERSION`), żeby nie dublować znaczników.
+ * Zwraca: title, description, url, type (website|article), image (URL lub '').
+ */
+function psod2_seo_context() {
+	$site_name = get_bloginfo( 'name' );
+	$default   = __( 'Polskie Stowarzyszenie Opieki Domowej reprezentuje sektor opieki domowej w Polsce — wspieramy seniorów i osoby zależne oraz godną, profesjonalną opiekę w domu.', 'psod2' );
+	$ctx = array(
+		'title'       => $site_name,
+		'description' => $default,
+		'url'         => home_url( '/' ),
+		'type'        => 'website',
+		'image'       => get_template_directory_uri() . '/assets/og-share.png',
+		'image_w'     => 1200,
+		'image_h'     => 630,
+	);
+
+	if ( is_front_page() ) {
+		return $ctx;
+	}
+
+	if ( is_singular( 'aktualnosci' ) ) {
+		$id                = get_queried_object_id();
+		$ctx['title']      = get_the_title( $id ) . ' — ' . $site_name;
+		$ctx['description'] = has_excerpt( $id )
+			? get_the_excerpt( $id )
+			: wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 40 );
+		$ctx['url']  = get_permalink( $id );
+		$ctx['type'] = 'article';
+		if ( has_post_thumbnail( $id ) ) {
+			$psod2_img = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
+			if ( $psod2_img ) {
+				$ctx['image']   = $psod2_img[0];
+				$ctx['image_w'] = $psod2_img[1];
+				$ctx['image_h'] = $psod2_img[2];
+			}
+		}
+	} elseif ( is_singular( 'priorytet' ) ) {
+		$id                 = get_queried_object_id();
+		$seo_title          = get_post_meta( $id, '_psod_prio_seo_title', true );
+		$seo_desc           = get_post_meta( $id, '_psod_prio_seo_desc', true );
+		// Meta title priorytetu jest w pełni własny (format „… | PSOD"), bez doklejania nazwy witryny.
+		$ctx['title']       = '' !== $seo_title ? $seo_title : get_the_title( $id ) . ' — ' . $site_name;
+		$ctx['description'] = '' !== $seo_desc ? $seo_desc : get_the_excerpt( $id );
+		$ctx['url']         = get_permalink( $id );
+		$ctx['type']        = 'article';
+		if ( has_post_thumbnail( $id ) ) {
+			$psod2_img = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'large' );
+			if ( $psod2_img ) {
+				$ctx['image']   = $psod2_img[0];
+				$ctx['image_w'] = $psod2_img[1];
+				$ctx['image_h'] = $psod2_img[2];
+			}
+		}
+	} elseif ( is_page() ) {
+		$id           = get_queried_object_id();
+		$slug         = get_post_field( 'post_name', $id );
+		// Centrum wiedzy — odpowiedź: SEO z modelu danych (seoTitle/seoDescription).
+		$psod2_kb = psod2_kb_get_article( $slug );
+		if ( $psod2_kb ) {
+			$ctx['title']       = $psod2_kb['seoTitle'];
+			$ctx['description'] = psod2_seo_desc_cap( $psod2_kb['seoDescription'] );
+			$ctx['url']         = get_permalink( $id );
+			return $ctx;
+		}
+		$ctx['title'] = get_the_title( $id ) . ' — ' . $site_name;
+		// Unikalne opisy dla kluczowych podstron (te szablony nie mają post_content,
+		// więc bez tego wszystkie dostawałyby ten sam domyślny opis = duplikaty).
+		$page_desc = array(
+			'o-nas'                 => 'Poznaj Polskie Stowarzyszenie Opieki Domowej — kim jesteśmy, kogo zrzeszamy i jak działamy na rzecz godnej opieki domowej nad seniorami w Polsce.',
+			'nasze-priorytety'      => 'Priorytety PSOD w opiece domowej: ramy prawne, standardy jakości, ograniczenie szarej strefy i opieka transgraniczna — kluczowe obszary działań.',
+			'centrum-wiedzy'        => 'Centrum wiedzy o opiece domowej — odpowiedzi na najczęstsze pytania o opiekę nad seniorami oraz prawa opiekunów i osób zależnych.',
+			'filary-opieki-domowej' => 'Poznaj pięć zasad dobrej opieki domowej według PSOD: wybór i autonomia, bezpieczeństwo, szacunek, ciągłość oraz indywidualne podejście.',
+			'zrodla'                => 'Sprawdź, z jakich źródeł korzysta PSOD oraz jak weryfikujemy definicje, dane i informacje publikowane w Centrum wiedzy.',
+			'kontakt'               => 'Skontaktuj się z Polskim Stowarzyszeniem Opieki Domowej — formularz kontaktowy, dane kontaktowe, kontakt prasowy i informacje o członkostwie.',
+			'polityka-prywatnosci'  => 'Polityka prywatności serwisu polskaopieka.eu — jak przetwarzamy dane osobowe zgodnie z RODO i jakie masz prawa.',
+		);
+		// Własny tytuł meta dla wybranych podstron (format „… | PSOD" zamiast domyślnego „… — nazwa").
+		$page_title = array(
+			'filary-opieki-domowej' => 'Pięć filarów dobrej opieki domowej | PSOD',
+			'zrodla'                => 'Źródła i metodologia Centrum wiedzy | PSOD',
+		);
+		if ( isset( $page_title[ $slug ] ) ) {
+			$ctx['title'] = $page_title[ $slug ];
+		}
+		if ( isset( $page_desc[ $slug ] ) ) {
+			$ctx['description'] = $page_desc[ $slug ];
+		} else {
+			$content = get_post_field( 'post_content', $id );
+			if ( '' !== trim( wp_strip_all_tags( $content ) ) ) {
+				$ctx['description'] = wp_strip_all_tags( $content );
+			}
+		}
+		$ctx['url'] = get_permalink( $id );
+	} elseif ( is_post_type_archive( 'aktualnosci' ) ) {
+		$ctx['title']       = __( 'Aktualności', 'psod2' ) . ' — ' . $site_name;
+		$ctx['description'] = 'Aktualności Polskiego Stowarzyszenia Opieki Domowej — stanowiska, komentarze i wydarzenia z branży opieki domowej nad seniorami.';
+		$ctx['url']         = get_post_type_archive_link( 'aktualnosci' );
+	}
+
+	// Meta description: jedna linia, przycięta do ~160 znaków na granicy słowa.
+	$ctx['description'] = psod2_seo_desc_cap( $ctx['description'] );
+
+	return $ctx;
+}
+
+/**
+ * Skraca tekst meta description do limitu (domyślnie 160 znaków) na granicy słowa.
+ */
+function psod2_seo_desc_cap( $text, $max = 160 ) {
+	$text = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $text ) ) );
+	if ( mb_strlen( $text ) <= $max ) {
+		return $text;
+	}
+	$cut = mb_substr( $text, 0, $max );
+	$sp  = mb_strrpos( $cut, ' ' );
+	if ( false !== $sp && $sp > 40 ) {
+		$cut = mb_substr( $cut, 0, $sp );
+	}
+	return rtrim( $cut, " \t\n.,;:—-" ) . '…';
+}
+
+/**
+ * Weryfikacja własności w Google Search Console (metoda „Tag HTML").
+ * Token jest publiczny z natury (ma być widoczny w <head>); nie jest sekretem.
+ */
+function psod2_google_site_verification() {
+	echo '<meta name="google-site-verification" content="dWf357soq_eEMD7voW2hlJ6dt-DdgehPlMKNHsALWuk">' . "\n";
+}
+add_action( 'wp_head', 'psod2_google_site_verification', 1 );
+
+/**
+ * Meta description + canonical + Open Graph + Twitter Card w <head>.
+ */
+function psod2_head_meta() {
+	if ( defined( 'WPSEO_VERSION' ) ) {
+		return;
+	}
+	$c = psod2_seo_context();
+
+	printf( '<meta name="description" content="%s">' . "\n", esc_attr( $c['description'] ) );
+	printf( '<link rel="canonical" href="%s">' . "\n", esc_url( $c['url'] ) );
+
+	printf( '<meta property="og:type" content="%s">' . "\n", esc_attr( $c['type'] ) );
+	printf( '<meta property="og:title" content="%s">' . "\n", esc_attr( $c['title'] ) );
+	printf( '<meta property="og:description" content="%s">' . "\n", esc_attr( $c['description'] ) );
+	printf( '<meta property="og:url" content="%s">' . "\n", esc_url( $c['url'] ) );
+	printf( '<meta property="og:site_name" content="%s">' . "\n", esc_attr( get_bloginfo( 'name' ) ) );
+	printf( '<meta property="og:locale" content="pl_PL">' . "\n" );
+
+	if ( '' !== $c['image'] ) {
+		printf( '<meta property="og:image" content="%s">' . "\n", esc_url( $c['image'] ) );
+		printf( '<meta property="og:image:secure_url" content="%s">' . "\n", esc_url( $c['image'] ) );
+		if ( ! empty( $c['image_w'] ) && ! empty( $c['image_h'] ) ) {
+			printf( '<meta property="og:image:width" content="%d">' . "\n", (int) $c['image_w'] );
+			printf( '<meta property="og:image:height" content="%d">' . "\n", (int) $c['image_h'] );
+		}
+		printf( '<meta property="og:image:alt" content="%s">' . "\n", esc_attr( $c['title'] ) );
+		printf( '<meta name="twitter:card" content="summary_large_image">' . "\n" );
+		printf( '<meta name="twitter:image" content="%s">' . "\n", esc_url( $c['image'] ) );
+	} else {
+		printf( '<meta name="twitter:card" content="summary">' . "\n" );
+	}
+	printf( '<meta name="twitter:title" content="%s">' . "\n", esc_attr( $c['title'] ) );
+	printf( '<meta name="twitter:description" content="%s">' . "\n", esc_attr( $c['description'] ) );
+}
+add_action( 'wp_head', 'psod2_head_meta', 5 );
+
+/**
+ * Dane strukturalne JSON-LD (schema.org): Organization zawsze, Article na pojedynczej
+ * aktualności, FAQPage na stronie głównej (sekcja Q&A z CPT „faq"). Wyłącza się przy Yoast.
+ */
+function psod2_jsonld() {
+	if ( defined( 'WPSEO_VERSION' ) ) {
+		return;
+	}
+	$blocks = array();
+
+	$blocks[] = array(
+		'@context'      => 'https://schema.org',
+		'@type'         => 'Organization',
+		'name'          => 'Polskie Stowarzyszenie Opieki Domowej',
+		'alternateName' => 'PSOD',
+		'url'           => home_url( '/' ),
+		'logo'          => get_template_directory_uri() . '/assets/logo-psod-lockup.jpg',
+		'email'         => 'kontakt@polskaopieka.eu',
+		'address'       => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Nowy Świat 54/56',
+			'postalCode'      => '00-363',
+			'addressLocality' => 'Warszawa',
+			'addressCountry'  => 'PL',
+		),
+		'sameAs'        => array( 'https://www.linkedin.com/company/polskie-stowarzyszenie-opieki-domowej/' ),
+	);
+
+	if ( is_front_page() ) {
+		$blocks[] = array(
+			'@context'      => 'https://schema.org',
+			'@type'         => 'WebSite',
+			'name'          => 'Polskie Stowarzyszenie Opieki Domowej',
+			'alternateName' => 'PSOD',
+			'url'           => home_url( '/' ),
+			'inLanguage'    => 'pl-PL',
+		);
+	}
+
+	if ( is_singular( 'aktualnosci' ) ) {
+		$id      = get_queried_object_id();
+		$article = array(
+			'@context'      => 'https://schema.org',
+			'@type'         => 'Article',
+			'headline'      => wp_strip_all_tags( get_the_title( $id ) ),
+			'datePublished' => get_post_time( 'c', true, $id ),
+			'dateModified'  => get_post_modified_time( 'c', true, $id ),
+			'url'           => get_permalink( $id ),
+			'publisher'     => array(
+				'@type' => 'Organization',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+			),
+		);
+		if ( has_post_thumbnail( $id ) ) {
+			$article['image'] = get_the_post_thumbnail_url( $id, 'large' );
+		}
+		$blocks[] = $article;
+	}
+
+	if ( is_singular( 'priorytet' ) ) {
+		$id = get_queried_object_id();
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Nasze priorytety', 'item' => home_url( '/nasze-priorytety/' ) ),
+				array( '@type' => 'ListItem', 'position' => 3, 'name' => wp_strip_all_tags( get_the_title( $id ) ), 'item' => get_permalink( $id ) ),
+			),
+		);
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => wp_strip_all_tags( get_the_title( $id ) ),
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
+	}
+
+	if ( is_page( 'filary-opieki-domowej' ) ) {
+		$id = get_queried_object_id();
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Filary opieki domowej', 'item' => get_permalink( $id ) ),
+			),
+		);
+		// WebPage (nie MedicalWebPage — strona opisuje zasady organizacji opieki, nie poradę medyczną).
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => 'Pięć filarów dobrej opieki domowej',
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
+	}
+
+	// Centrum wiedzy — indeks, odpowiedzi (5) i strona źródeł. BreadcrumbList + WebPage
+	// (nie QAPage, nie FAQPage, nie MedicalWebPage — informacje eksperckie, nie porada).
+	if ( is_page( 'centrum-wiedzy' ) || is_page( 'zrodla' ) || ( is_page() && function_exists( 'psod2_kb_get_article' ) && psod2_kb_get_article( get_post_field( 'post_name', get_queried_object_id() ) ) ) ) {
+		$id        = get_queried_object_id();
+		$kb_slug   = get_post_field( 'post_name', $id );
+		$kb_art    = psod2_kb_get_article( $kb_slug );
+		$crumbs    = array(
+			array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+		);
+		$wp_name   = 'Centrum wiedzy o opiece domowej';
+		if ( is_page( 'centrum-wiedzy' ) ) {
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Centrum wiedzy', 'item' => get_permalink( $id ) );
+		} else {
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Centrum wiedzy', 'item' => home_url( '/centrum-wiedzy/' ) );
+			if ( $kb_art ) {
+				$leaf    = $kb_art['title'];
+			} else {
+				$leaf    = 'Źródła i metodologia';
+			}
+			$wp_name  = $leaf;
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 3, 'name' => wp_strip_all_tags( $leaf ), 'item' => get_permalink( $id ) );
+		}
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => $crumbs,
+		);
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => wp_strip_all_tags( $wp_name ),
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
+	}
+
+	if ( is_front_page() ) {
+		$fq    = new WP_Query(
+			array(
+				'post_type'      => 'faq',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'        => 'menu_order',
+				'order'          => 'ASC',
+				'no_found_rows'  => true,
+			)
+		);
+		$items = array();
+		foreach ( $fq->posts as $p ) {
+			$answer = trim( wp_strip_all_tags( $p->post_content ) );
+			if ( '' === $answer ) {
+				continue;
+			}
+			$items[] = array(
+				'@type'          => 'Question',
+				'name'           => wp_strip_all_tags( $p->post_title ),
+				'acceptedAnswer' => array(
+					'@type' => 'Answer',
+					'text'  => $answer,
+				),
+			);
+		}
+		wp_reset_postdata();
+		if ( ! empty( $items ) ) {
+			$blocks[] = array(
+				'@context'   => 'https://schema.org',
+				'@type'      => 'FAQPage',
+				'mainEntity' => $items,
+			);
+		}
+	}
+
+	foreach ( $blocks as $b ) {
+		echo '<script type="application/ld+json">'
+			. wp_json_encode( $b, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE )
+			. '</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'psod2_jsonld', 6 );
+
+// (Preconnect do Google Fonts usunięty — fonty są self-hostowane, patrz
+// psod2_assets() + assets/fonts/. Zero połączeń do domen Google = zgodność RODO.)
+
+// === PSOD-SECURITY-HARDENING: blokada enumeracji loginow uzytkownikow ===
+// Przeniesione ze starego motywu psod (audyt bezpieczenstwa 2026-07-05) — psod2
+// nie mial tego kodu wcale, co przy migracji na produkcje cofneloby te czesc audytu.
+
+// Ukryj endpoint REST /wp/v2/users (i /wp/v2/users/<id>) przed niezalogowanymi.
+add_filter( 'rest_endpoints', function ( $endpoints ) {
+	if ( ! is_user_logged_in() ) {
+		unset( $endpoints['/wp/v2/users'] );
+		unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+	}
+	return $endpoints;
+} );
+
+// Zablokuj enumeracje autorow przez ?author=N (przekieruj na strone glowna).
+// Priorytet 0: musi wykonac sie PRZED wp core redirect_canonical() (priorytet 10),
+// ktore inaczej samo przekierowuje ?author=1 na /author/<login>/ i ujawnia login.
+add_action( 'template_redirect', function () {
+	if ( isset( $_GET['author'] ) ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}, 0 );
+
+/**
+ * Wysyłka poczty przez Microsoft Graph (OAuth2 client-credentials) zamiast lokalnego sendmaila.
+ *
+ * Poczta domeny polskaopieka.eu jest na Microsoft 365 (MX → Outlook), a jej SPF dopuszcza
+ * WYŁĄCZNIE Microsoft (`v=spf1 include:spf.protection.outlook.com -all`). Dlatego mail wysłany
+ * przez serwer hostingu (domyślny `mail()`) oblewa SPF u odbiorcy i trafia do spamu. Wysyłka
+ * przez Graph (aplikacja Azure AD z uprawnieniem Mail.Send) sprawia, że wiadomość NAPRAWDĘ
+ * wychodzi z Microsoftu → SPF/DKIM/DMARC przechodzą. Bez haseł aplikacji i bez osłabiania
+ * bezpieczeństwa (nowoczesny OAuth2, nie legacy basic-auth).
+ *
+ * Stałe w wp-config.php (NIE w repo, jak PSOD_GOOGLE_MAPS_API_KEY):
+ *   define( 'PSOD_GRAPH_TENANT',        '<tenant-id>' );              // Directory (tenant) ID
+ *   define( 'PSOD_GRAPH_CLIENT_ID',     '<client-id>' );             // Application (client) ID
+ *   define( 'PSOD_GRAPH_CLIENT_SECRET', '<client-secret>' );         // wartość sekretu klienta
+ *   define( 'PSOD_GRAPH_SENDER',        'kontakt@polskaopieka.eu' ); // skrzynka nadawcza
+ * Dopóki nie są zdefiniowane, WP używa domyślnej wysyłki (łagodny fallback, nic się nie psuje).
+ */
+function psod2_graph_token() {
+	if ( ! defined( 'PSOD_GRAPH_TENANT' ) || ! defined( 'PSOD_GRAPH_CLIENT_ID' ) || ! defined( 'PSOD_GRAPH_CLIENT_SECRET' ) ) {
+		return '';
+	}
+	$cached = get_transient( 'psod2_graph_token' );
+	if ( $cached ) {
+		return $cached;
+	}
+	$resp = wp_remote_post(
+		'https://login.microsoftonline.com/' . rawurlencode( PSOD_GRAPH_TENANT ) . '/oauth2/v2.0/token',
+		array(
+			'timeout' => 15,
+			'body'    => array(
+				'client_id'     => PSOD_GRAPH_CLIENT_ID,
+				'client_secret' => PSOD_GRAPH_CLIENT_SECRET,
+				'scope'         => 'https://graph.microsoft.com/.default',
+				'grant_type'    => 'client_credentials',
+			),
+		)
+	);
+	if ( is_wp_error( $resp ) ) {
+		return '';
+	}
+	$data = json_decode( wp_remote_retrieve_body( $resp ), true );
+	if ( empty( $data['access_token'] ) ) {
+		return '';
+	}
+	$ttl = isset( $data['expires_in'] ) ? max( 60, (int) $data['expires_in'] - 120 ) : 3000;
+	set_transient( 'psod2_graph_token', $data['access_token'], $ttl );
+	return $data['access_token'];
+}
+
+/**
+ * Krótkie zwarcie wp_mail(): jeśli Graph skonfigurowany i token dostępny — wyślij przez Graph.
+ * Zwrot null → WP kontynuuje domyślną wysyłką (fallback przy błędzie/braku konfiguracji).
+ */
+function psod2_graph_pre_wp_mail( $short, $atts ) {
+	if ( ! defined( 'PSOD_GRAPH_SENDER' ) ) {
+		return $short; // nieskonfigurowane → normalne wp_mail
+	}
+	$token = psod2_graph_token();
+	if ( ! $token ) {
+		return $short; // brak tokenu → fallback do wp_mail
+	}
+
+	$to      = isset( $atts['to'] ) ? (array) $atts['to'] : array();
+	$subject = isset( $atts['subject'] ) ? $atts['subject'] : '';
+	$message = isset( $atts['message'] ) ? $atts['message'] : '';
+	$headers = isset( $atts['headers'] ) ? $atts['headers'] : array();
+	if ( ! is_array( $headers ) ) {
+		$headers = explode( "\n", str_replace( "\r\n", "\n", $headers ) );
+	}
+
+	$content_type = 'Text';
+	$reply_to     = array();
+	foreach ( $headers as $h ) {
+		if ( 0 === stripos( $h, 'content-type:' ) && false !== stripos( $h, 'html' ) ) {
+			$content_type = 'HTML';
+		}
+		if ( 0 === stripos( $h, 'reply-to:' ) ) {
+			$val = trim( substr( $h, strlen( 'reply-to:' ) ) );
+			if ( preg_match( '/<([^>]+)>/', $val, $m ) && is_email( $m[1] ) ) {
+				$reply_to[] = array( 'emailAddress' => array( 'address' => $m[1] ) );
+			} elseif ( is_email( $val ) ) {
+				$reply_to[] = array( 'emailAddress' => array( 'address' => $val ) );
+			}
+		}
+	}
+
+	$to_recipients = array();
+	foreach ( $to as $addr ) {
+		if ( preg_match( '/<([^>]+)>/', $addr, $m ) ) {
+			$addr = $m[1];
+		}
+		$addr = trim( $addr );
+		if ( is_email( $addr ) ) {
+			$to_recipients[] = array( 'emailAddress' => array( 'address' => $addr ) );
+		}
+	}
+	if ( empty( $to_recipients ) ) {
+		return $short; // nie potrafimy złożyć odbiorców → fallback
+	}
+
+	// Nazwa nadawcy (display name) — adres zostaje PSOD_GRAPH_SENDER (SPF/DKIM), zmienia się
+	// tylko widoczna nazwa. Nadpisywalne stałą PSOD_GRAPH_FROM_NAME w wp-config.php.
+	$from_name = defined( 'PSOD_GRAPH_FROM_NAME' ) ? PSOD_GRAPH_FROM_NAME : 'Formularz kontaktowy — polskaopieka.eu';
+
+	$mail = array(
+		'message'         => array(
+			'subject'      => (string) $subject,
+			'from'         => array(
+				'emailAddress' => array(
+					'name'    => $from_name,
+					'address' => PSOD_GRAPH_SENDER,
+				),
+			),
+			'body'         => array(
+				'contentType' => $content_type,
+				'content'     => (string) $message,
+			),
+			'toRecipients' => $to_recipients,
+		),
+		'saveToSentItems' => false,
+	);
+	if ( ! empty( $reply_to ) ) {
+		$mail['message']['replyTo'] = $reply_to;
+	}
+
+	$resp = wp_remote_post(
+		'https://graph.microsoft.com/v1.0/users/' . rawurlencode( PSOD_GRAPH_SENDER ) . '/sendMail',
+		array(
+			'timeout' => 15,
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $token,
+				'Content-Type'  => 'application/json',
+			),
+			'body'    => wp_json_encode( $mail ),
+		)
+	);
+	if ( is_wp_error( $resp ) ) {
+		return $short; // błąd sieci → fallback do wp_mail
+	}
+	// Graph sendMail zwraca 202 Accepted przy powodzeniu.
+	return ( 202 === (int) wp_remote_retrieve_response_code( $resp ) );
+}
+add_filter( 'pre_wp_mail', 'psod2_graph_pre_wp_mail', 10, 2 );
+
+/**
+ * SEO — tytuł strony głównej. Domyślnie WP dałby tu samą nazwę witryny („PSOD"),
+ * co jest bezwartościowe dla wyszukiwarek. Ustawiamy opisowy, nasycony słowami
+ * kluczowymi tytuł. Pozostałe podstrony zostają przy domyślnym „Tytuł — PSOD".
+ */
+add_filter(
+	'pre_get_document_title',
+	function ( $title ) {
+		if ( is_front_page() ) {
+			return 'Polskie Stowarzyszenie Opieki Domowej — opieka nad seniorami';
+		}
+		$psod2_is_kb = is_page() && psod2_kb_get_article( get_post_field( 'post_name', get_queried_object_id() ) );
+		if ( is_singular( 'priorytet' ) || is_page( 'filary-opieki-domowej' ) || is_page( 'zrodla' ) || $psod2_is_kb ) {
+			$c = psod2_seo_context();
+			return $c['title'];
+		}
+		return $title;
+	}
+);
+
+/**
+ * SEO/prywatność — wyłączenie mapy autorów w wp-sitemap.xml (nie chcemy indeksować
+ * cienkich archiwów autora ani ujawniać loginów; komplement do blokady ?author=N).
+ */
+add_filter(
+	'wp_sitemaps_add_provider',
+	function ( $provider, $name ) {
+		if ( 'users' === $name ) {
+			return false;
+		}
+		return $provider;
+	},
+	10,
+	2
+);
+
+/**
+ * SEO/prywatność — archiwa autora (/author/<login>/) przekierowane na stronę główną.
+ * Uzupełnia blokadę ?author=N (ta łapie tylko formę z parametrem, nie ładny URL).
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( is_author() ) {
+			wp_safe_redirect( home_url( '/' ), 301 );
+			exit;
+		}
+	}
+);
