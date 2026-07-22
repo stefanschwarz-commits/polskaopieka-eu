@@ -178,8 +178,10 @@ $psod2_filary = psod2_filary_data();
 ?>
 <section class="pillars" id="filary-opieki-domowej" aria-labelledby="pillars-h2">
 	<div class="wrap wrap--wide">
-		<div class="sec-head"><h2 id="pillars-h2" data-i18n="pillars.h2">Filary opieki domowej</h2></div>
-		<p class="pillars__lead">Dobra opieka domowa nie sprowadza się do wykonywania codziennych czynności. Powinna wspierać osobę w życiu zgodnym z jej wolą, ograniczać ryzyka, chronić prawa wszystkich stron, zapewniać ciągłość i odpowiadać na indywidualne potrzeby.</p>
+		<div class="sec-head">
+			<h2 id="pillars-h2" data-i18n="pillars.h2">Filary opieki domowej</h2>
+			<p class="pillars__lead">Dobra opieka domowa nie sprowadza się do wykonywania codziennych czynności. Powinna wspierać osobę w życiu zgodnym z jej wolą, ograniczać ryzyka, chronić prawa wszystkich stron, zapewniać ciągłość i odpowiadać na indywidualne potrzeby.</p>
+		</div>
 		<ul class="pillars__grid" role="list">
 			<?php foreach ( $psod2_filary as $psod2_f ) : ?>
 				<li class="pcard">
