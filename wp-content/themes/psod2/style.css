@@ -252,6 +252,7 @@ body.nav-open{overflow:hidden}
 .pcard:hover .pcard__title{color:var(--fiolet)}
 .pcard__desc{font-size:14.5px;line-height:1.7;color:var(--tekst-2);margin:0 0 18px}
 .pcard__more{margin-top:auto;font-size:13.5px;font-weight:600;color:var(--fiolet)}
+.pillars__cta{margin-top:44px;text-align:center}
 .pcard:has(.pcard__link:focus-visible){outline:2px solid var(--fiolet);outline-offset:3px;box-shadow:0 0 0 6px rgba(187,22,163,.22)}
 
 /* ---------- Filary — podstrona /filary-opieki-domowej/ ---------- */
