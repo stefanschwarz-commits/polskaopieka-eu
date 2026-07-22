@@ -702,7 +702,7 @@ summary:focus-visible{outline-offset:1px}
   .pillars__tabs{flex-direction:row;flex-wrap:wrap}
   .ptab{flex:1 1 140px}
   .ptab__icon{display:none} /* waskie kafle w rzedzie — ikona by sie tloczyla */
-  .ptab__name{padding-right:0} /* ikona ukryta — nie rezerwujemy miejsca na wask. kaflach */
+  .ptab__name{padding-right:0;overflow-wrap:break-word;hyphens:auto} /* ikona ukryta; dlugie slowo (np. „Bezpieczenstwo") lamie sie w waskim 2-kol. kaflu, nie wystaje */
 }
 @media(max-width:560px){
   :root{--wrap-pad:20px}
