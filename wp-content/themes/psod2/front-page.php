@@ -169,14 +169,30 @@ wp_reset_postdata();
 	</div>
 </section>
 
-<!-- ======================= FILARY (zakładki) ======================= -->
-<?php // Filary z CPT „filar" (edytowalne w wp-adminie, menu „Filary"); dane → JS przez psod2_frontpage_data(), render w js/psod.js. ?>
-<section class="pillars">
+<!-- ======================= FILARY OPIEKI DOMOWEJ ======================= -->
+<?php
+// Filary: jedno źródło danych psod2_filary_data() (funkcje.php). Karty renderowane
+// serwerowo (treść w HTML, bez JS). Pełne sekcje na /filary-opieki-domowej/ z tego
+// samego modelu. Ikony (assets/filar-*.svg) są dekoracją wspierającą (alt="").
+$psod2_filary = psod2_filary_data();
+?>
+<section class="pillars" id="filary-opieki-domowej" aria-labelledby="pillars-h2">
 	<div class="wrap wrap--wide">
-		<div class="sec-head"><h2 data-i18n="pillars.h2">Filary opieki domowej</h2></div>
-		<div class="pillars__cols">
-			<div class="pillars__tabs" role="tablist" aria-label="Filary opieki domowej" id="pillarTabs"></div>
-			<div class="pillars__panel" role="tabpanel" id="pillarPanel"></div>
+		<div class="sec-head"><h2 id="pillars-h2" data-i18n="pillars.h2">Filary opieki domowej</h2></div>
+		<p class="pillars__lead">Dobra opieka domowa nie sprowadza się do wykonywania codziennych czynności. Powinna wspierać osobę w życiu zgodnym z jej wolą, ograniczać ryzyka, chronić prawa wszystkich stron, zapewniać ciągłość i odpowiadać na indywidualne potrzeby.</p>
+		<ul class="pillars__grid" role="list">
+			<?php foreach ( $psod2_filary as $psod2_f ) : ?>
+				<li class="pcard">
+					<span class="pcard__eyebrow"><span class="pcard__ln" aria-hidden="true"></span>Filar <?php echo esc_html( $psod2_f['num'] ); ?></span>
+					<span class="pcard__icon" aria-hidden="true"><img src="<?php echo esc_url( $assets . '/' . $psod2_f['icon'] ); ?>" alt="" width="44" height="44" loading="lazy" decoding="async"></span>
+					<h3 class="pcard__title"><a class="pcard__link" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/#' . $psod2_f['slug'] ) ); ?>"><?php echo esc_html( $psod2_f['title'] ); ?></a></h3>
+					<p class="pcard__desc"><?php echo esc_html( $psod2_f['card'] ); ?></p>
+					<span class="pcard__more" aria-hidden="true">Zobacz szczegóły →</span>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+		<div class="pillars__cta">
+			<a class="btn btn--primary" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/' ) ); ?>">Poznaj pięć filarów opieki domowej</a>
 		</div>
 	</div>
 </section>

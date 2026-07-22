@@ -534,8 +534,133 @@ function psod2_get_priorytety() {
 }
 
 /**
- * Dane sekcji strony głównej budowanych w JS (Mity, Filary) → globalne zmienne
- * JS (odczyt w psod.js). Tylko na stronie głównej (te sekcje są tylko tam).
+ * Filary opieki domowej — JEDEN wspólny model danych dla pięciu filarów.
+ *
+ * Renderowane z tego samego źródła (SSR, treść w HTML): karty na stronie głównej
+ * (front-page.php) oraz pełne sekcje na podstronie (page-filary-opieki-domowej.php).
+ * Treść jest po stronie serwera — nie w JS przeglądarki. Każdy filar ma:
+ *   num       — numer „0X",
+ *   slug      — anchor ID sekcji na podstronie (i cel linku z karty),
+ *   icon      — plik ikony w assets/ (dekoracyjna, alt=""),
+ *   title     — tytuł filaru,
+ *   card      — krótki opis na kartę na stronie głównej,
+ *   intro     — tekst wprowadzający sekcji na podstronie,
+ *   zasady    — lista zasad,
+ *   after     — akapit po liście (opcjonalny; '' = brak),
+ *   highlight — wyróżniony komunikat / callout (opcjonalny; '' = brak).
+ *
+ * Ikony pozostają wyłącznie dekoracją wspierającą — żadna treść nie jest zaszyta
+ * w grafice (wymóg dostępności).
+ */
+function psod2_filary_data() {
+	return array(
+		array(
+			'num'       => '01',
+			'slug'      => 'wybor-i-autonomia',
+			'icon'      => 'filar-wybor.svg',
+			'title'     => 'Wybór i autonomia',
+			'card'      => 'Osoba korzystająca z opieki ma realny wpływ na zakres, sposób i cele wsparcia. Powinna otrzymywać zrozumiałe informacje, móc wyrażać swoje preferencje oraz zachowywać możliwie największą samodzielność.',
+			'intro'     => 'Osoba korzystająca z opieki powinna mieć rzeczywisty wpływ na sposób organizowania własnego życia i otrzymywanego wsparcia. Opieka powinna wzmacniać jej sprawczość i samodzielność, a nie bez potrzeby przejmować kontrolę nad codziennymi decyzjami.',
+			'zasady'    => array(
+				'udział osoby korzystającej z opieki w ocenie potrzeb, ustalaniu celów oraz tworzeniu planu wsparcia;',
+				'przekazywanie zrozumiałych informacji o zakresie usługi, kosztach, ograniczeniach, osobach realizujących wsparcie i możliwych alternatywach;',
+				'uzyskiwanie zgody na podejmowane czynności oraz respektowanie prawa do wyrażania i zmiany preferencji;',
+				'wspieranie samodzielnego wykonywania czynności w takim zakresie, w jakim jest to możliwe i bezpieczne;',
+				'uwzględnianie codziennych zwyczajów, relacji społecznych, języka, kultury, światopoglądu i innych istotnych preferencji;',
+				'angażowanie osoby korzystającej z opieki w ocenę jakości otrzymywanego wsparcia.',
+			),
+			'after'     => 'Jeżeli osoba nie może samodzielnie uczestniczyć w podejmowaniu określonych decyzji, działania powinny być prowadzone zgodnie z prawem, z udziałem osób do tego uprawnionych oraz z poszanowaniem wcześniej wyrażonej woli osoby korzystającej z opieki.',
+			'highlight' => '',
+		),
+		array(
+			'num'       => '02',
+			'slug'      => 'bezpieczenstwo',
+			'icon'      => 'filar-bezpieczenstwo.svg',
+			'title'     => 'Bezpieczeństwo',
+			'card'      => 'Usługa powinna być poprzedzona oceną potrzeb i ryzyk, powierzana osobom o odpowiednich kompetencjach oraz organizowana z jasnymi zasadami reagowania na sytuacje nagłe.',
+			'intro'     => 'Bezpieczna opieka wymaga rozpoznania potrzeb, ryzyk oraz granic kompetencji osób realizujących usługę. Ryzyka nie można całkowicie wyeliminować, ale powinno się je świadomie identyfikować, ograniczać i monitorować.',
+			'zasady'    => array(
+				'przeprowadzenie oceny potrzeb i ryzyk przed rozpoczęciem usługi oraz jej aktualizowanie po istotnej zmianie sytuacji;',
+				'dopasowanie kompetencji, przygotowania i doświadczenia personelu do powierzonych czynności;',
+				'jasne rozróżnienie niemedycznej pomocy w codziennym funkcjonowaniu od świadczeń medycznych i pielęgniarskich;',
+				'niewykonywanie przez personel opiekuńczy czynności wykraczających poza jego kwalifikacje, uprawnienia lub uzgodniony zakres usługi;',
+				'ocena bezpieczeństwa poruszania się, transferu, wyposażenia domu i sprzętu używanego podczas opieki;',
+				'uwzględnienie potrzeb związanych z żywieniem, nawodnieniem, higieną oraz pomocą przy przyjmowaniu leków, bez przekraczania granic niemedycznej usługi;',
+				'ustalenie sposobu reagowania na upadek, nagłe pogorszenie stanu zdrowia, zaginięcie, pożar, zakażenie lub inne zdarzenie nagłe;',
+				'zapewnienie dostępności aktualnych numerów kontaktowych i informacji niezbędnych w sytuacji kryzysowej;',
+				'dokumentowanie zdarzeń niepożądanych i wykorzystywanie ich do poprawy organizacji opieki.',
+			),
+			'after'     => '',
+			'highlight' => 'Opiekun domowy nie zastępuje lekarza, pielęgniarki ani ratownika medycznego. Wystąpienie potrzeb medycznych wymaga zaangażowania właściwie uprawnionego personelu.',
+		),
+		array(
+			'num'       => '03',
+			'slug'      => 'szacunek-i-godnosc',
+			'icon'      => 'filar-szacunek.svg',
+			'title'     => 'Szacunek i godność',
+			'card'      => 'Prywatność, granice i prawa osoby korzystającej z opieki oraz personelu opiekuńczego muszą być chronione. Niedopuszczalne są przemoc, dyskryminacja, poniżanie i nadużywanie zależności.',
+			'intro'     => 'Relacja opieki opiera się na zaufaniu i często dotyczy najbardziej osobistych obszarów życia. Zarówno osoba korzystająca z opieki, jak i personel opiekuńczy muszą być traktowani z godnością, bezpiecznie i bez nadużywania zależności.',
+			'zasady'    => array(
+				'zakaz przemocy fizycznej, psychicznej, seksualnej i ekonomicznej;',
+				'zakaz dyskryminacji, poniżania, lekceważenia i uprzedmiotowienia;',
+				'poszanowanie prywatności, intymności, przestrzeni osobistej oraz poufności informacji;',
+				'komunikowanie się w sposób zrozumiały, cierpliwy i dostosowany do możliwości konkretnej osoby;',
+				'poszanowanie relacji rodzinnych, społecznych, kulturowych i religijnych;',
+				'ograniczanie autonomii wyłącznie w sytuacjach przewidzianych prawem i w zakresie niezbędnym do ochrony przed realnym zagrożeniem;',
+				'zapewnienie możliwości bezpiecznego zgłaszania skarg, uwag, naruszeń i podejrzeń nadużyć;',
+				'ochrona personelu opiekuńczego przed przemocą, molestowaniem, dyskryminacją i nieuzasadnionym naruszaniem prywatności;',
+				'zapewnienie personelowi jasnego zakresu obowiązków, bezpiecznych warunków, czasu odpoczynku oraz dostępu do wsparcia organizacyjnego.',
+			),
+			'after'     => '',
+			'highlight' => 'Opieka domowa z zamieszkaniem nie oznacza całodobowej pracy ani stałej gotowości jednej osoby. Zamieszkanie w gospodarstwie domowym nie znosi prawa personelu do odpoczynku, prywatności i bezpiecznych warunków pracy.',
+		),
+		array(
+			'num'       => '04',
+			'slug'      => 'ciaglosc',
+			'icon'      => 'filar-ciaglosc.svg',
+			'title'     => 'Ciągłość',
+			'card'      => 'Opieka powinna być planowana tak, aby nie dochodziło do niebezpiecznych przerw, a zastępstwa, dokumentacja i przekazywanie obowiązków były właściwie zorganizowane.',
+			'intro'     => 'Osoba zależna od pomocy innych może zostać narażona na poważne ryzyko, jeżeli opieka zostanie nagle przerwana. Ciągłość wymaga planowania, dokumentacji, zastępstw i właściwego przekazywania informacji.',
+			'zasady'    => array(
+				'ustalenie zakresu usługi oraz planu opieki przed jej rozpoczęciem;',
+				'zapewnienie aktualnej, kompletnej i odpowiednio chronionej dokumentacji;',
+				'określenie zasad organizowania zastępstwa podczas choroby, urlopu, rezygnacji lub innej nieobecności;',
+				'przekazywanie obowiązków i niezbędnych informacji między osobami realizującymi opiekę;',
+				'regularne aktualizowanie planu po zmianie stanu zdrowia, sprawności, sytuacji rodzinnej lub warunków mieszkaniowych;',
+				'wskazanie osób i instytucji, z którymi należy kontaktować się w sytuacjach nagłych;',
+				'koordynowanie wsparcia z rodziną, personelem medycznym i usługami społecznymi, gdy jest to potrzebne i odbywa się z poszanowaniem zasad poufności;',
+				'przygotowanie planu postępowania na wypadek czasowego lub trwałego zakończenia usługi.',
+			),
+			'after'     => 'Ciągłość opieki nie oznacza obowiązku stałego pozostawania jednej osoby w gotowości. Powinna być zapewniana przez właściwą organizację usługi, harmonogramy, przekazanie obowiązków i zastępstwa.',
+			'highlight' => '',
+		),
+		array(
+			'num'       => '05',
+			'slug'      => 'indywidualne-podejscie',
+			'icon'      => 'filar-indywidualne.svg',
+			'title'     => 'Indywidualne podejście',
+			'card'      => 'Zakres wsparcia powinien wynikać z potrzeb, możliwości, stylu życia i celów konkretnej osoby, a plan opieki powinien być regularnie aktualizowany.',
+			'intro'     => 'Dwie osoby o podobnym wieku lub rozpoznaniu medycznym mogą potrzebować zupełnie innego wsparcia. Plan opieki powinien wynikać z rzeczywistej sytuacji konkretnego człowieka, a nie wyłącznie z nazwy choroby, wieku lub gotowego pakietu usług.',
+			'zasady'    => array(
+				'całościowa ocena sprawności, potrzeb, zasobów, warunków mieszkaniowych i dostępnego wsparcia społecznego;',
+				'uwzględnianie tego, co dla osoby korzystającej z opieki jest ważne z perspektywy jakości życia;',
+				'ustalanie konkretnych celów wsparcia wspólnie z osobą korzystającą z opieki i — gdy jest to uzasadnione — jej bliskimi;',
+				'dostosowanie zakresu i częstotliwości pomocy do aktualnych potrzeb;',
+				'uwzględnienie rytmu dnia, preferowanych posiłków, zainteresowań, relacji, języka, kultury i światopoglądu;',
+				'regularna ocena skuteczności wsparcia i aktualizowanie planu opieki;',
+				'reagowanie na uwagi osoby korzystającej z opieki, rodziny i personelu;',
+				'angażowanie właściwych usług medycznych, pielęgniarskich, rehabilitacyjnych lub społecznych, gdy potrzeby wykraczają poza zakres niemedycznej opieki domowej.',
+			),
+			'after'     => '',
+			'highlight' => '',
+		),
+	);
+}
+
+/**
+ * Dane sekcji strony głównej budowanych w JS (Mity) → globalne zmienne JS (odczyt
+ * w psod.js). Tylko na stronie głównej. Filary NIE są już budowane w JS — patrz
+ * psod2_filary_data() (renderowane serwerowo w HTML na home i na podstronie).
  */
 function psod2_frontpage_data() {
 	if ( ! is_front_page() ) {
@@ -555,23 +680,10 @@ function psod2_frontpage_data() {
 			'f' => trim( apply_filters( 'the_content', $p->post_content ) ),
 		);
 	}
-	$filary = array();
-	$fq = new WP_Query( array( 'post_type' => 'filar', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'no_found_rows' => true ) );
-	foreach ( $fq->posts as $p ) {
-		$icon    = get_post_meta( $p->ID, '_psod_filar_icon', true );
-		$bullets = array_values( array_filter( array_map( 'trim', explode( "\n", (string) get_post_meta( $p->ID, '_psod_filar_bullets', true ) ) ) ) );
-		$filary[] = array(
-			'key'     => $p->post_name, // slug — klucz i18n (filary.<slug>.*), patrz js/i18n.js.
-			'name'    => get_the_title( $p ),
-			'icon'    => $icon ? get_template_directory_uri() . '/assets/' . $icon . '?v=' . (int) @filemtime( get_template_directory() . '/assets/' . $icon ) : '',
-			'intro'   => (string) get_post_meta( $p->ID, '_psod_filar_intro', true ),
-			'bullets' => $bullets,
-		);
-	}
 	wp_reset_postdata();
 	wp_add_inline_script(
 		'psod2-script',
-		'window.PSOD_MITY=' . wp_json_encode( $mity ) . ';window.PSOD_FILARY=' . wp_json_encode( $filary ) . ';',
+		'window.PSOD_MITY=' . wp_json_encode( $mity ) . ';',
 		'before'
 	);
 }
@@ -907,9 +1019,17 @@ function psod2_seo_context() {
 			'o-nas'                 => 'Poznaj Polskie Stowarzyszenie Opieki Domowej — kim jesteśmy, kogo zrzeszamy i jak działamy na rzecz godnej opieki domowej nad seniorami w Polsce.',
 			'nasze-priorytety'      => 'Priorytety PSOD w opiece domowej: ramy prawne, standardy jakości, ograniczenie szarej strefy i opieka transgraniczna — kluczowe obszary działań.',
 			'centrum-wiedzy'        => 'Centrum wiedzy o opiece domowej — odpowiedzi na najczęstsze pytania o opiekę nad seniorami oraz prawa opiekunów i osób zależnych.',
+			'filary-opieki-domowej' => 'Poznaj pięć zasad dobrej opieki domowej według PSOD: wybór i autonomia, bezpieczeństwo, szacunek, ciągłość oraz indywidualne podejście.',
 			'kontakt'               => 'Skontaktuj się z Polskim Stowarzyszeniem Opieki Domowej — formularz kontaktowy, dane kontaktowe, kontakt prasowy i informacje o członkostwie.',
 			'polityka-prywatnosci'  => 'Polityka prywatności serwisu polskaopieka.eu — jak przetwarzamy dane osobowe zgodnie z RODO i jakie masz prawa.',
 		);
+		// Własny tytuł meta dla wybranych podstron (format „… | PSOD" zamiast domyślnego „… — nazwa").
+		$page_title = array(
+			'filary-opieki-domowej' => 'Pięć filarów dobrej opieki domowej | PSOD',
+		);
+		if ( isset( $page_title[ $slug ] ) ) {
+			$ctx['title'] = $page_title[ $slug ];
+		}
 		if ( isset( $page_desc[ $slug ] ) ) {
 			$ctx['description'] = $page_desc[ $slug ];
 		} else {
@@ -1061,6 +1181,32 @@ function psod2_jsonld() {
 			'@context'     => 'https://schema.org',
 			'@type'        => 'WebPage',
 			'name'         => wp_strip_all_tags( get_the_title( $id ) ),
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
+	}
+
+	if ( is_page( 'filary-opieki-domowej' ) ) {
+		$id = get_queried_object_id();
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => array(
+				array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+				array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Filary opieki domowej', 'item' => get_permalink( $id ) ),
+			),
+		);
+		// WebPage (nie MedicalWebPage — strona opisuje zasady organizacji opieki, nie poradę medyczną).
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => 'Pięć filarów dobrej opieki domowej',
 			'url'          => get_permalink( $id ),
 			'inLanguage'   => 'pl-PL',
 			'isPartOf'     => array(
@@ -1297,7 +1443,7 @@ add_filter(
 		if ( is_front_page() ) {
 			return 'Polskie Stowarzyszenie Opieki Domowej — opieka nad seniorami';
 		}
-		if ( is_singular( 'priorytet' ) ) {
+		if ( is_singular( 'priorytet' ) || is_page( 'filary-opieki-domowej' ) ) {
 			$c = psod2_seo_context();
 			return $c['title'];
 		}

@@ -236,27 +236,52 @@ body.nav-open{overflow:hidden}
 .seal blockquote em{font-style:italic;color:var(--fiolet)}
 .seal__src{margin-top:34px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--opieka);font-weight:500}
 
-/* ---------- Filary (zakładki) ---------- */
+/* ---------- Filary opieki domowej — karty (strona główna) ---------- */
 .pillars{background:var(--mgla);padding:100px 0}
-.pillars__cols{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:start;margin-top:52px}
-.pillars__tabs{display:flex;flex-direction:column;gap:12px}
-.ptab{position:relative;text-align:left;width:100%;cursor:pointer;overflow:hidden;background:transparent;border:1px solid var(--linia);border-radius:var(--r-lg);padding:18px 20px;transition:box-shadow var(--dur-med) var(--ease),background var(--dur-fast)}
-.ptab__icon{position:absolute;top:50%;right:14px;transform:translateY(-50%);width:44px;height:44px;pointer-events:none;opacity:.85;transition:opacity var(--dur-fast)}
-.ptab__icon img{width:100%;height:100%;display:block}
-.ptab__eyebrow{position:relative;display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.ptab__eyebrow .ln{width:16px;height:2px;background:var(--fiolet);transition:width var(--dur-med) var(--ease)}
-.ptab__eyebrow .lbl{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tekst-3)}
-.ptab__name{position:relative;display:block;font-family:var(--font-serif);font-weight:500;font-size:18px;color:var(--tekst);padding-right:62px}
-.ptab[aria-selected="true"]{background:#fff;border-color:transparent;box-shadow:var(--shadow-card)}
-.ptab[aria-selected="true"] .ptab__icon{opacity:1}
-.ptab[aria-selected="true"] .ptab__eyebrow .ln{width:26px}
-.ptab[aria-selected="true"] .ptab__name{color:var(--fiolet)}
-.pillars__panel{background:#fff;border-radius:var(--r-xl);box-shadow:var(--shadow-card);padding:clamp(28px,4vw,44px)}
-.pillars__panel h3{font-family:var(--font-serif);font-weight:500;font-size:clamp(22px,2.6vw,30px);color:var(--tekst);margin-bottom:16px}
-.pillars__panel .intro{font-size:16px;line-height:1.8;color:var(--tekst);margin-bottom:22px}
-.pillars__panel .bullet{display:flex;gap:12px;margin-bottom:12px}
-.pillars__panel .bullet .dot{color:var(--fiolet);line-height:1.75;flex-shrink:0}
-.pillars__panel .bullet span:last-child{font-size:15px;line-height:1.75;color:var(--tekst-2)}
+.pillars__lead{max-width:760px;margin:14px 0 44px;font-size:16px;line-height:1.8;color:var(--tekst-2)}
+.pillars__grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pcard{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--linia);border-radius:var(--r-lg);padding:28px 26px;transition:box-shadow var(--dur-med) var(--ease),transform var(--dur-med) var(--ease),border-color var(--dur-fast)}
+.pcard:hover{box-shadow:var(--shadow-card);transform:translateY(-2px);border-color:transparent}
+.pcard__eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tekst-3)}
+.pcard__ln{width:16px;height:2px;background:var(--fiolet)}
+.pcard__icon{width:44px;height:44px;margin-bottom:16px}
+.pcard__icon img{width:100%;height:100%;display:block}
+.pcard__title{font-family:var(--font-serif);font-weight:500;font-size:21px;line-height:1.3;color:var(--tekst);margin:0 0 12px;transition:color var(--dur-fast)}
+.pcard__title a{color:inherit;text-decoration:none}
+.pcard__link::after{content:"";position:absolute;inset:0} /* cała karta klikalna, ale link ma dostępną nazwę = sam tytuł */
+.pcard:hover .pcard__title{color:var(--fiolet)}
+.pcard__desc{font-size:14.5px;line-height:1.7;color:var(--tekst-2);margin:0 0 18px}
+.pcard__more{margin-top:auto;font-size:13.5px;font-weight:600;color:var(--fiolet)}
+.pcard:has(.pcard__link:focus-visible){outline:2px solid var(--fiolet);outline-offset:3px;box-shadow:0 0 0 6px rgba(187,22,163,.22)}
+
+/* ---------- Filary — podstrona /filary-opieki-domowej/ ---------- */
+.filary-lead{max-width:640px;margin:22px 0 0;font-size:17px;line-height:1.8;color:var(--tekst-2)}
+.filary-wrap{max-width:720px;margin:0 auto;padding:0 var(--wrap-pad) clamp(64px,8vw,100px)}
+.filary-note{margin:clamp(28px,4vw,40px) 0 0;padding:24px 28px;background:var(--opieka-tlo);border-radius:var(--r-md);font-size:15px;line-height:1.75;color:var(--tekst)}
+.filary-note p{margin:0}
+.filary-nav{margin:32px 0 8px}
+.filary-nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.filary-nav a{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1px solid var(--linia);border-radius:999px;background:#fff;font-size:13.5px;font-weight:500;color:var(--tekst);text-decoration:none;transition:border-color var(--dur-fast),background var(--dur-fast),color var(--dur-fast)}
+.filary-nav a:hover{border-color:var(--fiolet);color:var(--fiolet)}
+.filary-nav__num{font-size:11px;font-weight:700;color:var(--tekst-3)}
+.filary-nav a.is-active{background:var(--fiolet);border-color:var(--fiolet);color:#fff;font-weight:600} /* aktywny: tło + waga + kolor (nie sam kolor) */
+.filary-nav a.is-active .filary-nav__num{color:#fff}
+.filar{scroll-margin-top:96px;padding:clamp(36px,5vw,52px) 0;border-top:1px solid var(--linia)}
+.filar__eyebrow{margin-bottom:14px}
+.filar__title{font-family:var(--font-serif);font-weight:300;font-size:clamp(26px,3.2vw,34px);line-height:1.2;letter-spacing:-.01em;color:var(--tekst);margin:0 0 18px}
+.filar__intro{font-size:16.5px;line-height:1.85;color:var(--tekst);margin:0 0 24px}
+.filar__zasady{margin:0;padding:0;list-style:none}
+.filar__zasady li{position:relative;padding-left:26px;margin-bottom:12px;font-size:15.5px;line-height:1.7;color:var(--tekst-2)}
+.filar__zasady li::before{content:"";position:absolute;left:5px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--fiolet)}
+.filar__after{margin:18px 0 0;font-size:15.5px;line-height:1.8;color:var(--tekst-2)}
+.filary-callout{margin:24px 0 0;padding:22px 26px;background:var(--opieka-tlo);border-left:3px solid var(--opieka);border-radius:var(--r-md)}
+.filary-callout p{margin:0;font-size:15.5px;line-height:1.75;color:var(--tekst)}
+.filary-apply{margin-top:8px;padding:clamp(36px,5vw,52px) 0 0;border-top:1px solid var(--linia)}
+.filary-apply h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(24px,2.8vw,32px);line-height:1.22;color:var(--tekst);margin:0 0 16px}
+.filary-apply p{font-size:16px;line-height:1.8;color:var(--tekst-2);margin:0 0 20px}
+.filary-cta{margin-top:40px;text-align:left}
+.filary-cta h2{scroll-margin-top:0}
+.filary-cta p{max-width:none;margin:0 0 24px}
 
 /* ---------- O nas ---------- */
 .about{padding:80px 0;background:#fff;text-align:center}
@@ -762,16 +787,15 @@ summary:focus-visible{outline-offset:1px}
   .pubs__cover{position:static;max-width:280px}
   .opsod-goals__grid{grid-template-columns:repeat(2,1fr)}
 }
+@media(max-width:900px){
+  .pillars__grid{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:760px){
   .kb-ribbon .wrap{flex-direction:column;align-items:flex-start;gap:26px;padding-top:44px;padding-bottom:44px}
-  .pillars__cols{grid-template-columns:1fr;gap:20px}
-  .pillars__tabs{flex-direction:row;flex-wrap:wrap}
-  .ptab{flex:1 1 140px}
-  .ptab__icon{display:none} /* waskie kafle w rzedzie — ikona by sie tloczyla */
-  .ptab__name{padding-right:0;overflow-wrap:break-word;hyphens:auto} /* ikona ukryta; dlugie slowo (np. „Bezpieczenstwo") lamie sie w waskim 2-kol. kaflu, nie wystaje */
 }
 @media(max-width:560px){
   :root{--wrap-pad:20px}
+  .pillars__grid{grid-template-columns:1fr}
   .challenges .grid,.priorities .grid{grid-template-columns:1fr;gap:16px}
   .challenges .tile,.priorities .tile{aspect-ratio:16/10}
   .opsod-goals__grid{grid-template-columns:1fr}
