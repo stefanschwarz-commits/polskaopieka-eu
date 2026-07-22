@@ -186,16 +186,21 @@ $psod2_filary = psod2_filary_data();
 			<?php foreach ( $psod2_filary as $psod2_f ) : ?>
 				<li class="pcard">
 					<span class="pcard__eyebrow"><span class="pcard__ln" aria-hidden="true"></span>Filar <?php echo esc_html( $psod2_f['num'] ); ?></span>
-					<span class="pcard__icon" aria-hidden="true"><img src="<?php echo esc_url( $assets . '/' . $psod2_f['icon'] ); ?>" alt="" width="44" height="44" loading="lazy" decoding="async"></span>
-					<h3 class="pcard__title"><a class="pcard__link" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/#' . $psod2_f['slug'] ) ); ?>"><?php echo esc_html( $psod2_f['title'] ); ?></a></h3>
+					<span class="pcard__icon" aria-hidden="true"><img src="<?php echo esc_url( $assets . '/' . $psod2_f['icon'] ); ?>" alt="" width="58" height="58" loading="lazy" decoding="async"></span>
+					<h3 class="pcard__title"><?php echo esc_html( $psod2_f['title'] ); ?></h3>
 					<p class="pcard__desc"><?php echo esc_html( $psod2_f['card'] ); ?></p>
-					<span class="pcard__more" aria-hidden="true">Zobacz szczegóły →</span>
+					<a class="pcard__more" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/#' . $psod2_f['slug'] ) ); ?>" aria-label="Zobacz szczegóły: <?php echo esc_attr( $psod2_f['title'] ); ?>">Zobacz szczegóły →</a>
 				</li>
 			<?php endforeach; ?>
+				<li class="pcard pcard--cta">
+					<a class="pcard__cta" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/' ) ); ?>">
+						<span class="pcard__eyebrow pcard__eyebrow--cta"><span class="pcard__ln" aria-hidden="true"></span>Pięć filarów</span>
+						<h3 class="pcard__title">Poznaj wszystkie pięć filarów opieki domowej</h3>
+						<p class="pcard__desc">Zebrane w jednym miejscu zasady, którymi kierujemy się w codziennej opiece.</p>
+						<span class="pcard__more">Zobacz szczegóły →</span>
+					</a>
+				</li>
 		</ul>
-		<div class="pillars__cta">
-			<a class="btn btn--primary" href="<?php echo esc_url( home_url( '/filary-opieki-domowej/' ) ); ?>">Poznaj pięć filarów opieki domowej</a>
-		</div>
 	</div>
 </section>
 
