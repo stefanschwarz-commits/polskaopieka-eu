@@ -16,6 +16,9 @@ if ( ! defined( 'PSOD2_VERSION' ) ) {
 	define( 'PSOD2_VERSION', '0.1.0' );
 }
 
+// Centrum wiedzy — model danych (odpowiedzi + źródła) + silnik cytowań/renderowania.
+require_once get_template_directory() . '/inc/centrum-wiedzy-data.php';
+
 /**
  * URL do kotwicy sekcji strony głównej (Wyzwania, Priorytety, Działalność, Apel,
  * Publikacje, Q&A) — używane w menu głównym i stopce, widocznych na KAŻDEJ
@@ -864,6 +867,14 @@ function psod2_seo_context() {
 	} elseif ( is_page() ) {
 		$id           = get_queried_object_id();
 		$slug         = get_post_field( 'post_name', $id );
+		// Centrum wiedzy — odpowiedź: SEO z modelu danych (seoTitle/seoDescription).
+		$psod2_kb = psod2_kb_get_article( $slug );
+		if ( $psod2_kb ) {
+			$ctx['title']       = $psod2_kb['seoTitle'];
+			$ctx['description'] = psod2_seo_desc_cap( $psod2_kb['seoDescription'] );
+			$ctx['url']         = get_permalink( $id );
+			return $ctx;
+		}
 		$ctx['title'] = get_the_title( $id ) . ' — ' . $site_name;
 		// Unikalne opisy dla kluczowych podstron (te szablony nie mają post_content,
 		// więc bez tego wszystkie dostawałyby ten sam domyślny opis = duplikaty).
@@ -872,12 +883,14 @@ function psod2_seo_context() {
 			'nasze-priorytety'      => 'Priorytety PSOD w opiece domowej: ramy prawne, standardy jakości, ograniczenie szarej strefy i opieka transgraniczna — kluczowe obszary działań.',
 			'centrum-wiedzy'        => 'Centrum wiedzy o opiece domowej — odpowiedzi na najczęstsze pytania o opiekę nad seniorami oraz prawa opiekunów i osób zależnych.',
 			'filary-opieki-domowej' => 'Poznaj pięć zasad dobrej opieki domowej według PSOD: wybór i autonomia, bezpieczeństwo, szacunek, ciągłość oraz indywidualne podejście.',
+			'zrodla'                => 'Sprawdź, z jakich źródeł korzysta PSOD oraz jak weryfikujemy definicje, dane i informacje publikowane w Centrum wiedzy.',
 			'kontakt'               => 'Skontaktuj się z Polskim Stowarzyszeniem Opieki Domowej — formularz kontaktowy, dane kontaktowe, kontakt prasowy i informacje o członkostwie.',
 			'polityka-prywatnosci'  => 'Polityka prywatności serwisu polskaopieka.eu — jak przetwarzamy dane osobowe zgodnie z RODO i jakie masz prawa.',
 		);
 		// Własny tytuł meta dla wybranych podstron (format „… | PSOD" zamiast domyślnego „… — nazwa").
 		$page_title = array(
 			'filary-opieki-domowej' => 'Pięć filarów dobrej opieki domowej | PSOD',
+			'zrodla'                => 'Źródła i metodologia Centrum wiedzy | PSOD',
 		);
 		if ( isset( $page_title[ $slug ] ) ) {
 			$ctx['title'] = $page_title[ $slug ];
@@ -1059,6 +1072,48 @@ function psod2_jsonld() {
 			'@context'     => 'https://schema.org',
 			'@type'        => 'WebPage',
 			'name'         => 'Pięć filarów dobrej opieki domowej',
+			'url'          => get_permalink( $id ),
+			'inLanguage'   => 'pl-PL',
+			'isPartOf'     => array(
+				'@type' => 'WebSite',
+				'name'  => 'Polskie Stowarzyszenie Opieki Domowej',
+				'url'   => home_url( '/' ),
+			),
+			'dateModified' => get_post_modified_time( 'c', true, $id ),
+		);
+	}
+
+	// Centrum wiedzy — indeks, odpowiedzi (5) i strona źródeł. BreadcrumbList + WebPage
+	// (nie QAPage, nie FAQPage, nie MedicalWebPage — informacje eksperckie, nie porada).
+	if ( is_page( 'centrum-wiedzy' ) || is_page( 'zrodla' ) || ( is_page() && function_exists( 'psod2_kb_get_article' ) && psod2_kb_get_article( get_post_field( 'post_name', get_queried_object_id() ) ) ) ) {
+		$id        = get_queried_object_id();
+		$kb_slug   = get_post_field( 'post_name', $id );
+		$kb_art    = psod2_kb_get_article( $kb_slug );
+		$crumbs    = array(
+			array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Strona główna', 'item' => home_url( '/' ) ),
+		);
+		$wp_name   = 'Centrum wiedzy o opiece domowej';
+		if ( is_page( 'centrum-wiedzy' ) ) {
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Centrum wiedzy', 'item' => get_permalink( $id ) );
+		} else {
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Centrum wiedzy', 'item' => home_url( '/centrum-wiedzy/' ) );
+			if ( $kb_art ) {
+				$leaf    = $kb_art['title'];
+			} else {
+				$leaf    = 'Źródła i metodologia';
+			}
+			$wp_name  = $leaf;
+			$crumbs[] = array( '@type' => 'ListItem', 'position' => 3, 'name' => wp_strip_all_tags( $leaf ), 'item' => get_permalink( $id ) );
+		}
+		$blocks[] = array(
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => $crumbs,
+		);
+		$blocks[] = array(
+			'@context'     => 'https://schema.org',
+			'@type'        => 'WebPage',
+			'name'         => wp_strip_all_tags( $wp_name ),
 			'url'          => get_permalink( $id ),
 			'inLanguage'   => 'pl-PL',
 			'isPartOf'     => array(
@@ -1295,7 +1350,8 @@ add_filter(
 		if ( is_front_page() ) {
 			return 'Polskie Stowarzyszenie Opieki Domowej — opieka nad seniorami';
 		}
-		if ( is_singular( 'priorytet' ) || is_page( 'filary-opieki-domowej' ) ) {
+		$psod2_is_kb = is_page() && psod2_kb_get_article( get_post_field( 'post_name', get_queried_object_id() ) );
+		if ( is_singular( 'priorytet' ) || is_page( 'filary-opieki-domowej' ) || is_page( 'zrodla' ) || $psod2_is_kb ) {
 			$c = psod2_seo_context();
 			return $c['title'];
 		}
