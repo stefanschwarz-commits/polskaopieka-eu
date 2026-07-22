@@ -199,7 +199,7 @@ body.nav-open{overflow:hidden}
 .appeal p:last-of-type{margin-bottom:34px}
 
 /* ---------- Aktualności ---------- */
-.news{padding:100px 0;background:var(--mgla)}
+.news{padding:100px 0;background:#fff}
 .news__head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:52px;flex-wrap:wrap}
 .news__head h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;color:var(--tekst)}
 .news__feat{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center;text-decoration:none;color:inherit}
