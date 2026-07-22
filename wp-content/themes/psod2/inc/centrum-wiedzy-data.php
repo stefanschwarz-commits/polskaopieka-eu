@@ -218,13 +218,13 @@ function psod2_kb_cat_key( $article ) {
  */
 function psod2_kb_display_order() {
 	return array(
-		// Podstawowe pojęcia
+		// Podstawowe pojęcia (definicja ciągłości na końcu tej grupy)
 		'czym-jest-opieka-dlugoterminowa',
 		'czym-jest-opieka-domowa',
 		'czym-jest-opieka-domowa-z-zamieszkaniem',
-		'czym-jest-ciaglosc-opieki-domowej',
 		'opieka-formalna-i-nieformalna',
 		'pomoc-niemedyczna-a-opieka-medyczna',
+		'czym-jest-ciaglosc-opieki-domowej',
 		// Organizacja i bezpieczeństwo
 		'jakich-czynnosci-moze-podejmowac-opiekun-domowy',
 		'jak-wybrac-bezpiecznego-uslugodawce',
