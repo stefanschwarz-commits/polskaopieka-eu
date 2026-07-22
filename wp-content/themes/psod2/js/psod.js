@@ -223,7 +223,10 @@
     var m=MITY[cur];
     var stmt=(window.psodT?psodT('mity.'+cur+'.t',m.t):m.t);
     var stmtEsc=String(stmt).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    var html='<p class="myth__statement">„'+stmtEsc+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true"></span>':'')+'</p>';
+    // Nakładka przekreślenia = przezroczysta KOPIA tekstu nad oryginałem. Dzięki temu
+    // natywne line-through obejmuje wyłącznie glify (per linia, per szerokość), nie puste
+    // marginesy wyśrodkowanych krótszych linii. Odsłaniane wycieraczką lewo→prawo (clip-path).
+    var html='<p class="myth__statement">„'+stmtEsc+'"'+(revealed?'<span class="myth__strike psod-strike" aria-hidden="true">„'+stmtEsc+'"</span>':'')+'</p>';
     if(!revealed){
       html+='<div class="myth__guess"><div class="ask">Jak myślisz?</div><div class="myth__buttons">'+
         '<button class="btn btn--secondary" data-g="prawda">To prawda</button>'+
