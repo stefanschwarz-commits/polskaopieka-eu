@@ -474,10 +474,11 @@ function psod2_get_priorytety() {
  * w grafice (wymóg dostępności).
  */
 function psod2_filary_data() {
-	return array(
-		array(
-			'num'       => '01',
-			'slug'      => 'wybor-i-autonomia',
+	// Definicje filarów kluczowane SLUGIEM (= anchor ID). Slug NIE zmienia się przy zmianie
+	// kolejności — dzięki temu linki/kotwice (np. /filary-opieki-domowej/#bezpieczenstwo)
+	// pozostają stabilne. Numer „Filar 0X" i slug dokładane niżej wg listy $order.
+	$def = array(
+		'wybor-i-autonomia' => array(
 			'icon'      => 'filar-wybor.svg',
 			'title'     => 'Wybór i autonomia',
 			'card'      => 'Osoba korzystająca z opieki ma realny wpływ na zakres, sposób i cele wsparcia. Powinna otrzymywać zrozumiałe informacje, móc wyrażać swoje preferencje oraz zachowywać możliwie największą samodzielność.',
@@ -493,9 +494,7 @@ function psod2_filary_data() {
 			'after'     => 'Jeżeli osoba nie może samodzielnie uczestniczyć w podejmowaniu określonych decyzji, działania powinny być prowadzone zgodnie z prawem, z udziałem osób do tego uprawnionych oraz z poszanowaniem wcześniej wyrażonej woli osoby korzystającej z opieki.',
 			'highlight' => '',
 		),
-		array(
-			'num'       => '02',
-			'slug'      => 'bezpieczenstwo',
+		'bezpieczenstwo' => array(
 			'icon'      => 'filar-bezpieczenstwo.svg',
 			'title'     => 'Bezpieczeństwo',
 			'card'      => 'Usługa powinna być poprzedzona oceną potrzeb i ryzyk, powierzana osobom o odpowiednich kompetencjach oraz organizowana z jasnymi zasadami reagowania na sytuacje nagłe.',
@@ -514,9 +513,7 @@ function psod2_filary_data() {
 			'after'     => '',
 			'highlight' => 'Opiekun domowy nie zastępuje lekarza, pielęgniarki ani ratownika medycznego. Wystąpienie potrzeb medycznych wymaga zaangażowania właściwie uprawnionego personelu.',
 		),
-		array(
-			'num'       => '03',
-			'slug'      => 'szacunek-i-godnosc',
+		'szacunek-i-godnosc' => array(
 			'icon'      => 'filar-szacunek.svg',
 			'title'     => 'Szacunek i godność',
 			'card'      => 'Prywatność, granice i prawa osoby korzystającej z opieki oraz personelu opiekuńczego muszą być chronione. Niedopuszczalne są przemoc, dyskryminacja, poniżanie i nadużywanie zależności.',
@@ -535,9 +532,7 @@ function psod2_filary_data() {
 			'after'     => '',
 			'highlight' => 'Opieka domowa z zamieszkaniem nie oznacza całodobowej pracy ani stałej gotowości jednej osoby. Zamieszkanie w gospodarstwie domowym nie znosi prawa personelu do odpoczynku, prywatności i bezpiecznych warunków pracy.',
 		),
-		array(
-			'num'       => '04',
-			'slug'      => 'ciaglosc',
+		'ciaglosc' => array(
 			'icon'      => 'filar-ciaglosc.svg',
 			'title'     => 'Ciągłość',
 			'card'      => 'Opieka powinna być planowana tak, aby nie dochodziło do niebezpiecznych przerw, a zastępstwa, dokumentacja i przekazywanie obowiązków były właściwie zorganizowane.',
@@ -555,9 +550,7 @@ function psod2_filary_data() {
 			'after'     => 'Ciągłość opieki nie oznacza obowiązku stałego pozostawania jednej osoby w gotowości. Powinna być zapewniana przez właściwą organizację usługi, harmonogramy, przekazanie obowiązków i zastępstwa.',
 			'highlight' => '',
 		),
-		array(
-			'num'       => '05',
-			'slug'      => 'indywidualne-podejscie',
+		'indywidualne-podejscie' => array(
 			'icon'      => 'filar-indywidualne.svg',
 			'title'     => 'Indywidualne podejście',
 			'card'      => 'Zakres wsparcia powinien wynikać z potrzeb, możliwości, stylu życia i celów konkretnej osoby, a plan opieki powinien być regularnie aktualizowany.',
@@ -576,6 +569,30 @@ function psod2_filary_data() {
 			'highlight' => '',
 		),
 	);
+
+	// KOLEJNOŚĆ wyświetlania (strona główna + podstrona) ORAZ numeracja „Filar 0X"
+	// (wynika z pozycji na tej liście). Aby zmienić kolejność filarów — edytuj TYLKO tę listę.
+	$order = array(
+		'szacunek-i-godnosc',
+		'bezpieczenstwo',
+		'ciaglosc',
+		'wybor-i-autonomia',
+		'indywidualne-podejscie',
+	);
+
+	$out = array();
+	$i   = 1;
+	foreach ( $order as $psod2_slug ) {
+		if ( ! isset( $def[ $psod2_slug ] ) ) {
+			continue;
+		}
+		$f         = $def[ $psod2_slug ];
+		$f['slug'] = $psod2_slug;
+		$f['num']  = str_pad( (string) $i, 2, '0', STR_PAD_LEFT );
+		$out[]     = $f;
+		$i++;
+	}
+	return $out;
 }
 
 /**
