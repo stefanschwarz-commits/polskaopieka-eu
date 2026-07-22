@@ -16,6 +16,7 @@ $psod2_cards    = array(
 	'czym-jest-opieka-dlugoterminowa',
 	'czym-jest-opieka-domowa',
 	'czym-jest-opieka-domowa-z-zamieszkaniem',
+	'czym-jest-ciaglosc-opieki-domowej',
 	'opieka-formalna-i-nieformalna',
 	'pomoc-niemedyczna-a-opieka-medyczna',
 );
