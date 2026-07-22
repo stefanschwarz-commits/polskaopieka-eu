@@ -347,89 +347,10 @@ function psod2_register_mit() {
 }
 add_action( 'init', 'psod2_register_mit' );
 
-/**
- * CPT „Filary" (klucz: filar) — filary opieki domowej. Nazwa = tytuł;
- * ikona, wprowadzenie i lista punktów w meta boxie „Filar". Dane trafiają do
- * JS (psod.js) — patrz psod2_frontpage_data(). Kolejność: menu_order.
- */
-function psod2_register_filar() {
-	register_post_type(
-		'filar',
-		array(
-			'labels'        => array(
-				'name'          => __( 'Filary', 'psod2' ),
-				'singular_name' => __( 'Filar', 'psod2' ),
-				'menu_name'     => __( 'Filary', 'psod2' ),
-				'add_new'       => __( 'Dodaj filar', 'psod2' ),
-				'add_new_item'  => __( 'Dodaj nowy filar', 'psod2' ),
-				'edit_item'     => __( 'Edytuj filar', 'psod2' ),
-				'all_items'     => __( 'Wszystkie filary', 'psod2' ),
-			),
-			'public'        => false,
-			'show_ui'       => true,
-			'menu_icon'     => 'dashicons-screenoptions',
-			'menu_position' => 8,
-			'supports'      => array( 'title', 'page-attributes' ),
-			'has_archive'   => false,
-			'rewrite'       => false,
-		)
-	);
-}
-add_action( 'init', 'psod2_register_filar' );
-
-/** Lista dostępnych ikon filarów (plik w assets/). */
-function psod2_filar_icons() {
-	return array(
-		'filar-wybor.svg'          => 'Wybór',
-		'filar-bezpieczenstwo.svg' => 'Bezpieczeństwo',
-		'filar-szacunek.svg'       => 'Szacunek',
-		'filar-ciaglosc.svg'       => 'Ciągłość',
-		'filar-indywidualne.svg'   => 'Indywidualne podejście',
-	);
-}
-
-/** Meta box filaru: ikona (select), wprowadzenie (textarea), punkty (textarea, 1/linia). */
-function psod2_filar_metabox() {
-	add_meta_box( 'psod2_filar', __( 'Filar — treść', 'psod2' ), 'psod2_filar_metabox_cb', 'filar', 'normal', 'high' );
-}
-add_action( 'add_meta_boxes', 'psod2_filar_metabox' );
-
-function psod2_filar_metabox_cb( $post ) {
-	wp_nonce_field( 'psod2_filar_save', 'psod2_filar_nonce' );
-	$icon    = get_post_meta( $post->ID, '_psod_filar_icon', true );
-	$intro   = get_post_meta( $post->ID, '_psod_filar_intro', true );
-	$bullets = get_post_meta( $post->ID, '_psod_filar_bullets', true );
-	echo '<p><label><strong>' . esc_html__( 'Ikona', 'psod2' ) . '</strong><br><select name="psod2_filar_icon" style="min-width:280px">';
-	foreach ( psod2_filar_icons() as $file => $label ) {
-		echo '<option value="' . esc_attr( $file ) . '" ' . selected( $icon, $file, false ) . '>' . esc_html( $label ) . ' (' . esc_html( $file ) . ')</option>';
-	}
-	echo '</select></label></p>';
-	echo '<p><label><strong>' . esc_html__( 'Wprowadzenie', 'psod2' ) . '</strong><br><textarea name="psod2_filar_intro" rows="3" style="width:100%">' . esc_textarea( $intro ) . '</textarea></label></p>';
-	echo '<p><label><strong>' . esc_html__( 'Punkty', 'psod2' ) . '</strong> <span class="description">' . esc_html__( '(jeden punkt na linię)', 'psod2' ) . '</span><br><textarea name="psod2_filar_bullets" rows="8" style="width:100%">' . esc_textarea( $bullets ) . '</textarea></label></p>';
-}
-
-function psod2_filar_save( $post_id ) {
-	if ( ! isset( $_POST['psod2_filar_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['psod2_filar_nonce'] ) ), 'psod2_filar_save' ) ) {
-		return;
-	}
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-		return;
-	}
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
-		return;
-	}
-	$icons = psod2_filar_icons();
-	if ( isset( $_POST['psod2_filar_icon'] ) && isset( $icons[ $_POST['psod2_filar_icon'] ] ) ) {
-		update_post_meta( $post_id, '_psod_filar_icon', sanitize_text_field( wp_unslash( $_POST['psod2_filar_icon'] ) ) );
-	}
-	if ( isset( $_POST['psod2_filar_intro'] ) ) {
-		update_post_meta( $post_id, '_psod_filar_intro', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_intro'] ) ) );
-	}
-	if ( isset( $_POST['psod2_filar_bullets'] ) ) {
-		update_post_meta( $post_id, '_psod_filar_bullets', sanitize_textarea_field( wp_unslash( $_POST['psod2_filar_bullets'] ) ) );
-	}
-}
-add_action( 'save_post_filar', 'psod2_filar_save' );
+// CPT „Filary" (filar) USUNIĘTY 2026-07-22 — treść filarów jest teraz w kodzie
+// (psod2_filary_data(), renderowana serwerowo na home i /filary-opieki-domowej/).
+// Rejestracja CPT, metabox, zapis i seed filarów zostały usunięte; osierocone wpisy
+// „filar" skasowane z bazy (staging + produkcja).
 
 /**
  * CPT „Priorytety" (klucz: priorytet). Tytuł = nazwa priorytetu (H1), zajawka
@@ -704,107 +625,21 @@ function psod2_cpt_has_posts( $type ) {
 }
 
 /**
- * Jednorazowy seed treści CPT „filar" i „mit" — odtwarza wartości, które wcześniej
- * były zaszyte w js/psod.js (treść 1:1 z oryginału PSOD). Dzięki temu po ręcznym
- * wdrożeniu motywu (SFTP — brak zdarzenia aktywacji) sekcje „Filary" i „Prawda czy
- * mit?" na stronie głównej nie są puste, zanim redaktor cokolwiek doda.
+ * Jednorazowy seed treści CPT „mit" (gra „Prawda czy mit?") — odtwarza wartości
+ * zaszyte wcześniej w js/psod.js (treść 1:1 z oryginału PSOD), aby po ręcznym
+ * wdrożeniu motywu (SFTP — brak zdarzenia aktywacji) sekcja nie była pusta.
  *
- * Idempotentny: flaga w opcji `psod2_seeded_filar_mit` gwarantuje jednorazowe
- * uruchomienie; dodatkowo seeduje dany CPT tylko gdy jest pusty — nie duplikuje ani
- * nie nadpisuje wpisów utworzonych ręcznie. Slug filaru ustawiany na stałe (wybor,
- * bezpieczenstwo…), aby klucze i18n (filary.<slug>.*) były zgodne z js/i18n.js.
- * Mit #2 celowo zawiera placeholder faktu (oryginał nie zawiera treści).
+ * Idempotentny: flaga w opcji `psod2_seeded_filar_mit` (nazwa historyczna) gwarantuje
+ * jednorazowe uruchomienie; dodatkowo seeduje tylko gdy CPT „mit" jest pusty — nie
+ * duplikuje ani nie nadpisuje wpisów redaktora. Mit #2 celowo zawiera placeholder
+ * faktu (oryginał nie zawiera treści).
+ *
+ * Filary NIE są już seedowane — treść filarów jest w kodzie (psod2_filary_data()),
+ * CPT „filar" został usunięty 2026-07-22.
  */
-function psod2_seed_filar_mit() {
+function psod2_seed_mit() {
 	if ( get_option( 'psod2_seeded_filar_mit' ) ) {
 		return;
-	}
-
-	$filary = array(
-		array(
-			'slug'    => 'wybor',
-			'name'    => 'Wybór',
-			'icon'    => 'filar-wybor.svg',
-			'intro'   => 'Oznacza zapewnienie podopiecznym prawa do dokonania wyboru sposobu, w jaki żyją i otrzymują opiekę. W szczególności:',
-			'bullets' => array(
-				'wspieranie podopiecznych w zarządzaniu własnym zdrowiem i samopoczuciem,',
-				'zapewnienie podopiecznym i ich opiekunom wiedzy o prawie do uczestniczenia w opiece i dokonywania wyborów w tym zakresie,',
-				'zaangażowanie do podejmowania decyzji dotyczących opieki oraz możliwości wyboru i kontroli nad usługami, z których korzystają,',
-				'zlecanie usług, które zapewniają podopiecznym informacje i wsparcie w celu określenia i osiągnięcia wyników, które są dla nich ważne,',
-				'uwzględnienie świadomych preferencji podopiecznych',
-			),
-		),
-		array(
-			'slug'    => 'bezpieczenstwo',
-			'name'    => 'Bezpieczeństwo',
-			'icon'    => 'filar-bezpieczenstwo.svg',
-			'intro'   => 'Opieka domowa musi być realizowane w sposób bezpieczny, obejmujący m.in.:',
-			'bullets' => array(
-				'ocenę ryzyka poszczególnych czynności opiekuńczych dla zdrowia i bezpieczeństwa podopiecznego oraz podejmowanie wszelkich możliwych działań w celu zmniejszenia takiego ryzyka,',
-				'zapewnienie personelu opiekuńczego o odpowiednich kwalifikacjach, kompetencjach i doświadczeniu zapewniających bezpieczeństwo opieki,',
-				'zapewnienie bezpieczeństwa i zgodności z przeznaczeniem pomieszczeń i sprzętu używanego do opieki',
-				'zaspokojenie potrzeb podopiecznego w obszarze żywieniowym, nawodnienia i właściwe zarządzanie lekami,',
-				'ocena ryzyka, zapobiegania, wykrywania i kontroli nad rozprzestrzenianiem się zakażeń,',
-				'w przypadku, gdy odpowiedzialność za opiekę domową jest dzielona, zapewnienie współpracy na każdym etapie planowania i realizacji opieki.',
-			),
-		),
-		array(
-			'slug'    => 'szacunek',
-			'name'    => 'Szacunek',
-			'icon'    => 'filar-szacunek.svg',
-			'intro'   => 'Zarówno osoby korzystające z usług opieki, jak i opiekunowie muszą być chronieni przed nadużyciami i traktowani z godnością oraz szacunkiem. Usługi opieki domowej nie mogą być świadczone w sposób, który:',
-			'bullets' => array(
-				'dopuszcza dyskryminację, jest lekceważący lub poniżający,',
-				'obejmuje działania ograniczające autonomię i niezależność podopiecznych, które nie są niezbędne lub są nieproporcjonalną reakcją w stosunku do ryzyka powstania szkody dla podopiecznego, personelu lub innych osób',
-				'nie respektuje osobistej przestrzeni podopiecznego i opiekuna oraz prywatności i poufności dotyczącej osobistych informacji,',
-				'ograniczaja wolność w celu uzyskania opieki lub leczenia – opieka i leczenie muszą być zapewnione za zgodą podopiecznych lub ich prawnych opiekunów.',
-			),
-		),
-		array(
-			'slug'    => 'ciaglosc',
-			'name'    => 'Ciągłość',
-			'icon'    => 'filar-ciaglosc.svg',
-			'intro'   => 'Opieka domowa wymaga:',
-			'bullets' => array(
-				'zapewnienia podopiecznym prawa do zachowania ciągłości opieki, tj. nieprzerwanego świadczenia bez narażania ich na ryzyko przerwy w dostępie do opieki,',
-				'zachowania dokładnej, pełnej i aktualnej informacji (poprzez odpowiednią dokumentację) dotyczącej każdego podopiecznego oraz decyzji podjętych w odniesieniu do zapewnionej opieki,',
-				'zapewnienia możliwości spersonalizowanego długotrwałego planowania opieki',
-			),
-		),
-		array(
-			'slug'    => 'indywidualne',
-			'name'    => 'Indywidualne podejście',
-			'icon'    => 'filar-indywidualne.svg',
-			'intro'   => 'Opieka domowa wymaga zatrudnienia odpowiedniej liczby wykwalifikowanego i otwartego na potrzeby podopiecznych personelu, w celu:',
-			'bullets' => array(
-				'zapewnienia zakresu opieki dostosowanego do potrzeb i preferencji podopiecznych,',
-				'możliwości skupienia się na tym, co jest ważne dla podopiecznych w kontekście jakości ich życia, a nie tylko liście schorzeń lub objawów, które należy leczyć,',
-				'dbania o transparentność w relacjach oraz zakresie leczenia i świadczonej opieki,',
-				'zapewnienia skuteczności w rejestrowaniu, reagowaniu i rozwiązywaniu problemów zgłaszanych przez pacjentów, ich rodziny i personel.',
-			),
-		),
-	);
-
-	if ( ! psod2_cpt_has_posts( 'filar' ) ) {
-		$order = 1;
-		foreach ( $filary as $f ) {
-			$fid = wp_insert_post(
-				array(
-					'post_type'   => 'filar',
-					'post_status' => 'publish',
-					'post_title'  => $f['name'],
-					'post_name'   => $f['slug'],
-					'menu_order'  => $order,
-				),
-				true
-			);
-			if ( ! is_wp_error( $fid ) && $fid ) {
-				update_post_meta( $fid, '_psod_filar_icon', $f['icon'] );
-				update_post_meta( $fid, '_psod_filar_intro', $f['intro'] );
-				update_post_meta( $fid, '_psod_filar_bullets', implode( "\n", $f['bullets'] ) );
-			}
-			$order++;
-		}
 	}
 
 	$mity = array(
@@ -845,7 +680,7 @@ function psod2_seed_filar_mit() {
 
 	update_option( 'psod2_seeded_filar_mit', 1 );
 }
-add_action( 'init', 'psod2_seed_filar_mit', 20 );
+add_action( 'init', 'psod2_seed_mit', 20 );
 
 /**
  * Wyróżnienie wpisu aktualności — pole (checkbox) w edytorze.
