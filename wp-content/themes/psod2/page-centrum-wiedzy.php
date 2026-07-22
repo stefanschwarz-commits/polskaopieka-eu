@@ -23,7 +23,7 @@ $psod2_count = count( $psod2_cards );
 ?>
 
 <!-- ======================= NAGŁÓWEK ======================= -->
-<div class="prio-head">
+<div class="prio-head prio-head--center">
 	<div class="wrap">
 		<div class="prio-eyebrow"><span class="prio-badge">Centrum wiedzy</span></div>
 		<h1>Centrum wiedzy o opiece domowej</h1>
