@@ -432,7 +432,8 @@ body.nav-open{overflow:hidden}
 .prio-head--center .prio-eyebrow{justify-content:center}
 .prio-head--center .filary-lead{margin-left:auto;margin-right:auto}
 .kb-index{max-width:960px}
-.kb-index .filary-note{margin-top:clamp(24px,3vw,36px)}
+.kb-index .filary-note{margin-top:clamp(24px,3vw,36px);text-align:center}
+.kb-index .kb-search__label{text-align:center}
 
 .kb-search{margin:28px 0 0}
 .kb-search__label{display:block;font-family:var(--font-sans);font-weight:600;font-size:13px;letter-spacing:.02em;color:var(--tekst-2);margin-bottom:10px}
