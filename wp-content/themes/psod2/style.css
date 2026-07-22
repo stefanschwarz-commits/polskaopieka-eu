@@ -327,8 +327,15 @@ body.nav-open{overflow:hidden}
 .pubs p{font-size:15.5px;line-height:1.85;color:var(--tekst-2);margin-bottom:16px}
 .pubs p:last-of-type{margin-bottom:32px}
 
+/* ---------- Separatory sekcji (hairline) ----------
+   Delikatna linia na górze każdej sekcji treściowej — jak przy wstążce „Centrum
+   wiedzy". Półprzezroczysta (baza: najciemniejszy ton marki #4A4B52, zero czerni),
+   więc widoczna na każdym tle: biel, „mgła" i błękit. Tylko border-top → pojedyncza
+   linia na każdym styku, bez podwajania. Hero i „Dołącz" (kadry pełnoekranowe) bez linii. */
+.demo,.challenges,.appeal,.news,.seal,.pillars,.about,.priorities,.activity,.myths,.pubs,.kb-ribbon,.faq{border-top:1px solid rgba(74,75,82,.1)}
+
 /* ---------- Wstążka „Centrum wiedzy" ---------- */
-.kb-ribbon{background:var(--opieka-tlo);border-top:1px solid #D7E3EA;border-bottom:1px solid #D7E3EA}
+.kb-ribbon{background:var(--opieka-tlo)}
 .kb-ribbon .wrap{display:flex;align-items:center;justify-content:space-between;gap:44px;padding-top:56px;padding-bottom:56px}
 .kb-ribbon__txt{flex:1 1 auto;min-width:0;max-width:720px}
 .kb-ribbon__over{display:block;font-size:11.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--opieka);margin-bottom:14px}
